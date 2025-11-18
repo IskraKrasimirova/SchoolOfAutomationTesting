@@ -52,34 +52,41 @@
                         }
                     case 4:
                         {
+                            // Division by zero does not throw exception for double.
+                            // doubleNumber / 0 = ∞ (Infinity); ∞ / 0 = ∞ 
+                            // 0 / 0 = NaN ; ∞ / ∞ = NaN 
+                            // doubleNumber / ∞ = 0
+
                             var (firstNumber, secondNumber) = GetTwoDoubleNumbers();
-
-                            if (secondNumber != 0)
-                            {
-                                Console.WriteLine($"{firstNumber} / {secondNumber} = {firstNumber / secondNumber}");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Division by zero is not allowed.");
-                            }
-
+                            Console.WriteLine($"{firstNumber} / {secondNumber} = {firstNumber / secondNumber}");
                             break;
                         }
                     case 5:
                         {
+                            // Modulus with double numbers sometimes provides unexpected results and loss of precision.
+                            // For example, 120 % 0.05 = 0.04999999999999334 ~ 0
+                            // Casting from double to decimal does not result in a loss of precision if the values are up to 15 digits long.
+                            // If double number is outside the range of decimal, OverflowException is thrown.
+                            // Division by zero does not throw exception for double, only for decimal.
+
                             var (firstNumber, secondNumber) = GetTwoDoubleNumbers();
 
-                            if (secondNumber != 0)
+                            try
                             {
-                                // Modulus with double numbers sometimes provides unexpected results and loss of precision.
-                                // For example, 120 % 0.05 = 0.04999999999999334 ~ 0
                                 Console.WriteLine($"Modulus with double: {firstNumber} % {secondNumber} = {firstNumber % secondNumber}");
-                                // Casting from double to decimal does not result in a loss of precision if the values are up to 15 digits long.
                                 Console.WriteLine($"Modulus with decimal: {firstNumber} % {secondNumber} = {(decimal)firstNumber % (decimal)secondNumber}");
                             }
-                            else
+                            catch (DivideByZeroException ex) 
                             {
-                                Console.WriteLine("Modulus by zero is not allowed.");
+                                Console.WriteLine($"Modulus by zero is not allowed. {ex.Message}");
+                            }
+                            catch (OverflowException ex)
+                            {
+                                Console.WriteLine($"OverflowException: {ex.Message}");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
                             }
 
                             break;
@@ -93,17 +100,9 @@
                         }
                     case 7:
                         {
+                            // Square root of negative number is NaN
                             double number = ReadValidDoubleNumber("Enter number to calculate square root: ");
-
-                            if (number < 0)
-                            {
-                                Console.WriteLine("Cannot calculate square root of a negative number.");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Square root of {number} = {Math.Sqrt(number)}");
-                            }
-
+                            Console.WriteLine($"Square root of {number} = {Math.Sqrt(number)}");
                             break;
                         }
                     default:
@@ -123,6 +122,12 @@
 
                 if (isValidDoubleNumber)
                 {
+                    // doubleNumber > double.MaxValue or doubleNumber < double.MinValue is shown as Infinity
+                    if (double.IsInfinity(number))
+                    {
+                        Console.WriteLine("Warning: You entered a number that is too large and will be treated as Infinity.");
+                    }
+
                     return number;
                 }
 
