@@ -14,29 +14,29 @@
             var myVar = new Variable();
             myVar.PrintVariables();
 
-            var operation1 = new IntOperation();
-            operation1.RunArithmeticOperations(10, 5);
-            operation1.RunArithmeticOperations(5, 10);
-            operation1.RunArithmeticOperations(-10, -3);
-            operation1.RunArithmeticOperations(10, -3);
-            operation1.RunArithmeticOperations(0, 5);
-            operation1.RunArithmeticOperations(0, -5);
-            operation1.RunArithmeticOperations(5, 5);
-            operation1.RunArithmeticOperations(3, 0);
-            operation1.RunArithmeticOperations(0, 0);
+            var operation = new IntOperation();
+            operation.RunArithmeticOperations(10, 5);
+            operation.RunArithmeticOperations(5, 10);
+            operation.RunArithmeticOperations(-10, -3);
+            operation.RunArithmeticOperations(10, -3);
+            operation.RunArithmeticOperations(0, 5);
+            operation.RunArithmeticOperations(0, -5);
+            operation.RunArithmeticOperations(5, 5);
+            operation.RunArithmeticOperations(3, 0);
+            operation.RunArithmeticOperations(0, 0);
             // Overflow and not correct results
             //operation1.RunArithmeticOperations(int.MaxValue, 1);
             //operation1.RunArithmeticOperations(int.MinValue, -1);
 
-            operation1.RunLogicalOperations(10, 5);
-            operation1.RunLogicalOperations(5, 10);
-            operation1.RunLogicalOperations(-10, -3);
-            operation1.RunLogicalOperations(10, -3);
-            operation1.RunLogicalOperations(0, 5);
-            operation1.RunLogicalOperations(0, -5);
-            operation1.RunLogicalOperations(5, 5);
-            operation1.RunLogicalOperations(3, 0);
-            operation1.RunLogicalOperations(0, 0);
+            operation.RunLogicalOperations(10, 5);
+            operation.RunLogicalOperations(5, 10);
+            operation.RunLogicalOperations(-10, -3);
+            operation.RunLogicalOperations(10, -3);
+            operation.RunLogicalOperations(0, 5);
+            operation.RunLogicalOperations(0, -5);
+            operation.RunLogicalOperations(5, 5);
+            operation.RunLogicalOperations(3, 0);
+            operation.RunLogicalOperations(0, 0);
         }
     }
 
