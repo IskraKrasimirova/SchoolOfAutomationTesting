@@ -34,8 +34,8 @@ The calculator allows the following operations:
 - Modulus with `double` may lose precision. The result is also calculated using `decimal` for better accuracy.
 - Modulus operations with `double` values may produce unexpected results due to loss of precision.
 	- Example: 120 % 0.05 returns 0.04999999999999334, which is approximately 0.
-- Casting from `double` to `decimal` does not result in a loss of precision if the values are up to 15 digits long.
 - When a `double` is explicitly cast to `decimal` for a modulus operation, an OverflowException may occur if the original value is too large or too small for the decimal type.
+- Casting from `double` to `decimal` is safe and does not result in a loss of precision if the values are up to 15 digits long.
 - Square root of a negative number returns `NaN`.
 
 ## How to Run
