@@ -52,23 +52,12 @@
                         }
                     case 4:
                         {
-                            // Division by zero does not throw exception for double.
-                            // doubleNumber / 0 = ∞ (Infinity); ∞ / 0 = ∞ 
-                            // 0 / 0 = NaN ; ∞ / ∞ = NaN 
-                            // doubleNumber / ∞ = 0
-
                             var (firstNumber, secondNumber) = GetTwoDoubleNumbers();
                             Console.WriteLine($"{firstNumber} / {secondNumber} = {firstNumber / secondNumber}");
                             break;
                         }
                     case 5:
                         {
-                            // Modulus with double numbers sometimes provides unexpected results and loss of precision.
-                            // For example, 120 % 0.05 = 0.04999999999999334 ~ 0
-                            // Casting from double to decimal does not result in a loss of precision if the values are up to 15 digits long.
-                            // If double number is outside the range of decimal, OverflowException is thrown.
-                            // Division by zero does not throw exception for double, only for decimal.
-
                             var (firstNumber, secondNumber) = GetTwoDoubleNumbers();
 
                             try

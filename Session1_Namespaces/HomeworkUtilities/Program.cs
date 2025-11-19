@@ -24,9 +24,9 @@
             operation.RunArithmeticOperations(5, 5);
             operation.RunArithmeticOperations(3, 0);
             operation.RunArithmeticOperations(0, 0);
-            // Overflow and not correct results
-            //operation1.RunArithmeticOperations(int.MaxValue, 1);
-            //operation1.RunArithmeticOperations(int.MinValue, -1);
+            // Overflow and not correct results. OverflowException for Division and Modulus
+            //operation.RunArithmeticOperations(int.MaxValue, 1);
+            //operation.RunArithmeticOperations(int.MinValue, -1);
 
             operation.RunLogicalOperations(10, 5);
             operation.RunLogicalOperations(5, 10);

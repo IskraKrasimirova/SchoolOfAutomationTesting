@@ -9,6 +9,7 @@
             Console.WriteLine($"Subtraction: {firstNumber - secondNumber}");
             Console.WriteLine($"Multiplication: {firstNumber * secondNumber}");
 
+            // If secondNumber = 0 DivideByZeroException: 'Attempted to divide by zero.'
             if (secondNumber != 0)
             {
                 Console.WriteLine($"Division: {firstNumber / secondNumber}");
