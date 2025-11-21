@@ -4,36 +4,61 @@ namespace LoginSystem
 {
     internal class Program
     {
+        private const int MaxLoginAttempts = 3;
+
         static void Main(string[] args)
         {
             var config = new ConfigurationBuilder()
                 .AddUserSecrets<Program>()
                 .Build();
 
-            string registeredUsername = config["Username"];
-            string registeredPassword = config["Password"];
+            var registeredUsername = config["Username"];
+            var registeredPassword = config["Password"];
 
-            Console.Write("Enter your username: ");
-            string? username = Console.ReadLine();
-
-            if (username == registeredUsername)
+            if (string.IsNullOrEmpty(registeredUsername) || string.IsNullOrEmpty(registeredPassword))
             {
-                Console.Write("Enter your password: ");
-                string? password = Console.ReadLine();
+                Console.WriteLine("User Secrets are not configured.");
+                return;
+            }
 
-                if (password == registeredPassword)
+            var loginAttempts = 0;
+
+            while (loginAttempts < MaxLoginAttempts)
+            {
+                Console.Write("Enter your username: ");
+                var username = Console.ReadLine();
+
+                if (username == registeredUsername)
                 {
-                    Console.WriteLine("Login successful!");
+                    Console.Write("Enter your password: ");
+                    var password = Console.ReadLine();
+
+                    if (password == registeredPassword)
+                    {
+                        Console.WriteLine("Login successful!");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Incorrect password.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect password.");
+                    Console.WriteLine("Username not found.");
                 }
-            }
-            else
-            {
-                Console.WriteLine("Username not found.");
-            }
+
+                loginAttempts++;
+
+                if (loginAttempts == MaxLoginAttempts)
+                {
+                    Console.WriteLine("Maximum login attempts exceeded. Access denied.");
+                }
+                else
+                {
+                    Console.WriteLine($"Login attempts remaining: {MaxLoginAttempts - loginAttempts}");
+                } 
+            } 
         }
     }
 }
