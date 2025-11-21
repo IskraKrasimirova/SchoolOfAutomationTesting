@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebuggingPractice", "Debugg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginSystem", "LoginSystem\LoginSystem.csproj", "{2C8CDE3A-FA4A-41F4-9E71-B412D19E15AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vacation", "Vacation\Vacation.csproj", "{8CD6BF89-A1B8-4912-BF79-E6384DE9DB52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2C8CDE3A-FA4A-41F4-9E71-B412D19E15AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C8CDE3A-FA4A-41F4-9E71-B412D19E15AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C8CDE3A-FA4A-41F4-9E71-B412D19E15AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CD6BF89-A1B8-4912-BF79-E6384DE9DB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD6BF89-A1B8-4912-BF79-E6384DE9DB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD6BF89-A1B8-4912-BF79-E6384DE9DB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD6BF89-A1B8-4912-BF79-E6384DE9DB52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
