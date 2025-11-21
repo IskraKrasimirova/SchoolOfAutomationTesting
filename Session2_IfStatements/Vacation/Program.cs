@@ -2,6 +2,16 @@
 {
     internal class Program
     {
+        private const decimal MinBudget = 10.00m;
+        private const decimal MaxBudget = 5000.00m;
+        private const decimal BulgariaLimit = 100.00m;
+        private const decimal BalkansLimit = 1000.00m;
+        private const decimal BulgariaSummerPercent = 0.3m;
+        private const decimal BulgariaWinterPercent = 0.7m;
+        private const decimal BalkansSummerPercent = 0.4m;
+        private const decimal BalkansWinterPercent = 0.8m;
+        private const decimal EuropePercent = 0.9m;
+
         static void Main(string[] args)
         {
             Console.Write("Enter your budget: ");
@@ -21,7 +31,7 @@
                 return;
             }
 
-            if (budget < 10 || budget > 5000)
+            if (budget < MinBudget || budget > MaxBudget)
             {
                 Console.WriteLine("Budget must be between 10.00 and 5000.00.");
                 return;
@@ -48,41 +58,41 @@
             string vacationType;
             decimal amountSpent;
 
-            if (budget <= 100)
+            if (budget <= BulgariaLimit)
             {
                 destination = "Bulgaria";
 
                 if (season == "summer")
                 {
                     vacationType = "Camp";
-                    amountSpent = budget * 0.3m;
+                    amountSpent = budget * BulgariaSummerPercent;
                 }
                 else // winter
                 {
                     vacationType = "Hotel";
-                    amountSpent = budget * 0.7m;
+                    amountSpent = budget * BulgariaWinterPercent;
                 }
             }
-            else if (budget <= 1000)
+            else if (budget <= BalkansLimit)
             {
                 destination = "Balkans";
 
                 if (season == "summer")
                 {
                     vacationType = "Camp";
-                    amountSpent = budget * 0.4m;
+                    amountSpent = budget * BalkansSummerPercent;
                 }
                 else // winter
                 {
                     vacationType = "Hotel";
-                    amountSpent = budget * 0.8m;
+                    amountSpent = budget * BalkansWinterPercent;
                 }
             }
             else
             {
                 destination = "Europe";
                 vacationType = "Hotel";
-                amountSpent = budget * 0.9m;
+                amountSpent = budget * EuropePercent;
             }
 
             Console.WriteLine($"Somewhere in {destination}");
