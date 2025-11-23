@@ -12,6 +12,19 @@
         private const decimal BalkansWinterPercent = 0.8m;
         private const decimal EuropePercent = 0.9m;
 
+        private enum Destination
+        {
+            Bulgaria,
+            Balkans,
+            Europe
+        };
+
+        private enum VacationType
+        {
+            Camp,
+            Hotel
+        };
+
         static void Main(string[] args)
         {
             Console.Write("Enter your budget: ");
@@ -54,49 +67,56 @@
                 return;
             }
 
-            string destination;
-            string vacationType;
+            var (destination, vacationType, amountSpent) = GetVacationDetails(budget, season);
+
+            Console.WriteLine($"Somewhere in {destination}");
+            Console.WriteLine($"{vacationType} - {amountSpent:F2}");
+        }
+
+        private static (Destination destination, VacationType vacationType, decimal amountSpent) GetVacationDetails(decimal budget, string season)
+        {
+            Destination destination;
+            VacationType vacationType;
             decimal amountSpent;
 
             if (budget <= BulgariaLimit)
             {
-                destination = "Bulgaria";
+                destination = Destination.Bulgaria;
 
                 if (season == "summer")
                 {
-                    vacationType = "Camp";
+                    vacationType = VacationType.Camp;
                     amountSpent = budget * BulgariaSummerPercent;
                 }
                 else // winter
                 {
-                    vacationType = "Hotel";
+                    vacationType = VacationType.Hotel;
                     amountSpent = budget * BulgariaWinterPercent;
                 }
             }
             else if (budget <= BalkansLimit)
             {
-                destination = "Balkans";
+                destination = Destination.Balkans;
 
                 if (season == "summer")
                 {
-                    vacationType = "Camp";
+                    vacationType = VacationType.Camp;
                     amountSpent = budget * BalkansSummerPercent;
                 }
                 else // winter
                 {
-                    vacationType = "Hotel";
+                    vacationType = VacationType.Hotel;
                     amountSpent = budget * BalkansWinterPercent;
                 }
             }
             else
             {
-                destination = "Europe";
-                vacationType = "Hotel";
+                destination = Destination.Europe;
+                vacationType = VacationType.Hotel;
                 amountSpent = budget * EuropePercent;
             }
 
-            Console.WriteLine($"Somewhere in {destination}");
-            Console.WriteLine($"{vacationType} - {amountSpent:F2}");
+            return (destination, vacationType, amountSpent);
         }
     }
 }
