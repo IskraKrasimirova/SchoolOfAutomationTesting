@@ -37,7 +37,7 @@
             //    Console.WriteLine("You are an adult.");
             //}
 
-            string result = age < 18 ? "You are a minor." : "You are an adult.";
+            var result = age < 18 ? "You are a minor." : "You are an adult.";
             Console.WriteLine(result);
         }
     }

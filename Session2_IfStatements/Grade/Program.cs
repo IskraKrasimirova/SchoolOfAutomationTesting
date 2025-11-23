@@ -28,29 +28,41 @@
                 }
             }
 
+            string result;
+
             if (grade == 6)
             {
-                Console.WriteLine("Excellent");
-            }    
+                result = "Excellent";
+            }
             else if (grade == 5)
             {
-                Console.WriteLine("Very good");
+                result = "Very good";
             }
             else if (grade == 4)
             {
-                Console.WriteLine("Good");
+                result = "Good";
             }
             else if (grade == 3)
             {
-                Console.WriteLine("Satisfactory");
+                result = "Satisfactory";
             }
-            else
+            else  // grade == 2
             {
-                // grade == 2
-                Console.WriteLine("Poor");
+                result = "Poor";
             }
 
-            //Intellicence suggestion for switch expression
+            Console.WriteLine(result);
+
+            // 2. With ternary operator
+            //string result = grade == 6 ? "Excellent" :
+            //    grade == 5 ? "Very good" :
+            //    grade == 4 ? "Good" :
+            //    grade == 3 ? "Satisfactory" :
+            //    "Poor";
+
+            //Console.WriteLine(result);
+
+            //3. Intellicence suggestion for switch expression
             //string result = grade switch
             //{
             //    2 => "Fail",

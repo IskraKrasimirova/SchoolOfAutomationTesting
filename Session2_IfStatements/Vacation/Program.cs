@@ -33,7 +33,7 @@
 
             if (budget < MinBudget || budget > MaxBudget)
             {
-                Console.WriteLine("Budget must be between 10.00 and 5000.00.");
+                Console.WriteLine($"Budget must be between {MinBudget:F2} and {MaxBudget:F2}.");
                 return;
             }
 

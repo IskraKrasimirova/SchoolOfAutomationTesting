@@ -6,12 +6,12 @@ namespace DebuggingPractice
     {
         static void Main(string[] args)
         {
-            // int score = "85"; -> This line causes a compilation error. Invalid assignment, cannot assign string to int variable.
+            // int score = "85"; -> This line causes a compilation error: invalid assignment, cannot assign a string to an int variable.
             int score = 85;
             if (score > 90) // Logical error because the condition is never true for score 85 and produces no output.
                 Console.WriteLine("Greate job!");
             else  // A possible solution is to add else block to provide output for scores 90 or below.
-                Console.WriteLine("Keep trying!");
+                Console.WriteLine("Try again!");
         }
     }
 }
