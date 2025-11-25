@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintPromptDoWhile", "Print
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiplicationTable", "MultiplicationTable\MultiplicationTable.csproj", "{08D7D9CB-A619-4FB4-87F9-9A306590644A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimaryNumbers", "PrimaryNumbers\PrimaryNumbers.csproj", "{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{08D7D9CB-A619-4FB4-87F9-9A306590644A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08D7D9CB-A619-4FB4-87F9-9A306590644A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08D7D9CB-A619-4FB4-87F9-9A306590644A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
