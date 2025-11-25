@@ -1,5 +1,4 @@
-﻿
-namespace PrimaryNumbers
+﻿namespace PrimaryNumbers
 {
     internal class Program
     {
@@ -11,6 +10,12 @@ namespace PrimaryNumbers
             {
                 Console.Write("Enter an integer number greater than 1: ");
                 var input = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Input cannot be empty or whitespace.");
+                    continue;
+                }
 
                 if (int.TryParse(input, out number))
                 {

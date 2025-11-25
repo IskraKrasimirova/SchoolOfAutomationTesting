@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiplicationTable", "Mult
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimaryNumbers", "PrimaryNumbers\PrimaryNumbers.csproj", "{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvenPositiveNumbers", "EvenPositiveNumbers\EvenPositiveNumbers.csproj", "{70AA5A4B-7302-444F-85B3-DA8EEC54BB6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCD2E37C-AD74-4E82-A1A1-0D7BE36AA5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70AA5A4B-7302-444F-85B3-DA8EEC54BB6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70AA5A4B-7302-444F-85B3-DA8EEC54BB6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70AA5A4B-7302-444F-85B3-DA8EEC54BB6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70AA5A4B-7302-444F-85B3-DA8EEC54BB6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
