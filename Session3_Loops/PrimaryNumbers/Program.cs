@@ -1,4 +1,5 @@
-﻿namespace PrimaryNumbers
+﻿
+namespace PrimaryNumbers
 {
     internal class Program
     {
@@ -32,22 +33,40 @@
 
             for (int i = 2; i <= number; i++)
             {
-                bool isPrime = true;
-
-                for (int j = 2; j <= Math.Sqrt(i); j++)
+                if (IsPrime(i))
                 {
-                    if (i % j == 0)
+                    Console.Write($"{i} ");
+                }
+            }
+        }
+
+        private static bool IsPrime(int number)
+        {
+            bool isPrime = true;
+
+            if (number == 2)
+            {
+                isPrime = true;
+            }
+            else if ((number % 2) == 0)
+            {
+                isPrime = false;
+            }
+            else
+            {
+                int boundary = (int)Math.Sqrt(number);
+
+                for (int i = 3; i <= boundary; i += 2)
+                {
+                    if ((number % i) == 0)
                     {
                         isPrime = false;
                         break;
                     }
                 }
-
-                if (isPrime)
-                {
-                    Console.Write($"{i} ");
-                }
             }
+
+            return isPrime;
         }
     }
 }
