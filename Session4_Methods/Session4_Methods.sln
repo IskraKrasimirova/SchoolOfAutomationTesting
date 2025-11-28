@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greeting", "Greeting\Greeti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiggestElement", "TheBiggestElement\BiggestElement.csproj", "{917E804C-4C9E-4FDB-9909-CA4CC2DC5ADE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceBattle", "DiceBattle\DiceBattle.csproj", "{99D7AB74-DAD9-4D83-8B86-444158526E7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{917E804C-4C9E-4FDB-9909-CA4CC2DC5ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{917E804C-4C9E-4FDB-9909-CA4CC2DC5ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{917E804C-4C9E-4FDB-9909-CA4CC2DC5ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D7AB74-DAD9-4D83-8B86-444158526E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D7AB74-DAD9-4D83-8B86-444158526E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D7AB74-DAD9-4D83-8B86-444158526E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D7AB74-DAD9-4D83-8B86-444158526E7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
