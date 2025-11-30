@@ -4,9 +4,9 @@
     {
         static void Main(string[] args)
         {
-            int[] array = { -3, 5, 7, -2, 8, int.MinValue, 1, 4, 0, -123456789 };
+            int[] array = { -3, 5, 987654321, -2, int.MinValue, 1, 4, int.MaxValue, 0, -123456789 };
 
-            // Using LINQ
+            // *** Using LINQ ***
             //int biggestElement = array.Max();
             //Console.WriteLine($"The biggest element in the array is {biggestElement}.");
 
@@ -14,18 +14,13 @@
 
             //Console.WriteLine($"Sorted descending array: {string.Join(", ", sortedArray)}");
 
-            // ****************************************************************
-            // Using method that returns index of the biggest element with start index
+            // *** Using method that returns index of the biggest element with start index *** 
             //var maxIndex = FindMaxElementIndex(array, 0);
             //Console.WriteLine($"The biggest element in the array is {array[maxIndex]} at index {maxIndex}.");
 
             //for (int i = 0; i < array.Length; i++)
             //{
             //    var maxIdx = FindMaxElementIndex(array, i);
-
-            //    //int temp = array[i];
-            //    //array[i] = array[maxIdx];
-            //    //array[maxIdx] = temp;
 
             //    // tuple swap from C# 7.0
             //    (array[maxIdx], array[i]) = (array[i], array[maxIdx]);
@@ -34,7 +29,7 @@
             //Console.WriteLine($"Sorted descending array: {string.Join(", ", array)}");
 
             // ****************************************************************
-            // Using method that returns index of the biggest element
+            // *** Using method that returns index of the biggest element *** 
             var maxIndex = FindMaxElementIndex(array);
             Console.WriteLine($"The biggest element in the array is {array[maxIndex]} at index {maxIndex}.");
 
@@ -101,5 +96,3 @@
         }
     }
 }
-
-//6.Write a method that finds the biggest element of an array. Use that method to implement sorting in descending order.

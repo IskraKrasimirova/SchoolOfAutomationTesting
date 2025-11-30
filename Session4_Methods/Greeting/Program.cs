@@ -11,7 +11,7 @@
 
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    Console.WriteLine("The name cannot empty or whitespace.");
+                    Console.WriteLine("The name cannot be empty or whitespace.");
                     continue;
                 }
 
