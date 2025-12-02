@@ -23,34 +23,27 @@
                     break;
                 }
 
-                var letterCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-                CountLettersAndSymbolsInSentence(sentence, letterCounts);
+                sentence = sentence.Trim();
 
-                foreach (var item in letterCounts)
+                var charsCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+                foreach (var ch in sentence)
+                {
+                    var key = ch.ToString();
+
+                    if (charsCounts.ContainsKey(key))
+                    {
+                        charsCounts[key]++;
+                    }
+                    else
+                    {
+                        charsCounts[key] = 1;
+                    }
+                }
+
+                foreach (var item in charsCounts)
                 {
                     Console.WriteLine($"'{item.Key}' has occurred {item.Value} times");
-                }
-            }
-        }
-
-        private static void CountLettersAndSymbolsInSentence(string sentence, Dictionary<string, int> lettersCounts)
-        {
-            foreach (var ch in sentence)
-            {
-                var key = ch.ToString();
-
-                if (key == string.Empty)
-                {
-                    continue;
-                }
-
-                if (lettersCounts.ContainsKey(key))
-                {
-                    lettersCounts[key]++;
-                }
-                else
-                {
-                    lettersCounts[key] = 1;
                 }
             }
         }
