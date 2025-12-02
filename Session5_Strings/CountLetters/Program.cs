@@ -1,9 +1,13 @@
-﻿namespace CountLetters
+﻿using System.Text;
+
+namespace CountLetters
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            Console.InputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
             string? sentence;
 
             while (true)
@@ -25,7 +29,7 @@
 
                 sentence = sentence.Trim();
 
-                var charsCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+                var charsCounts = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase);
 
                 foreach (var ch in sentence)
                 {
@@ -49,3 +53,4 @@
         }
     }
 }
+// Example input:  I’m doing my best to learn "C#". Äöü 222 Привет, свят. äÖÜ 你好.
