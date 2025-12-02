@@ -1,4 +1,6 @@
-﻿namespace Palindromes
+﻿using System.Text;
+
+namespace Palindromes
 {
     internal class Program
     {
@@ -23,65 +25,61 @@
                     break;
                 }
 
-                // IsStringPalindrome(input); // Original method without case sensitivity option, by default ignores case
+                input = input.Trim();
 
-                Console.Write("Ignore case? (y/n): ");
-                var ignoreCaseChoice = Console.ReadLine()?.ToLower();
+                var filteredInput = RemovePunctuationAndWhitespaces(input);
 
-                while (ignoreCaseChoice != "y" && ignoreCaseChoice != "n")
+                // with LINQ
+                //var filteredInput = new string(input.Where(c => !char.IsWhiteSpace(c) && !IsPunctuation(c)).ToArray());
+
+                var isPalindrome = IsPalindrome(filteredInput);
+
+                if (isPalindrome)
                 {
-                    Console.Write("Invalid choice. Please enter 'y' or 'n': ");
-                    ignoreCaseChoice = Console.ReadLine()?.ToLower();
-                }
-
-                if (ignoreCaseChoice == "y")
-                {
-                    IsStringPalindrome(input, true);
+                    Console.WriteLine($"'{input}' is a palindrome");
                 }
                 else
                 {
-                    IsStringPalindrome(input, false);
+                    Console.WriteLine($"'{input}' is not a palindrome");
                 }
             }
         }
 
-        private static void IsStringPalindrome(string input)
+        private static bool IsPunctuation(char ch)
         {
-            var reversed = new string(input.Reverse().ToArray());
+            char[] punctuationChars = ['.', ',', '!', '?', ';', ':', '-', '\'', '\"'];
 
-            if (string.Equals(input, reversed, StringComparison.OrdinalIgnoreCase))
-            {
-                Console.WriteLine($"'{input}' is a palindrome");
-            }
-            else
-            {
-                Console.WriteLine($"'{input}' is not a palindrome");
-            }
+            return punctuationChars.Contains(ch);
         }
 
-        private static void IsStringPalindrome(string input, bool isIgnoreCase)
+        private static string RemovePunctuationAndWhitespaces(string input)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var ch in input)
+            {
+                if (!IsPunctuation(ch) && !char.IsWhiteSpace(ch))
+                {
+                    sb.Append(ch);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        private static bool IsPalindrome(string input)
         {
             var reversed = new string(input.Reverse().ToArray());
 
-            bool isPalindrome;
-
-            if (isIgnoreCase)
-            {
-                isPalindrome = string.Equals(input, reversed, StringComparison.OrdinalIgnoreCase);
-            }
-            else
-            {
-                isPalindrome = input == reversed;
-            }
-
-            if (isPalindrome)
-            {
-                Console.WriteLine($"'{input}' is a palindrome");
-            }
-            else
-            {
-                Console.WriteLine($"'{input}' is not a palindrome");
-            }
+            return string.Equals(input, reversed, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
+// Palindromes do not account for spaces, punctuation, or capitalization.
+/*
+    Evil is a name of a foeman, as I live.
+    No lemon, no melon.
+    Mr. Owl ate my metal worm.
+    Dammit, I’m mad!
+    Sir, I demand, I am a maid named Iris.
+ */
