@@ -40,7 +40,7 @@ namespace CodeNameGenerator
 
                 var codeName = CreateCodeName(firstName, lastName);
                 Console.WriteLine($"Code name: {codeName}");
-
+                
                 var shiftedCodeName = ShiftLetters(codeName, 3);
                 Console.WriteLine($"Shifted code name: {shiftedCodeName}");
             }
@@ -85,10 +85,26 @@ namespace CodeNameGenerator
                 {
                     shiftedChar = (char)(ch + shift);
                 }
-                else
+                else // All other characters remain unchanged
                 {
                     shiftedChar = ch;
                 }
+
+                // More general approach using modulo
+                // Works for any shift value. Assumes input is uppercase letters A-Z
+                // All other characters remain unchanged
+                // 'A' = 65, 'Z' = 90 => 0 to 25, 26 letters
+                //if (ch >= 'A' && ch <= 'Z')
+                //{
+                //    int baseCode = 'A';
+                //    int currentIndex = ch - baseCode;  // maps A->0, B->1, ..., Z->25
+                //    int offset = (currentIndex + shift) % 26;  // 0-25 range
+                //    shiftedChar = (char)(baseCode + offset);
+                //}
+                //else
+                //{
+                //    shiftedChar = ch;
+                //}
 
                 sb.Append(shiftedChar);
             }

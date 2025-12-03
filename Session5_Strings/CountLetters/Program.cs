@@ -45,9 +45,30 @@ namespace CountLetters
                     }
                 }
 
+                // Alternatively, to count only letters, uncomment the following line and comment out the above foreach
+                // CountLettersOnly(sentence, charsCounts);
+
                 foreach (var item in charsCounts)
                 {
                     Console.WriteLine($"'{item.Key}' has occurred {item.Value} times");
+                }
+            }
+        }
+
+        private static void CountLettersOnly(string sentence, Dictionary<string, int> charsCounts)
+        {
+            foreach (var ch in sentence)
+            {
+                var key = ch.ToString();
+
+                if (char.IsLetter(ch))
+                {
+                    if (!charsCounts.ContainsKey(key))
+                    {
+                        charsCounts[key] = 0;
+                    }
+
+                    charsCounts[key]++;
                 }
             }
         }

@@ -25,7 +25,7 @@
 
                 var middleChar = FindMiddleCharacter(input);
 
-                Console.WriteLine($"Middle character(s) of the string {input} is '{middleChar}'");
+                Console.WriteLine($"Middle character(s) of the string '{input}' is '{middleChar}'");
             }
         }
 

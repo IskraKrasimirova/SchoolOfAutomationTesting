@@ -13,8 +13,8 @@
 
                 if (IsValidEmail(email))
                 {
-                    var domain = email.Split('@')[1];
-                    //var domain = email.Substring(email.IndexOf('@') + 1); // Alternative way to extract domain
+                    var domain = email?.Split('@')[1];
+                    //var domain = email.Substring(email.IndexOf('@') + 1); // Another way to extract domain
                     Console.WriteLine($"The domain is '{domain}'.");
                     break;
                 }
