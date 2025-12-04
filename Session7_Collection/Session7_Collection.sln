@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capitals", "Capitals\Capita
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentScores", "StudentScores\StudentScores.csproj", "{905C0D2B-F5BD-4413-A838-DE11E34B26B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicShuffleMachine", "MusicShuffleMachine\MusicShuffleMachine.csproj", "{F1EA412E-D6D0-4818-A10A-AC14D3678C40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{905C0D2B-F5BD-4413-A838-DE11E34B26B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{905C0D2B-F5BD-4413-A838-DE11E34B26B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{905C0D2B-F5BD-4413-A838-DE11E34B26B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1EA412E-D6D0-4818-A10A-AC14D3678C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1EA412E-D6D0-4818-A10A-AC14D3678C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1EA412E-D6D0-4818-A10A-AC14D3678C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1EA412E-D6D0-4818-A10A-AC14D3678C40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
