@@ -52,6 +52,9 @@ namespace CountLetters
                 {
                     Console.WriteLine($"'{item.Key}' has occurred {item.Value} times");
                 }
+
+                // Count ASCII characters case-insensitive
+                //CountAsciiCaseInsensitive(sentence);
             }
         }
 
@@ -69,6 +72,29 @@ namespace CountLetters
                     }
 
                     charsCounts[key]++;
+                }
+            }
+        }
+
+        // Count ASCII characters case-insensitive
+        private static void CountAsciiCaseInsensitive(string sentence)
+        {
+            int[] counts = new int[256]; // ASCII range 0–255
+
+            foreach (char ch in sentence)
+            {
+                if (ch < 256) 
+                {
+                    char normalized = char.ToUpperInvariant(ch);
+                    counts[normalized]++;
+                }
+            }
+
+            for (int i = 0; i < counts.Length; i++)
+            {
+                if (counts[i] > 0)
+                {
+                    Console.WriteLine($"'{(char)i}' has occurred {counts[i]} times");
                 }
             }
         }

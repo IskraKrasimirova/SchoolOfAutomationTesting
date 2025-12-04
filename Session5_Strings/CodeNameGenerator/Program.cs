@@ -112,6 +112,10 @@ namespace CodeNameGenerator
         //    return sb.ToString();
         //}
 
+        // General approach using modulo and works for any shift value
+        // Assumes input is uppercase letters A-Z
+        // All other characters remain unchanged
+        // Using a defined alphabet string for clarity
         private static string ShiftLetters(string input, int shift)
         {
             const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -122,8 +126,8 @@ namespace CodeNameGenerator
             {
                 if (alphabet.Contains(ch))
                 {
-                    int index = alphabet.IndexOf(ch);              
-                    int newIndex = (index + shift) % alphabetCount; 
+                    var index = alphabet.IndexOf(ch);              
+                    var newIndex = (index + shift) % alphabetCount; 
                     sb.Append(alphabet[newIndex]);
                 }
                 else
