@@ -45,7 +45,7 @@ namespace CountLetters
                     }
                 }
 
-                // Alternatively, to count only letters, uncomment the following line and comment out the above foreach
+                // For counting only letters, uncomment the following line and comment out the above foreach
                 // CountLettersOnly(sentence, charsCounts);
 
                 foreach (var item in charsCounts)
@@ -68,7 +68,7 @@ namespace CountLetters
                 {
                     if (!charsCounts.ContainsKey(key))
                     {
-                        charsCounts[key] = 0;
+                        charsCounts.Add(key, 0);
                     }
 
                     charsCounts[key]++;
@@ -79,13 +79,13 @@ namespace CountLetters
         // Count ASCII characters case-insensitive
         private static void CountAsciiCaseInsensitive(string sentence)
         {
-            int[] counts = new int[256]; // ASCII range 0–255
+            var counts = new int[256]; // ASCII range 0–255
 
-            foreach (char ch in sentence)
+            foreach (var ch in sentence)
             {
                 if (ch < 256) 
                 {
-                    char normalized = char.ToUpperInvariant(ch);
+                    var normalized = char.ToUpperInvariant(ch);
                     counts[normalized]++;
                 }
             }
