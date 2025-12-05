@@ -5,7 +5,7 @@ namespace AddRemoveNames
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter a list of names separated by a comma:");
+            Console.Write("Enter a list of names separated by a comma: ");
             var names = Console.ReadLine()!
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(name => name.Trim())
@@ -14,11 +14,47 @@ namespace AddRemoveNames
 
             PrintList(names);
 
-            Console.WriteLine("Enter a name to remove from the list:");
-            var nameToRemove = Console.ReadLine()!.Trim();
+            while (true)
+            {
+                Console.Write("Select an option Add / Remove / Print / Exit: ");
+                var option = Console.ReadLine()!.Trim().ToLower();
 
-            RemoveName(names, nameToRemove);
-            PrintList(names);
+                switch (option)
+                {
+                    case "add":
+                        Console.Write("Enter a name to add to the list: ");
+                        var nameToAdd = Console.ReadLine()!.Trim();
+                        AddName(names, nameToAdd);
+                        break;
+                    case "remove":
+                        Console.Write("Enter a name to remove from the list: ");
+                        var nameToRemove = Console.ReadLine()!.Trim();
+                        RemoveName(names, nameToRemove);
+                        break;
+                    case "print":
+                        PrintList(names);
+                        break;
+                    case "exit":
+                        Console.WriteLine("Exiting the program.");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+            }
+        }
+
+        private static void AddName(List<string> names, string nameToAdd)
+        {
+            if (!string.IsNullOrWhiteSpace(nameToAdd))
+            {
+                names.Add(nameToAdd);
+                Console.WriteLine($"Added '{nameToAdd}' to the list.");
+            }
+            else
+            {
+                Console.WriteLine("Name cannot be empty.");
+            }
         }
 
         private static void RemoveName(List<string> names, string nameToRemove)
