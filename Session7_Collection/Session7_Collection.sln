@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicShuffleMachine", "Musi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddRemoveNames", "AddRemoveNames\AddRemoveNames.csproj", "{8EA833DF-8CAA-4826-825F-F7048AA364BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapitalsDataFromAPI", "CapitalsDataFromAPI\CapitalsDataFromAPI.csproj", "{0FEC9D72-0E8B-46E0-BFB5-2BF58E704AD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{8EA833DF-8CAA-4826-825F-F7048AA364BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EA833DF-8CAA-4826-825F-F7048AA364BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EA833DF-8CAA-4826-825F-F7048AA364BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FEC9D72-0E8B-46E0-BFB5-2BF58E704AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FEC9D72-0E8B-46E0-BFB5-2BF58E704AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FEC9D72-0E8B-46E0-BFB5-2BF58E704AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FEC9D72-0E8B-46E0-BFB5-2BF58E704AD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

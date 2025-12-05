@@ -4,6 +4,7 @@
     {
         static void Main(string[] args)
         {
+            // Simple dictionary usage with hardcoded country-capital pairs
             var capitals = new Dictionary<string, string>();
             capitals.Add("Bulgaria", "Sofia");
             capitals.Add("Germany", "Berlin");
