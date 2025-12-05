@@ -5,10 +5,9 @@
         static void Main(string[] args)
         {
             var names = new List<string>();
-            names.Add("Ana");
-            names.Add("Bob");
+            names.Add("Maria");
             names.Add("George");
-            names.AddRange(["Diana", "Eve", "Petar", "Ivan", "Viki", "Nikola", "Maria"]);
+            names.AddRange(["Ana", "Petar", "Ivan"]);
 
             Console.WriteLine(string.Join(", ", names));
         }
