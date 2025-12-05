@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace MusicShuffleMachine
+﻿namespace MusicShuffleMachine
 {
     internal class Program
     {
@@ -46,12 +44,11 @@ namespace MusicShuffleMachine
 
                 // Randomized greedy playlist generation
                 var randomizedPlaylist = GetRandomizedGreedyPlaylist(songs, desiredLength, iterations: 200);
-                PrintPlaylist("Randomized Greedy Playlist", randomizedPlaylist, desiredLength);
+                PrintPlaylist("Randomized Greedy Playlist:", randomizedPlaylist, desiredLength);
 
                 // More optimal playlist using dynamic programming (Knapsack problem)
                 var optimalPlaylist = GetOptimalPlaylist(songs, desiredLength);
                 PrintPlaylist("Optimal playlist generation:", optimalPlaylist, desiredLength);
-                var totalOptimalPlaylistDuration = optimalPlaylist.Sum(s => s.duration);
             }
             else
             {
@@ -97,9 +94,9 @@ namespace MusicShuffleMachine
             Console.WriteLine($"The playlist has {playlist.Count} songs and a duration of {totalPlaylistDuration / 60}:{totalPlaylistDuration % 60:D2} minutes");
             Console.WriteLine($"The playlist for desired {desiredLength} minutes:");
 
-            foreach (var (song, durationInSeconds) in playlist)
+            foreach (var (song, duration) in playlist)
             {
-                Console.WriteLine($"{song} - {durationInSeconds / 60}:{durationInSeconds % 60:D2}");
+                Console.WriteLine($"{song} - {duration / 60}:{duration % 60:D2}");
             }
         }
 
@@ -139,26 +136,9 @@ namespace MusicShuffleMachine
 
             for (int attempt = 0; attempt < iterations; attempt++)
             {
-                var shuffledSongs = ShuffleSongs(songs);
-
-                var currentPlaylist = new List<(string song, int duration)>();
-                int currentDuration = 0;
-
-                foreach (var (song, durationStr) in shuffledSongs)
-                {
-                    int duration = ConvertSongDurationToSeconds(durationStr);
-
-                    if (currentDuration + duration <= targetSeconds)
-                    {
-                        currentPlaylist.Add((song, duration));
-                        currentDuration += duration;
-                    }
-
-                    if (currentDuration >= targetSeconds)
-                    {
-                        break;
-                    }
-                }
+                // Generate a new playlist using the greedy approach on a shuffled list
+                var currentPlaylist = GetCustomPlaylistByDesiredLength(songs, desiredMinutes);
+                int currentDuration = currentPlaylist.Sum(s => s.duration);
 
                 if (currentDuration > bestDuration)
                 {
@@ -173,18 +153,17 @@ namespace MusicShuffleMachine
         // More optimal playlist using dynamic programming (Кnapsack problem)
         private static List<(string song, int duration)> GetOptimalPlaylist(List<(string, string)> songs, int desiredMinutes)
         {
-            int targetSeconds = desiredMinutes * 60;
-            int songCount = songs.Count;
-
+            var targetSeconds = desiredMinutes * 60;
+            var songCount = songs.Count;
             var songDurations = songs.Select(s => ConvertSongDurationToSeconds(s.Item2)).ToArray();
 
-            int[] dp = new int[targetSeconds + 1];
-            int[] chosen = new int[targetSeconds + 1];
+            var dp = new int[targetSeconds + 1];
+            var chosen = new int[targetSeconds + 1];
             Array.Fill(chosen, -1);
 
             for (int songIndex = 0; songIndex < songCount; songIndex++)
             {
-                int currentDuration = songDurations[songIndex];
+                var currentDuration = songDurations[songIndex];
 
                 for (int time = targetSeconds; time >= currentDuration; time--)
                 {
@@ -198,15 +177,15 @@ namespace MusicShuffleMachine
                 }
             }
 
-            int bestTime = dp.Max();
+            var bestTime = dp.Max();
 
             var playlist = new List<(string song, int duration)>();
-            int remainingTime = bestTime;
+            var remainingTime = bestTime;
 
             while (remainingTime > 0 && chosen[remainingTime] != -1)
             {
-                int songIndex = chosen[remainingTime];
-                int duration = songDurations[songIndex];
+                var songIndex = chosen[remainingTime];
+                var duration = songDurations[songIndex];
                 playlist.Add((songs[songIndex].Item1, duration));
                 remainingTime -= duration;
             }
