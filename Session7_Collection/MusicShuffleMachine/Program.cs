@@ -6,31 +6,31 @@
         {
             List<(string, string)> songs =
             [
-                ("Nothing Else Matters", "6:28"),               // Metallica
-                ("November Rain", "8:57"),                      // Guns N' Roses
-                ("Stairway to Heaven", "8:02"),                 // Led Zeppelin
-                ("Smoke on the Water", "5:40"),                 // Deep Purple
-                ("Sweet Child O' Mine", "5:56"),                // Guns N' Roses
-                ("Still Loving You", "6:57"),                   // Scorpions
-                ("Send Me an Angel", "4:33"),                   // Scorpions
-                ("Bohemian Rhapsody", "5:55"),                  // Queen
-                ("Brothers in Arms", "6:55"),                   // Dire Straits
-                ("Black", "5:43"),                              // Pearl Jam
-                ("Hotel California", "6:30"),                   // Eagles
-                ("Dream On", "4:28"),                           // Aerosmith
-                ("Crazy", "5:16"),                              // Aerosmith
-                ("Knockin' on Heaven's Door", "5:36"),          // Bob Dylan / Guns N' Roses cover
-                ("Wish You Were Here", "5:34"),                 // Pink Floyd
-                ("With or Without You", "4:56"),                // U2
-                ("Livin' on a Prayer", "4:10"),                 // Bon Jovi
-                ("Always", "6:00"),                             // Bon Jovi
-                ("Patience", "5:56"),                           // Guns N' Roses
-                ("Creep", "3:58"),                              // Radiohead
-                ("Every Breath You Take", "4:13"),              // The Police
-                ("I Want to Know What Love Is", "5:04"),        // Foreigner
-                ("Everything I Do", "6:38"),                    // Bryan Adams
-                ("Open Your Heart", "4:29"),                    // Madonna
-                ("One", "4:36")                                 // U2
+                ("Nothing Else Matters", "6:28"),               
+                ("November Rain", "8:57"),                      
+                ("Stairway to Heaven", "8:02"),                 
+                ("Smoke on the Water", "5:40"),                 
+                ("Sweet Child O' Mine", "5:56"),                
+                ("Still Loving You", "6:57"),                   
+                ("Send Me an Angel", "4:33"),                   
+                ("Bohemian Rhapsody", "5:55"),                  
+                ("Brothers in Arms", "6:55"),                   
+                ("Black", "5:43"),                              
+                ("Hotel California", "6:30"),                   
+                ("Dream On", "4:28"),                           
+                ("Crazy", "5:16"),                              
+                ("Knockin' on Heaven's Door", "5:36"),          
+                ("Wish You Were Here", "5:34"),                 
+                ("With or Without You", "4:56"),                
+                ("Livin' on a Prayer", "4:10"),                 
+                ("Always", "6:00"),                             
+                ("Patience", "5:56"),                           
+                ("Creep", "3:58"),                              
+                ("Every Breath You Take", "4:13"),              
+                ("I Want to Know What Love Is", "5:04"),        
+                ("Everything I Do", "6:38"),                    
+                ("Open Your Heart", "4:29"),                    
+                ("One", "4:36")                                 
             ];
 
             Console.Write("Enter desired playlist length in minutes: ");
@@ -103,14 +103,14 @@
         // Simple greedy playlist generation
         private static List<(string song, int duration)> GetCustomPlaylistByDesiredLength(List<(string, string)> songs, int length)
         {
-            var legthInSeconds = length * 60;
-            var totalDuration = 0;
+            int legthInSeconds = length * 60;
+            int totalDuration = 0;
             var customPlaylist = new List<(string, int)>();
             var shuffledSongs = ShuffleSongs(songs);
 
             foreach (var (song, duration) in shuffledSongs)
             {
-                var durationInSeconds = ConvertSongDurationToSeconds(duration);
+                int durationInSeconds = ConvertSongDurationToSeconds(duration);
 
                 if (totalDuration + durationInSeconds <= legthInSeconds)
                 {
@@ -145,56 +145,77 @@
                     bestDuration = currentDuration;
                     bestPlaylist = currentPlaylist;
                 }
+
+                if (bestDuration == targetSeconds)
+                {
+                    break;
+                }
             }
 
             return bestPlaylist;
         }
 
-        // More optimal playlist using dynamic programming (Кnapsack problem)
-        private static List<(string song, int duration)> GetOptimalPlaylist(List<(string, string)> songs, int desiredMinutes)
+        // More optimal playlist using dynamic programming (Knapsack problem)
+        private static List<(string song, int duration)> GetOptimalPlaylist(List<(string songName, string duration)> songs, int desiredMinutes)
         {
-            var targetSeconds = desiredMinutes * 60;
-            var songCount = songs.Count;
-            var songDurations = songs.Select(s => ConvertSongDurationToSeconds(s.Item2)).ToArray();
+            int targetSeconds = desiredMinutes * 60;
+            int songCount = songs.Count;
+            int[] songDurations = songs.Select(s => ConvertSongDurationToSeconds(s.duration)).ToArray();
 
-            var dp = new int[targetSeconds + 1];
-            var chosen = new int[targetSeconds + 1];
-            Array.Fill(chosen, -1);
+            int[] bestDurations = new int[targetSeconds + 1];
+            int[] selectedSongIndex = new int[targetSeconds + 1]; 
+            Array.Fill(selectedSongIndex, -1);
 
             for (int songIndex = 0; songIndex < songCount; songIndex++)
             {
-                var currentDuration = songDurations[songIndex];
+                int currentDuration = songDurations[songIndex];
 
                 for (int time = targetSeconds; time >= currentDuration; time--)
                 {
-                    int candidate = dp[time - currentDuration] + currentDuration;
+                    int possibleDuration = bestDurations[time - currentDuration] + currentDuration;
 
-                    if (candidate > dp[time])
+                    if (possibleDuration > bestDurations[time])
                     {
-                        dp[time] = candidate;
-                        chosen[time] = songIndex;
+                        bestDurations[time] = possibleDuration;
+                        selectedSongIndex[time] = songIndex;
+
+                        // Early exit if targetSeconds is reached
+                        if (bestDurations[time] == targetSeconds)
+                        {
+                            return BuildPlaylist(songs, songDurations, selectedSongIndex, targetSeconds);
+                        }
                     }
                 }
             }
 
-            var bestTime = dp.Max();
+            // If there is no perfect match, return the best found
+            int bestTime = bestDurations.Max();
+            return BuildPlaylist(songs, songDurations, selectedSongIndex, bestTime);
+        }
 
+        // Helper method to reconstruct the playlist from DP arrays
+        private static List<(string song, int duration)> BuildPlaylist(
+            List<(string songName, string duration)> songs,
+            int[] songDurations,
+            int[] selectedSongIndex,
+            int bestTime)
+        {
             var playlist = new List<(string song, int duration)>();
-            var remainingTime = bestTime;
+            int remainingTime = bestTime;
 
-            while (remainingTime > 0 && chosen[remainingTime] != -1)
+            while (remainingTime > 0 && selectedSongIndex[remainingTime] != -1)
             {
-                var songIndex = chosen[remainingTime];
-                var duration = songDurations[songIndex];
-                playlist.Add((songs[songIndex].Item1, duration));
+                int songIndex = selectedSongIndex[remainingTime];
+                int duration = songDurations[songIndex];
+                playlist.Add((songs[songIndex].songName, duration));
                 remainingTime -= duration;
             }
 
             playlist.Reverse();
-
             return playlist;
         }
 
+        // Shuffle the list of songs using Fisher-Yates algorithm
         private static List<(string song, string duration)> ShuffleSongs(List<(string, string)> songs)
         {
             var shuffledSongs = new List<(string, string)>(songs);
@@ -209,6 +230,7 @@
             return shuffledSongs;
         }
 
+        // Convert song duration from "mm:ss" format to total seconds
         private static int ConvertSongDurationToSeconds(string duration)
         {
             var parts = duration.Split(':');
