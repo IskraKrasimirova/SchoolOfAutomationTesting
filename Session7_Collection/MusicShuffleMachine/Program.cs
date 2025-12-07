@@ -1,4 +1,6 @@
-﻿namespace MusicShuffleMachine
+﻿using System.Diagnostics;
+
+namespace MusicShuffleMachine
 {
     internal class Program
     {
@@ -38,16 +40,26 @@
 
             if (isValidLength && desiredLength > 0)
             {
+                // Measurement of execution time for each algorithm
                 // Simple greedy playlist generation
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 var customPlaylist = GetCustomPlaylistByDesiredLength(songs, desiredLength);
+                stopwatch.Stop();
+                Console.WriteLine($"Simple Greedy time for execution: {stopwatch.ElapsedMilliseconds} ms");
                 PrintPlaylist("Simple playlist generation:", customPlaylist, desiredLength);
 
                 // Randomized greedy playlist generation
+                stopwatch.Restart();
                 var randomizedPlaylist = GetRandomizedGreedyPlaylist(songs, desiredLength, iterations: 200);
+                stopwatch.Stop();
+                Console.WriteLine($"Randomized Greedy time for execution: {stopwatch.ElapsedMilliseconds} ms");
                 PrintPlaylist("Randomized Greedy Playlist:", randomizedPlaylist, desiredLength);
 
                 // More optimal playlist using dynamic programming (Knapsack problem)
+                stopwatch.Restart();
                 var optimalPlaylist = GetOptimalPlaylist(songs, desiredLength);
+                stopwatch.Stop();
+                Console.WriteLine($"Dynamic programming time for execution: {stopwatch.ElapsedMilliseconds} ms");
                 PrintPlaylist("Optimal playlist generation:", optimalPlaylist, desiredLength);
             }
             else
