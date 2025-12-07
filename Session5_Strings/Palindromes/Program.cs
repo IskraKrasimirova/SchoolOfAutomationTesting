@@ -34,6 +34,9 @@ namespace Palindromes
 
                 var isPalindrome = IsPalindrome(filteredInput);
 
+                // Use the implementation with for-loop
+                //var isPalindrome = IsPalindrome2(filteredInput);
+
                 if (isPalindrome)
                 {
                     Console.WriteLine($"'{input}' is a palindrome");
@@ -72,6 +75,20 @@ namespace Palindromes
             var reversed = new string(input.Reverse().ToArray());
 
             return string.Equals(input, reversed, StringComparison.OrdinalIgnoreCase);
+        }
+
+        //Implementation with a for-loop
+        private static bool IsPalindrome2(string input)
+        {
+            bool areEqual = true;
+            int length = input.Length;
+
+            for (int i = 0; i < length / 2; i++)
+            {
+                areEqual &= string.Equals(input[i].ToString(), input[length - 1 - i].ToString(), StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return areEqual;
         }
     }
 }
