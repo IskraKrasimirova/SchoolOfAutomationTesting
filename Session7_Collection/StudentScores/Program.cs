@@ -36,9 +36,9 @@
 
                 var parts = input.Split(", ", StringSplitOptions.RemoveEmptyEntries);
 
-                if (parts.Length != 2 || !int.TryParse(parts[1].Trim(), out int score))
+                if (parts.Length != 2 || !int.TryParse(parts[1].Trim(), out int score) || score < 0 || score > 100)
                 {
-                    Console.WriteLine("Invalid input. Please enter data in format: Name, Score");
+                    Console.WriteLine("Invalid input. Please enter data in format: Name, Score (score must be between 0 and 100)");
                     continue;
                 }
 

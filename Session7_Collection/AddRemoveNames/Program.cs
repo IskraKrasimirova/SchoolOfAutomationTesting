@@ -1,5 +1,4 @@
-﻿
-namespace AddRemoveNames
+﻿namespace AddRemoveNames
 {
     internal class Program
     {
