@@ -40,9 +40,12 @@ namespace CapitalsDataFromAPI
                 }
             }
 
-            Console.WriteLine($"Added {capitals.Count} countries with capitals.");
+            Console.WriteLine($"Added {capitals.Count} countries with capitals:");
 
-            foreach (var kvp in capitals)
+            var orderedCapitals = capitals.OrderBy(kvp => kvp.Key).ToDictionary(x => x.Key, x => x.Value);
+
+            // Print countries and capitals ordered by country name
+            foreach (var kvp in orderedCapitals)
             {
                 Console.WriteLine($"{kvp.Key} -> {kvp.Value}");
             }
