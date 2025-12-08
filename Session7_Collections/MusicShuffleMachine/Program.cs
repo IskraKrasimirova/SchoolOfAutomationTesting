@@ -8,32 +8,35 @@ namespace MusicShuffleMachine
         {
             List<(string, string)> songs =
             [
-                ("Nothing Else Matters", "6:28"),               
-                ("November Rain", "8:57"),                      
-                ("Stairway to Heaven", "8:02"),                 
-                ("Smoke on the Water", "5:40"),                 
-                ("Sweet Child O' Mine", "5:56"),                
-                ("Still Loving You", "6:57"),                   
-                ("Send Me an Angel", "4:33"),                   
-                ("Bohemian Rhapsody", "5:55"),                  
-                ("Brothers in Arms", "6:55"),                   
-                ("Black", "5:43"),                              
-                ("Hotel California", "6:30"),                   
-                ("Dream On", "4:28"),                           
-                ("Crazy", "5:16"),                              
-                ("Knockin' on Heaven's Door", "5:36"),          
-                ("Wish You Were Here", "5:34"),                 
-                ("With or Without You", "4:56"),                
-                ("Livin' on a Prayer", "4:10"),                 
-                ("Always", "6:00"),                             
-                ("Patience", "5:56"),                           
-                ("Creep", "3:58"),                              
-                ("Every Breath You Take", "4:13"),              
-                ("I Want to Know What Love Is", "5:04"),        
-                ("Everything I Do", "6:38"),                    
-                ("Open Your Heart", "4:29"),                    
-                ("One", "4:36")                                 
+                ("Nothing Else Matters", "6:28"),
+                ("November Rain", "8:57"),
+                ("Stairway to Heaven", "8:02"),
+                ("Smoke on the Water", "5:40"),
+                ("Sweet Child O' Mine", "5:56"),
+                ("Still Loving You", "6:57"),
+                ("Send Me an Angel", "4:33"),
+                ("Bohemian Rhapsody", "5:55"),
+                ("Brothers in Arms", "6:55"),
+                ("Black", "5:43"),
+                ("Hotel California", "6:30"),
+                ("Dream On", "4:28"),
+                ("Crazy", "5:16"),
+                ("Knockin' on Heaven's Door", "5:36"),
+                ("Wish You Were Here", "5:34"),
+                ("With or Without You", "4:56"),
+                ("Livin' on a Prayer", "4:10"),
+                ("Always", "6:00"),
+                ("Patience", "5:56"),
+                ("Creep", "3:58"),
+                ("Every Breath You Take", "4:13"),
+                ("I Want to Know What Love Is", "5:04"),
+                ("Everything I Do", "6:38"),
+                ("Open Your Heart", "4:29"),
+                ("One", "4:36")
             ];
+
+            // Example of a smaller song list for quick debugging. Enter desired length 7 minutes.
+            //List<(string, string)> songs = [("S1", "2:00"), ("S2", "3:00"), ("S3", "3:20")];
 
             Console.Write("Enter desired playlist length in minutes: ");
             var isValidLength = int.TryParse(Console.ReadLine(), out int desiredLength);
