@@ -13,13 +13,10 @@
 
             for (int i = 2; i <= boundary; i++)
             {
-                if (IsPrime(i))
+                while (number % i == 0)
                 {
-                    while (number % i == 0)
-                    {
-                        dividers.Add(i);
-                        number = number / i;
-                    }
+                    dividers.Add(i);
+                    number = number / i;
                 }
             }
 
@@ -30,21 +27,6 @@
 
             Console.WriteLine($"The prime dividers of {initialNumber} are: {string.Join(" ", dividers)}");
             Console.WriteLine($"{initialNumber} = {string.Join("x", dividers)}");
-        }
-
-        private static bool IsPrime(int number)
-        {
-            if (number == 2) return true;
-            if (number % 2 == 0) return false;
-
-            int boundary = (int)Math.Sqrt(number);
-
-            for (int i = 3; i <= boundary; i += 2)
-            {
-                if (number % i == 0) return false;
-            }
-
-            return true;
         }
     }
 }
