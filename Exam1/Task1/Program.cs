@@ -15,7 +15,7 @@
 
             var digitsRepeated = countDigits.Count(x => x > 1);
 
-            Console.WriteLine($"Distinct digits count is {digitsRepeated}");
+            Console.WriteLine($"Distinct digits count is {digitsRepeated}.");
             Console.WriteLine("Frequency:");
 
             for (int i = 0; i < countDigits.Length; i++)

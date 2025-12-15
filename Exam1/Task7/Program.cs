@@ -15,7 +15,7 @@
 
             if (numbers.Length != n)
             {
-                Console.WriteLine("Number of elements is not correct.");
+                Console.WriteLine("Number of entered elements is not correct.");
                 return;
             }
 
@@ -39,7 +39,7 @@
 //Count how many groups (runs) of consecutive equal numbers there are.
 //Example:
 //Input:
-//8
+//8 -> Why this number input is needed? For Check?
 //1 1 2 2 2 3 1 1
 //Output:
 //4

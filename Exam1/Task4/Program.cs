@@ -16,6 +16,7 @@
             int secondMin = sortedAsc[1];
             int secondMax = sortedAsc[sortedAsc.Length - 2];
 
+            Console.WriteLine($"Sorted ascending numbers: {string.Join(" ", sortedAsc)}");
             Console.WriteLine($"Min: {minNumber}");
             Console.WriteLine($"Max: {maxNumber}");
             Console.WriteLine($"SecondMin: {(minNumber == secondMin ? "None" : secondMin)}");

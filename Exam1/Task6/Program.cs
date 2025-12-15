@@ -10,7 +10,7 @@
                 .Select(int.Parse)
                 .ToArray();
 
-            int arrLength = numbers.Length;
+            var arrLength = numbers.Length;
 
             for (int i = 0; i < arrLength/2; i++)
             {
@@ -18,6 +18,8 @@
                 var temp = numbers[i];
                 numbers[i] = numbers[arrLength - 1 - i];
                 numbers[arrLength - 1 - i] = temp;
+                //// Use tuple to swap values
+                //(numbers[arrLength - 1 - i], numbers[i]) = (numbers[i], numbers[arrLength - 1 - i]);
             }
 
             Console.WriteLine(string.Join(" ", numbers));
@@ -31,7 +33,7 @@
 //Print the reversed array. Do not use .Reverse(); Hint: Do it with for loop.
 //Example:
 //Input:
-//5
+//5 -> Why this number input is needed?
 //1 2 3 4 5
 //Output:
 //5 4 3 2 1
