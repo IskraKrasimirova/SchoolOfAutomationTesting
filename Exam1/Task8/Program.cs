@@ -9,7 +9,9 @@
             var dividers = new List<int>();
             var initialNumber = number;
 
-            for (int i = 2; i <= number; i++)
+            var boundary = (int)Math.Sqrt(number);
+
+            for (int i = 2; i <= boundary; i++)
             {
                 if (IsPrime(i))
                 {
@@ -19,6 +21,11 @@
                         number = number / i;
                     }
                 }
+            }
+
+            if (number > 1)
+            {
+                dividers.Add(number);
             }
 
             Console.WriteLine($"The prime dividers of {initialNumber} are: {string.Join(" ", dividers)}");
