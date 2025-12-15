@@ -2,25 +2,27 @@
 {
     internal class Program
     {
-        // Not working correct!
         static void Main(string[] args)
         {
             Console.Write("Enter an integer number (greater or equal to 2): ");
             var number = int.Parse(Console.ReadLine()!);
             var dividers = new List<int>();
+            var initialNumber = number;
 
             for (int i = 2; i <= number; i++)
             {
-                if (number % i == 0)
+                if (IsPrime(i))
                 {
-                    dividers.Add(i);
-                    number = number / i;
+                    while (number % i == 0)
+                    {
+                        dividers.Add(i);
+                        number = number / i;
+                    }
                 }
             }
 
-            var primeDividers = dividers.Where(x=> IsPrime(x)).ToList();
-
-            Console.WriteLine($"{number} = {string.Join("x", dividers)}");
+            Console.WriteLine($"The prime dividers of {initialNumber} are: {string.Join(" ", dividers)}");
+            Console.WriteLine($"{initialNumber} = {string.Join("x", dividers)}");
         }
 
         private static bool IsPrime(int number)
