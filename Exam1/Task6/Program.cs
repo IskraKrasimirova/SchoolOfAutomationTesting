@@ -4,13 +4,33 @@
     {
         static void Main(string[] args)
         {
-            Console.Write("Enter integer numbers separated by space: ");
-            int[] numbers = Console.ReadLine()!
-                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
-                .ToArray();
+            Console.Write("Enter an integer number (array length): ");
+            var n = int.Parse(Console.ReadLine()!);
 
-            var arrLength = numbers.Length;
+            Console.Write("Enter integer numbers separated by space: ");
+            string[] input = Console.ReadLine()!.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            int arrLength = input.Length;
+
+            if (arrLength != n)
+            {
+                Console.WriteLine("Number of entered elements is not correct.");
+                return;
+            }
+
+            int[] numbers = new int[arrLength];
+
+            for (int i = 0; i < arrLength; i++)
+            {
+                numbers[i] = int.Parse(input[i]);
+            }
+
+            // Use LINQ
+            //int[] numbers = Console.ReadLine()!
+            //    .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+            //    .Select(int.Parse)
+            //    .ToArray();
+
+            //var arrLength = numbers.Length;
 
             for (int i = 0; i < arrLength/2; i++)
             {

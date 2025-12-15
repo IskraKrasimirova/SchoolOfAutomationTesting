@@ -13,7 +13,16 @@
                 countDigits[int.Parse(number[i].ToString())]++;
             }
 
-            var digitsRepeated = countDigits.Count(x => x > 1);
+            //var digitsRepeated = countDigits.Count(x => x > 1);
+            int digitsRepeated = 0;
+
+            foreach (var count in countDigits)
+            {
+                if (count > 1)
+                {
+                    digitsRepeated++;
+                }
+            }
 
             Console.WriteLine($"Distinct digits count is {digitsRepeated}.");
             Console.WriteLine("Frequency:");
@@ -39,5 +48,6 @@
 //0 is present 3 times.
 //1 is present 2 times.
 //2 is present 2 times.
-//3 is present 0 times.....
+//3 is present 0 times.
+//....
 //9 is present 0 times
