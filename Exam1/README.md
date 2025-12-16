@@ -13,3 +13,15 @@
 4. Code should be clear, modular, and properly indented.  
 5. Comments are encouraged but not required.  
 
+## Exam Tasks
+Each project contains its own task description as comments.
+
+- 🔢 Task 1 — Count Digit Duplications  
+- 🌀 Task 2 — Fibonacci Numbers up to N  
+- ✍️ Task 3 — Count Digits in a Number  
+- 📊 Task 4 — Find Min, Max, and Second Min/Max  
+- 🔡 Task 5 — Count Vowels, Consonants, Digits, and Others  
+- 🔄 Task 6 — Reverse an Array (In-Place)  
+- 📏 Task 7 — Count Runs of Equal Numbers  
+- 🧮 Task 12 — Prime Factorization — Bonus Task  
+ 
