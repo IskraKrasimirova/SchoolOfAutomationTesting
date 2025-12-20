@@ -21,47 +21,47 @@
 - The system runs in a console environment and does not persist data between runs.
 
 ## Project Structure
-Solution 'OOPBasics'
-│
-├── Solution Items
-│   └── README.md
-│
-└── BankingSystem
-    ├── Common
-    │   └── Validators
+
+```
+OOPBasics/
+├── README.md
+└── BankingSystem/
+    ├── Program.cs
+    ├── Core/
+    │   └── BankingSystemEngine.cs
+    ├── Common/
+    │   └── Validators/
     │       ├── AmountValidator.cs
     │       ├── InterestValidator.cs
     │       └── NameValidator.cs
-    │
-    ├── Core
-    │   └── BankingSystemEngine.cs
-    │
-    ├── Models
-    │   ├── Contracts
+    ├── Models/
+    │   ├── Contracts/
     │   │   ├── IAccount.cs
     │   │   ├── IInterestAccount.cs
     │   │   └── IOverdraftAccount.cs
-    │   │
     │   ├── BankAccount.cs
     │   ├── CheckingAccount.cs
     │   ├── SavingsAccount.cs
     │   ├── Transaction.cs
     │   ├── DepositTransaction.cs
     │   └── WithdrawTransaction.cs
-    │
-    └── Program.cs
+```
+
 
 ## Design Decisions
-- **Encapsulation**: All fields are private or protected, with validation handled through centralized validators.
-- **Inheritance**: SavingsAccount and CheckingAccount inherit from BankAccount and extend its behavior.
-- **Abstraction**: Transaction is an abstract class with polymorphic behavior via Execute().
-- **Polymorphism**: DepositTransaction and WithdrawTransaction are executed dynamically through a common Transaction reference.
-- **Validation**: All input is validated before use, and exceptions are caught in the engine to prevent crashes.
-- **Account Number Generation**: Uses a clean Template Method pattern with overridable prefixes per account type.
-- **User Experience**: Console prompts guide the user clearly, and errors are handled gracefully.
+
+- **Encapsulation**: All data is accessed through properties, ensuring controlled and safe modification. Validation is centralized in dedicated validator classes.
+- **Inheritance**: `SavingsAccount` and `CheckingAccount` inherit from the abstract base class `BankAccount`, reusing shared logic and extending behavior.
+- **Abstraction**: `BankAccount` and `Transaction` are abstract classes that define common structure and enforce required behavior in derived classes.
+- **Polymorphism**: `DepositTransaction` and `WithdrawTransaction` are executed through a shared `Transaction` reference, enabling dynamic behavior at runtime.
+- **Validation**: All user input is validated before processing. The engine handles exceptions to prevent crashes and provide feedback.
+- **Account Number Generation**: A Template Method pattern is used to generate account numbers, allowing each account type to define its own prefix.
+- **User Experience**: The console interface guides the user step-by-step. Errors are handled without terminating the program, ensuring smooth interaction.
+
 
 ## UML Class Diagram (Text Representation)
 
+```
 Interfaces
 ----------
 IAccount
@@ -94,7 +94,7 @@ BankAccount (abstract)
 Transaction (abstract)
    ├── DepositTransaction
    └── WithdrawTransaction
-
+```
 
  ## File Responsibilities
 
