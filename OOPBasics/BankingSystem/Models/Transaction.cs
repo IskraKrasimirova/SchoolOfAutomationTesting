@@ -1,4 +1,6 @@
-﻿namespace BankingSystem.Models
+﻿using BankingSystem.Common.Validators;
+
+namespace BankingSystem.Models
 {
     public abstract class Transaction
     {
@@ -11,17 +13,13 @@
 
             Account = account;
 
-            if (amount <= 0)
-            {
-                throw new ArgumentException("Amount must be positive.");
-            }
-
+            AmountValidator.ValidatePositive(amount, "Amount must be positive.");
             Amount = amount;
         }
 
         protected BankAccount Account { get; }
         protected decimal Amount {  get; }
-        protected void Execute()
+        public void Execute()
         {
             PerformTransaction();
 

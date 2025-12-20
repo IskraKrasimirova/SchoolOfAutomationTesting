@@ -1,21 +1,20 @@
-﻿using BankingSystem.Models.Contracts;
+﻿using BankingSystem.Common.Validators;
+using BankingSystem.Models.Contracts;
 
 namespace BankingSystem.Models
 {
     public class SavingsAccount : BankAccount, IInterestAccount
     {
-        protected SavingsAccount(string accountHolderName, decimal balance, double interestRate)
+        public SavingsAccount(string accountHolderName, decimal balance, double interestRate)
             : base(accountHolderName, balance)
         {
-            if (interestRate < 0 || interestRate > 100)
-            {
-                throw new ArgumentException("Interest rate must be between 0 and 100.");
-            }
-
+            InterestValidator.Validate(interestRate);
             InterestRate = interestRate;
         }
 
         public double InterestRate { get; }
+
+        protected override string AccountPrefix => "SAV";
 
         public void ApplyInterest()
         {

@@ -1,17 +1,13 @@
-﻿using BankingSystem.Models.Contracts;
+﻿using BankingSystem.Common.Validators;
+using BankingSystem.Models.Contracts;
 
 namespace BankingSystem.Models
 {
     public abstract class BankAccount : IAccount
     {
-        private decimal _balance;
-
         protected BankAccount(string accountHolderName, decimal balance)
         {
-            if (string.IsNullOrWhiteSpace(accountHolderName))
-            {
-                throw new ArgumentException("Name cannot be empty.");
-            }
+            NameValidator.Validate(accountHolderName);
 
             this.AccountHolderName = accountHolderName;
             this.Balance = balance;
@@ -22,36 +18,19 @@ namespace BankingSystem.Models
 
         protected string AccountHolderName { get; }
 
-        public decimal Balance
-        {
-            get => this._balance;
-            protected set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentException("Balance cannot be negative.");
-                }
+        public decimal Balance { get; protected set; }
 
-                this._balance = value;
-            }
-        }
+        protected virtual string AccountPrefix => "ACC";
 
         public void Deposit(decimal amount)
         {
-            if (amount <= 0)
-            {
-                throw new ArgumentException("Deposit amount must be positive.");
-            }
-
+            AmountValidator.ValidatePositive(amount, "Deposit amount must be positive.");
             this.Balance += amount;
         }
 
         public virtual void Withdraw(decimal amount)
         {
-            if (amount <= 0)
-            {
-                throw new ArgumentException("Withdraw amount must be positive.");
-            }
+            AmountValidator.ValidatePositive(amount, "Withdraw amount must be positive.");
 
             if (this.Balance < amount)
             {
@@ -68,9 +47,10 @@ namespace BankingSystem.Models
             Console.WriteLine($"Balance: ${this.Balance:F2}");
         }
 
-        private static string GenerateAccountNumber()
+        protected string GenerateAccountNumber()
         {
-            return Guid.NewGuid().ToString().Substring(0, 10);
+            var guidPart = Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();
+            return $"{AccountPrefix}-{guidPart}";
         }
     }
 }

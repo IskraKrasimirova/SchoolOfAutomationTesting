@@ -1,10 +1,13 @@
-﻿namespace BankingSystem
+﻿using BankingSystem.Core;
+
+namespace BankingSystem
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var engine = new BankingSystemEngine();
+            engine.Run();
         }
     }
 }

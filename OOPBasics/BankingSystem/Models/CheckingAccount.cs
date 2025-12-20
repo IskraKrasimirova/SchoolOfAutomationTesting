@@ -1,28 +1,24 @@
-﻿using BankingSystem.Models.Contracts;
+﻿using BankingSystem.Common.Validators;
+using BankingSystem.Models.Contracts;
 
 namespace BankingSystem.Models
 {
-    internal class CheckingAccount : BankAccount, IOverdraftAccount
+    public class CheckingAccount : BankAccount, IOverdraftAccount
     {
-        protected CheckingAccount(string accountHolderName, decimal balance, decimal overdraftLimit)
+        public CheckingAccount(string accountHolderName, decimal balance, decimal overdraftLimit)
             : base(accountHolderName, balance)
         {
-            if (overdraftLimit < 0)
-            {
-                throw new ArgumentException("Overdraft Limit cannot be negative.");
-            }
-
+            AmountValidator.ValidateNonNegative(overdraftLimit, "Overdraft limit cannot be negative.");
             OverdraftLimit = overdraftLimit;
         }
 
         public decimal OverdraftLimit { get; }
 
+        protected override string AccountPrefix => "SHK";
+
         public override void Withdraw(decimal amount)
         {
-            if (amount <= 0)
-            {
-                throw new ArgumentException("Withdraw amount must be positive.");
-            }
+            AmountValidator.ValidatePositive(amount, "Withdraw amount must be positive.");
 
             decimal availableFunds = Balance + OverdraftLimit;
 
