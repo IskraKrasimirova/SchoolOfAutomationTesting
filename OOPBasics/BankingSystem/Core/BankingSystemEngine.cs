@@ -177,7 +177,7 @@ namespace BankingSystem.Core
 
                 if (!isValidDepositAmount)
                 {
-                    Console.WriteLine("Please enter а valid number.");
+                    Console.WriteLine("Please enter a valid number.");
                     continue;
                 }
 
@@ -245,7 +245,7 @@ namespace BankingSystem.Core
                 try
                 {
                     NameValidator.Validate(accountName);
-                    return accountName!.Trim();
+                    return accountName!;
                 }
                 catch (ArgumentException ex)
                 {

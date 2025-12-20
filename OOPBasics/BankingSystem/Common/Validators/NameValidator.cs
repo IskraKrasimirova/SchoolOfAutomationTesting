@@ -9,6 +9,8 @@
                 throw new ArgumentException("Name cannot be empty.");
             }
 
+            name = name.Trim();
+
             if (name.Length < 2 || name.Length > 50)
             {
                 throw new ArgumentException("Name must be between 2 and 50 characters.");
