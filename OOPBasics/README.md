@@ -37,20 +37,20 @@ OOPBasics/
     ├── Models/
     │   ├── Contracts/
     │   │   ├── IAccount.cs
-    │   │   ├── IInterestAccount.cs
-    │   │   └── IOverdraftAccount.cs
+    │   │   └── IInterestAccount.cs
     │   ├── BankAccount.cs
     │   ├── CheckingAccount.cs
     │   ├── SavingsAccount.cs
     │   ├── Transaction.cs
     │   ├── DepositTransaction.cs
     │   └── WithdrawTransaction.cs
+
 ```
 
 
 ## Design Decisions
 
-- **Encapsulation**: All data is accessed through properties, ensuring controlled and safe modification. Validation is centralized in dedicated validator classes.
+- **Encapsulation**: Sensitive data such as account number and account holder name is stored in private readonly fields, while the account balance is exposed through a public read-only property with a protected setter. Validation is centralized in dedicated validator classes.
 - **Inheritance**: `SavingsAccount` and `CheckingAccount` inherit from the abstract base class `BankAccount`, reusing shared logic and extending behavior.
 - **Abstraction**: `BankAccount` and `Transaction` are abstract classes that define common structure and enforce required behavior in derived classes.
 - **Polymorphism**: `DepositTransaction` and `WithdrawTransaction` are executed through a shared `Transaction` reference, enabling dynamic behavior at runtime.
@@ -66,7 +66,6 @@ Interfaces
 ----------
 IAccount
 IInterestAccount
-IOverdraftAccount
 
 Abstract Classes
 ----------------
@@ -76,7 +75,7 @@ Transaction
 Concrete Account Types
 ----------------------
 SavingsAccount : BankAccount, IInterestAccount
-CheckingAccount : BankAccount, IOverdraftAccount
+CheckingAccount : BankAccount
 
 Concrete Transactions
 ---------------------
@@ -109,7 +108,6 @@ Transaction (abstract)
 ### Models/Contracts
 - **IAccount.cs** – Base interface for all accounts.
 - **IInterestAccount.cs** – Interface for accounts supporting interest.
-- **IOverdraftAccount.cs** – Interface for accounts supporting overdraft.
 
 ### Models (Classes)
 - **BankAccount.cs** – Abstract base class for all accounts. Holds shared logic and validation.

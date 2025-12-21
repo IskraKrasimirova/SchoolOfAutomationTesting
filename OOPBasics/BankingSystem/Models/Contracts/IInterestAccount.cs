@@ -2,7 +2,6 @@
 {
     public interface IInterestAccount
     {
-        double InterestRate { get; }
         void ApplyInterest();
     }
 }

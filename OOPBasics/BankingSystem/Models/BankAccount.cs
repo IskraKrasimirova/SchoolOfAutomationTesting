@@ -5,18 +5,17 @@ namespace BankingSystem.Models
 {
     public abstract class BankAccount : IAccount
     {
+        private readonly string _accountNumber;
+        private readonly string _acountHolderName;
+
         protected BankAccount(string accountHolderName, decimal balance)
         {
             NameValidator.Validate(accountHolderName);
 
-            this.AccountHolderName = accountHolderName;
-            this.Balance = balance;
-            this.AccountNumber = GenerateAccountNumber();
-
+            _acountHolderName = accountHolderName;
+            Balance = balance;
+            _accountNumber = GenerateAccountNumber();
         }
-        protected string AccountNumber { get; }
-
-        protected string AccountHolderName { get; }
 
         public decimal Balance { get; protected set; }
 
@@ -25,26 +24,26 @@ namespace BankingSystem.Models
         public void Deposit(decimal amount)
         {
             AmountValidator.ValidatePositive(amount, "Deposit amount must be positive.");
-            this.Balance += amount;
+            Balance += amount;
         }
 
         public virtual void Withdraw(decimal amount)
         {
             AmountValidator.ValidatePositive(amount, "Withdraw amount must be positive.");
 
-            if (this.Balance < amount)
+            if (Balance < amount)
             {
                 throw new InvalidOperationException("Insufficient funds.");
             }
 
-            this.Balance -= amount;
+            Balance -= amount;
         }
 
         public void DisplayAccountInfo()
         {
-            Console.WriteLine($"Account Number: {this.AccountNumber}");
-            Console.WriteLine($"Account Holder: {this.AccountHolderName}");
-            Console.WriteLine($"Balance: ${this.Balance:F2}");
+            Console.WriteLine($"Account Number: {_accountNumber}");
+            Console.WriteLine($"Account Holder: {_acountHolderName}");
+            Console.WriteLine($"Balance: ${Balance:F2}");
         }
 
         protected string GenerateAccountNumber()

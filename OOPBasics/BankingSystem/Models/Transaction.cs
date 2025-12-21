@@ -18,7 +18,8 @@ namespace BankingSystem.Models
         }
 
         protected BankAccount Account { get; }
-        protected decimal Amount {  get; }
+        protected decimal Amount { get; }
+
         public void Execute()
         {
             PerformTransaction();
