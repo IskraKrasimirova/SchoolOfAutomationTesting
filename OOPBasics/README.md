@@ -1,5 +1,19 @@
 ﻿# Banking System
 
+## Overview
+This is a simple object‑oriented banking system implemented in C#. 
+It demonstrates core OOP principles such as abstraction, inheritance, polymorphism, and encapsulation. 
+Users can create accounts, perform transactions, and view transaction history through a console interface.
+
+## Key Features
+- Create Savings or Checking accounts
+- Automatic account number generation
+- Deposit and withdraw money
+- Apply interest (Savings accounts)
+- Overdraft support (Checking accounts)
+- Full transaction history with timestamps
+- Input validation and error handling
+
 ## How to Run the Program
 1. Open the solution in Visual Studio or any C# IDE.
 2. Set the project as the startup project.
@@ -12,7 +26,7 @@
    - Perform transactions (Deposit, Withdraw, Apply Interest)
 
 ## Assumptions
-- Account numbers are auto-generated using a prefix (ACC/SAV/CHK) and 8 characters from a GUID.
+- Account numbers are auto-generated using a prefix (SAV/CHK) and 8 characters from a GUID.
 - Names must contain only letters and spaces, and must be between 2 and 50 characters after trimming.
 - Deposits and withdrawals must be positive amounts.
 - Savings accounts apply interest immediately when selected.
@@ -57,6 +71,8 @@ OOPBasics/
 - **Validation**: All user input is validated before processing. The engine handles exceptions to prevent crashes and provide feedback.
 - **Account Number Generation**: A Template Method pattern is used to generate account numbers, allowing each account type to define its own prefix.
 - **User Experience**: The console interface guides the user step-by-step. Errors are handled without terminating the program, ensuring smooth interaction.
+- All user‑interface logic is fully separated from the business logic and handled exclusively by the BankingSystemEngine.
+
 
 
 ### Transaction History

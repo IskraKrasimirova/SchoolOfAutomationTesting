@@ -6,7 +6,7 @@ namespace BankingSystem.Models
     {
         private readonly decimal _overdraftLimit;
 
-        protected override string AccountPrefix => "SHK";
+        protected override string AccountPrefix => "CHK";
 
         public CheckingAccount(string accountHolderName, decimal balance, decimal overdraftLimit)
             : base(accountHolderName, balance)

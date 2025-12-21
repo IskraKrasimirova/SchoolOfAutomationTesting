@@ -1,6 +1,7 @@
 ﻿using BankingSystem.Common.Validators;
 using BankingSystem.Models;
 using BankingSystem.Models.Contracts;
+using System.Security.Principal;
 
 namespace BankingSystem.Core
 {
@@ -18,7 +19,7 @@ namespace BankingSystem.Core
             BankAccount account = CreateAccount(accountType, accountHolderName, initialDeposit);
 
             Console.WriteLine("Account created successfully!");
-            account.DisplayAccountInfo();
+            DisplayAccountInfo(account);
 
             while (true)
             {
@@ -42,6 +43,33 @@ namespace BankingSystem.Core
             Console.WriteLine("Thank you for using the Banking System!");
         }
 
+        private static void DisplayTransactionResult(BankAccount account)
+        {
+            Console.WriteLine("Transaction successful!");
+            Console.WriteLine($"Updated Balance: ${account.Balance:F2}");
+        }
+
+        private static void DisplayAccountInfo(BankAccount account)
+        {
+            Console.WriteLine(account.GetAccountInfo());
+        }
+
+        private static void DisplayTransactionHistory(BankAccount account)
+        {
+            if (account.TransactionHistory.Count == 0)
+            {
+                Console.WriteLine("No transactions found.");
+                return;
+            }
+
+            Console.WriteLine("Transaction History:");
+
+            foreach (var transaction in account.TransactionHistory)
+            {
+                Console.WriteLine(transaction);
+            }
+        }
+
         private static void ExecuteAction(BankAccount account, string action)
         {
             Transaction transaction;
@@ -52,16 +80,21 @@ namespace BankingSystem.Core
                     var deposit = ReadDepositAmount();
                     transaction = new DepositTransaction(account, deposit);
                     transaction.Execute();
+                    DisplayTransactionResult(account);
                     break;
                 case "2":
                     var withdraw = ReadWithdrawAmount();
                     transaction = new WithdrawTransaction(account, withdraw);
                     transaction.Execute();
+                    DisplayTransactionResult(account);
                     break;
                 case "3":
                     if (account is IInterestAccount interestAccount)
                     {
                         interestAccount.ApplyInterest();
+
+                        Console.WriteLine("Interest applied successfully!");
+                        Console.WriteLine($"Balance: ${account.Balance:F2}");
                     }
                     else
                     {
@@ -69,7 +102,7 @@ namespace BankingSystem.Core
                     }
                     break;
                 case "4":
-                    account.DisplayTransactionHistory();
+                    DisplayTransactionHistory(account);
                     break;
                 case "5":
                     break;

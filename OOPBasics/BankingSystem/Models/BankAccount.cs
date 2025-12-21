@@ -13,7 +13,7 @@ namespace BankingSystem.Models
 
         public IReadOnlyCollection<Transaction> TransactionHistory => _transactionHistory.AsReadOnly();
 
-        protected virtual string AccountPrefix => "ACC";
+        protected abstract string AccountPrefix { get; }
 
         protected BankAccount(string accountHolderName, decimal balance)
         {
@@ -42,11 +42,14 @@ namespace BankingSystem.Models
             Balance -= amount;
         }
 
-        public void DisplayAccountInfo()
+        /// <summary>
+        /// Requirement from the assignment: 
+        /// /// Returns account info as a string instead of printing it. 
+        /// /// Engine decides how to display it.
+        /// </summary>
+        public string GetAccountInfo()
         {
-            Console.WriteLine($"Account Number: {_accountNumber}");
-            Console.WriteLine($"Account Holder: {_accountHolderName}");
-            Console.WriteLine($"Balance: ${Balance:F2}");
+            return $"Account Number: {_accountNumber}{Environment.NewLine}Account Holder: {_accountHolderName}{Environment.NewLine}Balance: ${Balance:F2}";
         }
 
         public void AddTransaction(Transaction transaction)
@@ -54,23 +57,7 @@ namespace BankingSystem.Models
             _transactionHistory.Add(transaction);
         }
 
-        public void DisplayTransactionHistory()
-        {
-            if (_transactionHistory.Count == 0)
-            {
-                Console.WriteLine("No transactions found.");
-                return;
-            }
-
-            Console.WriteLine("Transaction History:");
-
-            foreach (var transaction in _transactionHistory)
-            {
-                Console.WriteLine(transaction);
-            }
-        }
-
-        protected string GenerateAccountNumber()
+        private string GenerateAccountNumber()
         {
             var guidPart = Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();
             return $"{AccountPrefix}-{guidPart}";

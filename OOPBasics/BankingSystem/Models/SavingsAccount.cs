@@ -20,9 +20,6 @@ namespace BankingSystem.Models
         {
             decimal interest = Balance * (decimal)(_interestRate / 100);
             Balance += interest;
-
-            Console.WriteLine("Interest applied successfully!");
-            Console.WriteLine($"Balance: ${Balance:F2}");
         }
     }
 }

@@ -4,9 +4,10 @@ namespace BankingSystem.Models
 {
     public abstract class Transaction
     {
-        public DateTime ExecutedAt { get; }
         protected BankAccount Account { get; }
         protected decimal Amount { get; }
+        protected DateTime ExecutedAt { get; }
+        protected decimal BalanceAfterTransaction { get; private set; }
 
         protected Transaction(BankAccount account, decimal amount)
         {
@@ -25,17 +26,15 @@ namespace BankingSystem.Models
         public void Execute()
         {
             PerformTransaction();
+            BalanceAfterTransaction = Account.Balance;
             Account.AddTransaction(this);
-
-            Console.WriteLine("Transaction successful!");
-            Console.WriteLine($"Updated Balance: ${Account.Balance:F2}");
         }
 
         protected abstract void PerformTransaction();
 
         public override string ToString()
         {
-            return $"{GetType().Name} of ${Amount:F2} on {ExecutedAt:G}";
+            return $"{GetType().Name} of ${Amount:F2} on {ExecutedAt:G}. Balance after: ${BalanceAfterTransaction:F2}";
         }
     }
 }
