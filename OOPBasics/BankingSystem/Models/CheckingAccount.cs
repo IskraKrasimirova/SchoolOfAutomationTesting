@@ -6,14 +6,14 @@ namespace BankingSystem.Models
     {
         private readonly decimal _overdraftLimit;
 
+        protected override string AccountPrefix => "SHK";
+
         public CheckingAccount(string accountHolderName, decimal balance, decimal overdraftLimit)
             : base(accountHolderName, balance)
         {
             AmountValidator.ValidateNonNegative(overdraftLimit, "Overdraft limit cannot be negative.");
             _overdraftLimit = overdraftLimit;
         }
-
-        protected override string AccountPrefix => "SHK";
 
         public override void Withdraw(decimal amount)
         {

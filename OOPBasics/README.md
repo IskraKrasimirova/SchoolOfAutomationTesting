@@ -59,6 +59,14 @@ OOPBasics/
 - **User Experience**: The console interface guides the user step-by-step. Errors are handled without terminating the program, ensuring smooth interaction.
 
 
+### Transaction History
+- Every account maintains its own transaction history stored internally in a private list.
+- Each transaction records the amount, the account it operates on, and the exact execution timestamp.
+- The history is exposed as a read‑only collection to preserve encapsulation.
+- Transactions are logged automatically when executed, using polymorphism and the `ToString()` override in the `Transaction` class.
+- Users can view the full history through the console menu.
+
+
 ## UML Class Diagram (Text Representation)
 
 ```

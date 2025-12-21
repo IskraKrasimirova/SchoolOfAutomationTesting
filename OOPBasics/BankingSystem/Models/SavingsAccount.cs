@@ -7,14 +7,14 @@ namespace BankingSystem.Models
     {
         private readonly double _interestRate;
 
+        protected override string AccountPrefix => "SAV";
+
         public SavingsAccount(string accountHolderName, decimal balance, double interestRate)
             : base(accountHolderName, balance)
         {
             InterestValidator.Validate(interestRate);
             _interestRate = interestRate;
         }
-
-        protected override string AccountPrefix => "SAV";
 
         public void ApplyInterest()
         {

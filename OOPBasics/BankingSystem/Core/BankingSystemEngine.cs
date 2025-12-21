@@ -6,7 +6,7 @@ namespace BankingSystem.Core
 {
     public class BankingSystemEngine
     {
-        private static readonly HashSet<string> validActions = ["1","2","3","4"];
+        private static readonly HashSet<string> validActions = ["1", "2", "3", "4", "5"];
         public void Run()
         {
             Console.WriteLine("Welcome to the Banking System!");
@@ -20,11 +20,11 @@ namespace BankingSystem.Core
             Console.WriteLine("Account created successfully!");
             account.DisplayAccountInfo();
 
-            while (true) 
+            while (true)
             {
                 var selectedAction = ReadAction();
 
-                if (selectedAction == "4")
+                if (selectedAction == "5")
                 {
                     break;
                 }
@@ -38,7 +38,7 @@ namespace BankingSystem.Core
                     Console.WriteLine($"Error: {ex.Message}");
                 }
             }
-           
+
             Console.WriteLine("Thank you for using the Banking System!");
         }
 
@@ -69,6 +69,9 @@ namespace BankingSystem.Core
                     }
                     break;
                 case "4":
+                    account.DisplayTransactionHistory();
+                    break;
+                case "5":
                     break;
                 default:
                     Console.WriteLine("Unsupported action type.");
@@ -107,7 +110,8 @@ namespace BankingSystem.Core
                 Console.WriteLine("1. Deposit");
                 Console.WriteLine("2. Withdraw");
                 Console.WriteLine("3. Apply Interest");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("4. Transaction History");
+                Console.WriteLine("5. Exit");
                 Console.Write("Enter your choice: ");
 
                 action = Console.ReadLine();
@@ -212,24 +216,24 @@ namespace BankingSystem.Core
         private static decimal ReadWithdrawAmount()
         {
             return ReadAmount(
-                message: "Enter withdraw amount: ", 
-                errorMessage: "Withdraw amount must be positive.", 
+                message: "Enter withdraw amount: ",
+                errorMessage: "Withdraw amount must be positive.",
                 mustBePositive: true);
         }
 
         private static decimal ReadDepositAmount()
         {
             return ReadAmount(
-                message: "Enter deposit amount: ", 
-                errorMessage: "Deposit amount must be positive.", 
+                message: "Enter deposit amount: ",
+                errorMessage: "Deposit amount must be positive.",
                 mustBePositive: true);
         }
 
         private static decimal ReadInitialDepositAmount()
         {
             return ReadAmount(
-                message: "Enter initial deposit amount: ", 
-                errorMessage: "Deposit amount cannot be negative.", 
+                message: "Enter initial deposit amount: ",
+                errorMessage: "Deposit amount cannot be negative.",
                 mustBePositive: false);
         }
 
