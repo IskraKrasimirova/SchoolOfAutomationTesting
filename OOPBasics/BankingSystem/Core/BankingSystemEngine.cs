@@ -1,7 +1,6 @@
 ﻿using BankingSystem.Common.Validators;
 using BankingSystem.Models;
 using BankingSystem.Models.Contracts;
-using System.Security.Principal;
 
 namespace BankingSystem.Core
 {
@@ -41,6 +40,12 @@ namespace BankingSystem.Core
             }
 
             Console.WriteLine("Thank you for using the Banking System!");
+        }
+
+        private static void DisplayInterestResult(BankAccount account)
+        {
+            Console.WriteLine("Interest applied successfully!");
+            Console.WriteLine($"Balance: ${account.Balance:F2}");
         }
 
         private static void DisplayTransactionResult(BankAccount account)
@@ -92,9 +97,7 @@ namespace BankingSystem.Core
                     if (account is IInterestAccount interestAccount)
                     {
                         interestAccount.ApplyInterest();
-
-                        Console.WriteLine("Interest applied successfully!");
-                        Console.WriteLine($"Balance: ${account.Balance:F2}");
+                        DisplayInterestResult(account);
                     }
                     else
                     {

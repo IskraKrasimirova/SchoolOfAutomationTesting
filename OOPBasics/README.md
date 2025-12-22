@@ -74,7 +74,6 @@ OOPBasics/
 - All user‑interface logic is fully separated from the business logic and handled exclusively by the BankingSystemEngine.
 
 
-
 ### Transaction History
 - Every account maintains its own transaction history stored internally in a private list.
 - Each transaction records the amount, the account it operates on, and the exact execution timestamp.
