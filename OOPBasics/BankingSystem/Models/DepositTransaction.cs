@@ -2,8 +2,8 @@
 {
     public class DepositTransaction : Transaction
     {
-        public DepositTransaction(BankAccount account, decimal amount) : 
-            base(account, amount)
+        public DepositTransaction(BankAccount account, decimal amount) 
+            : base(account, amount)
         {
         }
 

@@ -4,7 +4,7 @@
     {
         public static void Validate(string? name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("Name cannot be empty.");
             }
