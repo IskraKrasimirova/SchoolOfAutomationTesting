@@ -18,6 +18,7 @@ namespace BankingSystem.Models
         protected BankAccount(string accountHolderName, decimal balance)
         {
             NameValidator.Validate(accountHolderName);
+            AmountValidator.ValidateNonNegative(balance, "Initial balance cannot be negative.");
 
             _accountHolderName = accountHolderName;
             Balance = balance;
