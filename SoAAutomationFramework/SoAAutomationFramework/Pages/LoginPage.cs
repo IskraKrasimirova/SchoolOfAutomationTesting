@@ -27,5 +27,14 @@ namespace SoAAutomationFramework.Pages
         {
             return Driver.FindElement(By.Id("navbarDropdown")).Text;
         }
+
+        public bool AreNavbarElementsDisplayed()
+        {
+            var homeLink = Driver.FindElement(By.LinkText("Home"));
+            var usersLink = Driver.FindElement(By.LinkText("Users"));
+            var searchLink = Driver.FindElement(By.LinkText("Search"));
+
+            return homeLink.Displayed && usersLink.Displayed && searchLink.Displayed;
+        }
     }
 }

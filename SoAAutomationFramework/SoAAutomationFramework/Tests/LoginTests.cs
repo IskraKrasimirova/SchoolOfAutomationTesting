@@ -1,5 +1,3 @@
-using OpenQA.Selenium;
-using SoAAutomationFramework.Actions;
 using SoAAutomationFramework.Pages;
 using SoAAutomationFramework.Utils;
 
@@ -34,11 +32,11 @@ namespace SoAAutomationFramework.Tests
         public void LoginWith_ValidAdminCredentials_ShouldBeSuccsessful()
         {
             _loginPage.OpenPage("Login");
-            var loginPage = new LoginPage();
-            loginPage.Login("admin@automation.com", "pass123");
+            _loginPage.Login("admin@automation.com", "pass123");
 
             var emailDropdownText = _loginPage.GetEmailElementText();
             Assert.That(emailDropdownText, Is.EqualTo("admin@automation.com"), "Admin email is not shown.");
+            Assert.IsTrue(_loginPage.AreNavbarElementsDisplayed(), "Navbar links are not displayed.");
         }
     }
 }
