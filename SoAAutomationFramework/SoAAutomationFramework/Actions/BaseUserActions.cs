@@ -7,6 +7,8 @@ namespace SoAAutomationFramework.Actions
     {
         protected readonly IWebDriver _driver;
 
+        public IWebDriver Driver => _driver;
+
         public BaseUserActions()
         {
             _driver = WebDriverProvider.GetPreparedDriver();
