@@ -36,7 +36,13 @@ namespace SoAAutomationFramework.Tests
 
             var emailDropdownText = _loginPage.GetEmailElementText();
             Assert.That(emailDropdownText, Is.EqualTo("admin@automation.com"), "Admin email is not shown.");
-            Assert.IsTrue(_loginPage.AreNavbarElementsDisplayed(), "Navbar links are not displayed.");
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(_loginPage.IsHomeLinkDisplayed(), "Home link is not displayed.");
+                Assert.IsTrue(_loginPage.IsUsersLinkDisplayed(), "Users link is not displayed.");
+                Assert.IsTrue(_loginPage.IsSearchLinkDisplayed(), "Search link is not displayed.");
+            });
         }
     }
 }
