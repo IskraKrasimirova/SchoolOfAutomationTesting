@@ -1,3 +1,4 @@
+using SoAAutomationFramework.Models;
 using SoAAutomationFramework.Pages;
 using SoAAutomationFramework.Utils;
 
@@ -23,21 +24,20 @@ namespace SoAAutomationFramework.Tests
         }
 
         [Test]
-        [TestCase("admin@automation.com", "pass123", true, TestName ="Login as admin")]
-        [TestCase("idimitrov@automation.com", "pass123", false, TestName = "Login as common user")]
-        public void LoginWith_ValidUserCredentials_ShouldBeSuccsessful(string email, string password, bool isAdmin)
+        [TestCaseSource(nameof(ValidLoginData))]
+        public void LoginWith_ValidUserCredentials_ShouldBeSuccsessful(LoginModel loginModel, bool isAdmin)
         {
             _loginPage.OpenPage("Login");
 
             // Assert we are on the correct page BEFORE interacting
             Assert.That(_loginPage.Driver.Url.Contains("/login"), "Login page did not load correctly.");
 
-            _loginPage.Login(email, password);
+            _loginPage.Login(loginModel.Email, loginModel.Password);
 
             var homePage = new HomePage();
 
             var emailDropdownText = homePage.GetEmailElementText();
-            Assert.That(emailDropdownText, Is.EqualTo(email), "User email is not shown.");
+            Assert.That(emailDropdownText, Is.EqualTo(loginModel.Email), "User email is not shown.");
 
             Assert.Multiple(() =>
             {
@@ -54,6 +54,16 @@ namespace SoAAutomationFramework.Tests
             {
                 Assert.IsFalse(homePage.IsAddUserLinkDisplayed(), "Add User link should NOT be visible for common user.");
             }
+        }
+
+        private static IEnumerable<TestCaseData> ValidLoginData()
+        {
+            yield return new TestCaseData(
+                new LoginModel("admin@automation.com", "pass123"), true
+            );
+            yield return new TestCaseData(
+                new LoginModel("idimitrov@automation.com", "pass123"), false
+            );
         }
     }
 }
