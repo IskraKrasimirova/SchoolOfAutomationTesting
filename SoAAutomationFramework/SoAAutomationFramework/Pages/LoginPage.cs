@@ -22,26 +22,5 @@ namespace SoAAutomationFramework.Pages
             PasswordField.SendKeys(password);
             LoginButton.Click();
         }
-
-        public string GetEmailElementText()
-        {
-            return Driver.FindElement(By.Id("navbarDropdown")).Text;
-        }
-
-        public bool IsHomeLinkDisplayed()
-        {
-            return Driver.FindElement(By.LinkText("Home")).Displayed;
-        }
-
-        public bool IsUsersLinkDisplayed()
-        {
-            return Driver.FindElement(By.LinkText("Users")).Displayed;
-        }
-
-        public bool IsSearchLinkDisplayed()
-        {
-            return Driver.FindElement(By.LinkText("Search")).Displayed;
-        }
-
     }
 }
