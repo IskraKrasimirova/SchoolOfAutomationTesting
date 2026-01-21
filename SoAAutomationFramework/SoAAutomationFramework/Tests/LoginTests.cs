@@ -65,5 +65,20 @@ namespace SoAAutomationFramework.Tests
                 new LoginModel("idimitrov@automation.com", "pass123"), false
             );
         }
+
+        [Test]
+        public void LoginWith_NonExistingUser_ShowsValidationMessage()
+        {
+            _loginPage.OpenPage("Login");
+            // Assert we are on the correct page BEFORE interacting
+            Assert.That(_loginPage.Driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
+
+            var invalidLoginModel = new LoginModel("a@a.com", "wrongpassword");
+            _loginPage.Login(invalidLoginModel);
+
+            var errorDialogText = _loginPage.GetValidationMessage();
+            Assert.That(errorDialogText, Is.EqualTo("Invalid email or password"));
+            Assert.IsTrue(_loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
+        }
     }
 }

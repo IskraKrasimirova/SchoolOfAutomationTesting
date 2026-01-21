@@ -22,5 +22,13 @@ namespace SoAAutomationFramework.Pages
             PasswordField.EnterText(model.Password);
             LoginButton.Click();
         }
+        
+        public string GetValidationMessage() => _driver.FindElement(By.ClassName("alert")).Text;
+
+        // Validations
+        public bool IsPasswordInputEmpty()
+        {
+            return string.IsNullOrWhiteSpace(PasswordField.GetAttribute("value"));
+        }
     }
 }
