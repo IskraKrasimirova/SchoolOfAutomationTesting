@@ -67,18 +67,34 @@ namespace SoAAutomationFramework.Tests
         }
 
         [Test]
-        public void LoginWith_NonExistingUser_ShowsValidationMessage()
+        [TestCaseSource(nameof(NotValidLoginData))]
+        public void LoginWith_NotValidUserCredentials_ShowsValidationMessage(string testedCase, LoginModel loginModel)
         {
             _loginPage.OpenPage("Login");
             // Assert we are on the correct page BEFORE interacting
             Assert.That(_loginPage.Driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
 
-            var invalidLoginModel = new LoginModel("a@a.com", "wrongpassword");
-            _loginPage.Login(invalidLoginModel);
+            _loginPage.Login(loginModel);
 
             var errorDialogText = _loginPage.GetValidationMessage();
             Assert.That(errorDialogText, Is.EqualTo("Invalid email or password"));
             Assert.IsTrue(_loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
+        }
+
+        private static IEnumerable<TestCaseData> NotValidLoginData()
+        {
+            yield return new TestCaseData(
+                "Wrong password",
+                new LoginModel("admin@automation.com", "password")
+            );
+            yield return new TestCaseData(
+                "Wrong email",
+                new LoginModel("admin@admin.com", "pass123")
+            );
+            yield return new TestCaseData(
+                "Wrong email and password",
+                new LoginModel("a@a.com", "wrongpassword")
+            );
         }
 
         [Test]
