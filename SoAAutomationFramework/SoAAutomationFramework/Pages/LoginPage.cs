@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using SoAAutomationFramework.Actions;
+using SoAAutomationFramework.Extensions;
+using SoAAutomationFramework.Models;
 
 namespace SoAAutomationFramework.Pages
 {
@@ -14,12 +16,10 @@ namespace SoAAutomationFramework.Pages
 
         }
 
-        public void Login(string email, string password)
+        public void Login(LoginModel model)
         {
-            EmailField.Clear();
-            EmailField.SendKeys(email);
-            PasswordField.Clear();
-            PasswordField.SendKeys(password);
+            EmailField.EnterText(model.Email);
+            PasswordField.EnterText(model.Password);
             LoginButton.Click();
         }
     }

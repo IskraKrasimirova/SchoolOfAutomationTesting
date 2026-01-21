@@ -32,7 +32,7 @@ namespace SoAAutomationFramework.Tests
             // Assert we are on the correct page BEFORE interacting
             Assert.That(_loginPage.Driver.Url.Contains("/login"), "Login page did not load correctly.");
 
-            _loginPage.Login(loginModel.Email, loginModel.Password);
+            _loginPage.Login(loginModel);
 
             var homePage = new HomePage();
 
