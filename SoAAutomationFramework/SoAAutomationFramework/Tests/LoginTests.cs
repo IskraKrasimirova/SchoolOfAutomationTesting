@@ -80,5 +80,65 @@ namespace SoAAutomationFramework.Tests
             Assert.That(errorDialogText, Is.EqualTo("Invalid email or password"));
             Assert.IsTrue(_loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
         }
+
+        [Test]
+        [TestCaseSource(nameof(InvalidEmailFormat))]
+        public void LoginWith_InvalidEmailFormat_ShowsBrowserValidationMessage(LoginModel loginModel, string message)
+        {
+            _loginPage.OpenPage("Login");
+            _loginPage.Login(loginModel);
+            var validationMessage = _loginPage.GetEmailBrowserValidationMessage();
+
+            Assert.That(validationMessage, Does.Contain(message));
+        }
+
+        private static IEnumerable<TestCaseData> InvalidEmailFormat()
+        {
+            yield return new TestCaseData(new LoginModel("abc", "pass123"), "missing an '@'");
+            yield return new TestCaseData(new LoginModel("abc@", "pass123"), "incomplete");
+            yield return new TestCaseData(new LoginModel("abc abc@test.com", "pass123"), "should not contain the symbol ' '");
+            yield return new TestCaseData(new LoginModel("@test", "pass123"), "incomplete");
+            yield return new TestCaseData(new LoginModel("@test.com", "pass123"), "incomplete");
+            yield return new TestCaseData(new LoginModel("abc@@test.com", ""), "should not contain the symbol '@'");
+            yield return new TestCaseData(new LoginModel("abc@.test.com", ""), "a wrong position");
+            yield return new TestCaseData(new LoginModel("abc@test .com", ""), "should not contain the symbol ' '");
+            yield return new TestCaseData( new LoginModel("", ""), "fill out this field");
+        }
+        // Exact error messages:
+        // "Please include an '@' in the email address. 'abc' is missing an '@'."
+        // "Please enter a part following '@'. 'abc@' is incomplete."
+        // "A part followed by '@' should not contain the symbol ' '."
+        // "Please enter a part followed by '@'. '@test' is incomplete."
+        // "Please enter a part followed by '@'. '@test.com' is incomplete."
+        // "A part following '@' should not contain the symbol '@'."
+        // "'.' is used at a wrong position in '.test.com'."
+        // "A part following '@' should not contain the symbol ' '."
+        // "Please fill out this field."
+
+        [Test]
+        public void LoginWith_ShortPassword_ShowsValidationMessage()
+        {
+            _loginPage.OpenPage("Login");
+
+            var model = new LoginModel("admin@automation.com", "123");
+            _loginPage.Login(model);
+
+            var message = _loginPage.GetPasswordValidationMessage();
+
+            Assert.That(message, Is.EqualTo("Password must be at least 6 characters"));
+        }
+
+        [Test]
+        public void LoginWith_EmptyPassword_ShowsBrowserValidationMessage()
+        {
+            _loginPage.OpenPage("Login");
+
+            var model = new LoginModel("admin@automation.com", "");
+            _loginPage.Login(model);
+
+            var message = _loginPage.GetPasswordBrowserValidationMessage();
+
+            Assert.That(message, Is.EqualTo("Please fill out this field."));
+        }
     }
 }

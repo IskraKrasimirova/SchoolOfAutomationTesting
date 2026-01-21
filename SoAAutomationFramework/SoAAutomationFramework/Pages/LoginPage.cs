@@ -25,6 +25,12 @@ namespace SoAAutomationFramework.Pages
         
         public string GetValidationMessage() => _driver.FindElement(By.ClassName("alert")).Text;
 
+        public string? GetEmailBrowserValidationMessage() => EmailField.GetAttribute("validationMessage");
+
+        public string GetPasswordValidationMessage() => _driver.FindElement(By.ClassName("text-danger")).Text;
+
+        public string? GetPasswordBrowserValidationMessage() => PasswordField.GetAttribute("validationMessage");
+
         // Validations
         public bool IsPasswordInputEmpty()
         {
