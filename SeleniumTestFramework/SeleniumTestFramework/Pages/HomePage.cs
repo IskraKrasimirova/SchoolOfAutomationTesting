@@ -28,5 +28,8 @@ namespace SeleniumTestFramework.Pages
             var elements = _driver.FindElements(By.LinkText("Add User"));
             return elements.Count > 0 && elements[0].Displayed;
         }
+
+        public string GetGreetingText() => _driver.FindElement(By.XPath("//h1[contains(@class, 'display-5')]")).Text;
+       
     }
 }
