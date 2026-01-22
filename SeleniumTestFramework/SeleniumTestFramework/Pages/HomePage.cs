@@ -5,23 +5,23 @@ namespace SeleniumTestFramework.Pages
     public class HomePage
     {
         private readonly IWebDriver _driver;
-        private IWebElement _emailDropdown => _driver.FindElement(By.Id("navbarDropdown"));
-        private IWebElement _homeLink => _driver.FindElement(By.LinkText("Home"));
-        private IWebElement _usersLink => _driver.FindElement(By.LinkText("Users"));
-        private IWebElement _searchLink => _driver.FindElement(By.LinkText("Search"));
+        private IWebElement EmailDropdown => _driver.FindElement(By.Id("navbarDropdown"));
+        private IWebElement HomeLink => _driver.FindElement(By.LinkText("Home"));
+        private IWebElement UsersLink => _driver.FindElement(By.LinkText("Users"));
+        private IWebElement SearchLink => _driver.FindElement(By.LinkText("Search"));
 
         public HomePage(IWebDriver driver)
         {
             this._driver = driver;
         }
 
-        public string GetEmailElementText() => _emailDropdown.Text;
+        public string GetEmailElementText() => EmailDropdown.Text;
 
-        public bool IsHomeLinkDisplayed() => _homeLink.Displayed;
+        public bool IsHomeLinkDisplayed() => HomeLink.Displayed;
 
-        public bool IsUsersLinkDisplayed() => _usersLink.Displayed;
+        public bool IsUsersLinkDisplayed() => UsersLink.Displayed;
 
-        public bool IsSearchLinkDisplayed() => _searchLink.Displayed;
+        public bool IsSearchLinkDisplayed() => SearchLink.Displayed;
 
         public bool IsAddUserLinkDisplayed()
         {
@@ -30,6 +30,5 @@ namespace SeleniumTestFramework.Pages
         }
 
         public string GetGreetingText() => _driver.FindElement(By.XPath("//h1[contains(@class, 'display-5')]")).Text;
-       
     }
 }

@@ -8,16 +8,15 @@ namespace SeleniumTestFramework.Pages
     {
         private readonly IWebDriver _driver;
 
-        // Elements 
-        private IWebElement _titleDropdown => _driver.FindElement(By.XPath("//select[@id='title']"));
-        private IWebElement _firstNameInput => _driver.FindElement(By.XPath("//input[@id='first_name']"));
-        private IWebElement _surnameInput => _driver.FindElement(By.XPath("//input[@id='sir_name']"));
-        private IWebElement _emailInput => _driver.FindElement(By.XPath("//input[@type='email']"));
-        private IWebElement _passwordInput => _driver.FindElement(By.XPath("//input[@type='password']"));
-        private IWebElement _countryInput => _driver.FindElement(By.XPath("//input[@id='country']"));
-        private IWebElement _cityInput => _driver.FindElement(By.XPath("//input[@id='city']"));
-        private IWebElement _agreementCheckbox => _driver.FindElement(By.XPath("//input[@type='checkbox' and @id='tos']"));
-        private IWebElement _submitButton => _driver.FindElement(By.XPath("//button[@type='submit' and @name='signup']"));
+        private IWebElement TitleDropdown => _driver.FindElement(By.XPath("//select[@id='title']"));
+        private IWebElement FirstNameInput => _driver.FindElement(By.XPath("//input[@id='first_name']"));
+        private IWebElement SurnameInput => _driver.FindElement(By.XPath("//input[@id='sir_name']"));
+        private IWebElement EmailInput => _driver.FindElement(By.XPath("//input[@type='email']"));
+        private IWebElement PasswordInput => _driver.FindElement(By.XPath("//input[@type='password']"));
+        private IWebElement CountryInput => _driver.FindElement(By.XPath("//input[@id='country']"));
+        private IWebElement CityInput => _driver.FindElement(By.XPath("//input[@id='city']"));
+        private IWebElement AgreementCheckbox => _driver.FindElement(By.XPath("//input[@type='checkbox' and @id='tos']"));
+        private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and @name='signup']"));
 
         public RegisterPage(IWebDriver driver)
         {
@@ -26,33 +25,54 @@ namespace SeleniumTestFramework.Pages
 
         public void RegisterNewUser(RegisterModel model)
         {
-            var select = new SelectElement(_titleDropdown); 
+            var select = new SelectElement(TitleDropdown);
             select.SelectByText(model.Title);
 
-            _firstNameInput.Clear();
-            _firstNameInput.SendKeys(model.FirstName);
+            FirstNameInput.Clear();
+            FirstNameInput.SendKeys(model.FirstName);
 
-            _surnameInput.Clear();
-            _surnameInput.SendKeys(model.Surname);
+            SurnameInput.Clear();
+            SurnameInput.SendKeys(model.Surname);
 
-            _emailInput.Clear();
-            _emailInput.SendKeys(model.Email);
+            EmailInput.Clear();
+            EmailInput.SendKeys(model.Email);
 
-            _passwordInput.Clear();
-            _passwordInput.SendKeys(model.Password);
+            PasswordInput.Clear();
+            PasswordInput.SendKeys(model.Password);
 
-            _countryInput.Clear();
-            _countryInput.SendKeys(model.Country);
+            CountryInput.Clear();
+            CountryInput.SendKeys(model.Country);
 
-            _cityInput.Clear();
-            _cityInput.SendKeys(model.City);
+            CityInput.Clear();
+            CityInput.SendKeys(model.City);
 
-            if (model.AgreeToTerms && !_agreementCheckbox.Selected)
+            if (model.AgreeToTerms && !AgreementCheckbox.Selected)
             {
-                _agreementCheckbox.Click();
+                AgreementCheckbox.Click();
             }
 
-            _submitButton.Click();
+            SubmitButton.Click();
+        }
+
+        public string GetFirstNameValidationMessage() => GetValidationMessage(FirstNameInput);
+
+        public string GetSurnameValidationMessage() => GetValidationMessage(SurnameInput);
+
+        public string GetEmailValidationMessage() => GetValidationMessage(EmailInput);
+
+        public string GetPasswordValidationMessage() => GetValidationMessage(PasswordInput);
+
+        public string GetCountryValidationMessage() => GetValidationMessage(CountryInput);
+
+        public string GetCityValidationMessage() => GetValidationMessage(CityInput);
+
+        public string GetAgreementValidationMessage() => GetValidationMessage(AgreementCheckbox);
+
+        private string GetValidationMessage(IWebElement element)
+        {
+            var messageElement = element.FindElement(By.XPath("./following-sibling::div[@class='invalid-feedback']"));
+
+            return messageElement.Text;
         }
     }
 }
