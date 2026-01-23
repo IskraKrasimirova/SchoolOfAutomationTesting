@@ -5,7 +5,9 @@ namespace SeleniumTestFramework.Pages
     public class HomePage
     {
         private readonly IWebDriver _driver;
-        private IWebElement EmailDropdown => _driver.FindElement(By.Id("navbarDropdown"));
+
+        private IWebElement LoggedUserAnchor => _driver.FindElement(By.XPath("//a[@id='navbarDropdown']"));
+        private IWebElement UsernameHeader => _driver.FindElement(By.XPath("//div[contains(@class, 'container-fluid')]/h1"));
         private IWebElement HomeLink => _driver.FindElement(By.LinkText("Home"));
         private IWebElement UsersLink => _driver.FindElement(By.LinkText("Users"));
         private IWebElement SearchLink => _driver.FindElement(By.LinkText("Search"));
@@ -15,7 +17,7 @@ namespace SeleniumTestFramework.Pages
             this._driver = driver;
         }
 
-        public string GetEmailElementText() => EmailDropdown.Text;
+        public string GetLoggedUserEmail() => LoggedUserAnchor.Text;
 
         public bool IsHomeLinkDisplayed() => HomeLink.Displayed;
 
@@ -29,6 +31,6 @@ namespace SeleniumTestFramework.Pages
             return elements.Count > 0 && elements[0].Displayed;
         }
 
-        public string GetGreetingText() => _driver.FindElement(By.XPath("//h1[contains(@class, 'display-5')]")).Text;
+        public string GetGreetingText() => UsernameHeader.Text;
     }
 }

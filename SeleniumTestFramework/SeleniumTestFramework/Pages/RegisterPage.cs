@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 
 namespace SeleniumTestFramework.Pages
@@ -28,23 +29,12 @@ namespace SeleniumTestFramework.Pages
             var select = new SelectElement(TitleDropdown);
             select.SelectByText(model.Title);
 
-            FirstNameInput.Clear();
-            FirstNameInput.SendKeys(model.FirstName);
-
-            SurnameInput.Clear();
-            SurnameInput.SendKeys(model.Surname);
-
-            EmailInput.Clear();
-            EmailInput.SendKeys(model.Email);
-
-            PasswordInput.Clear();
-            PasswordInput.SendKeys(model.Password);
-
-            CountryInput.Clear();
-            CountryInput.SendKeys(model.Country);
-
-            CityInput.Clear();
-            CityInput.SendKeys(model.City);
+            FirstNameInput.EnterText(model.FirstName);
+            SurnameInput.EnterText(model.Surname);
+            EmailInput.EnterText(model.Email);
+            PasswordInput.EnterText(model.Password);
+            CountryInput.EnterText(model.Country);
+            CityInput.EnterText(model.City);
 
             if (model.AgreeToTerms && !AgreementCheckbox.Selected)
             {

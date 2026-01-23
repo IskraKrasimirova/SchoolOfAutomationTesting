@@ -10,13 +10,16 @@ namespace SeleniumTestFramework.Tests
     public class RegisterTests
     {
         private IWebDriver _driver;
+        private RegisterPage _registerPage;
 
         [SetUp]
         public void Setup()
         {
             new DriverManager().SetUpDriver(new ChromeConfig());
             _driver = new ChromeDriver();
+            _driver.Manage().Window.Maximize();
             _driver.Navigate().GoToUrl("http://localhost:8080/register.php");
+            _registerPage = new RegisterPage(_driver);
         }
 
         [TearDown]
@@ -29,7 +32,6 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ValidUserData_LogsUserIn_AndShowsHomePage()
         {
-            RegisterPage registerPage = new RegisterPage(_driver);
             var newUser = new RegisterModel
             (
                 "Mr.",
@@ -42,11 +44,11 @@ namespace SeleniumTestFramework.Tests
                 true
             );
 
-            registerPage.RegisterNewUser(newUser);
+            _registerPage.RegisterNewUser(newUser);
 
             var homePage = new HomePage(_driver);
 
-            var emailDropdownText = homePage.GetEmailElementText();
+            var emailDropdownText = homePage.GetLoggedUserEmail();
             Assert.That(emailDropdownText, Is.EqualTo(newUser.Email), "User email is not shown.");
 
             var greetingText = homePage.GetGreetingText();
@@ -64,18 +66,17 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_EmptyUserData_ShowsErrorMessages()
         {
-            RegisterPage registerPage = new RegisterPage(_driver);
             var newUser = new RegisterModel("Mr.", "", "", "", "", "", "", false);
             // "Mr." is a default title in dropdown. The title cannot be empty due to the structure of HTML.
             // So, the error message for title will never appear.
-            registerPage.RegisterNewUser(newUser);
-            var firstNameValidationMessage = registerPage.GetFirstNameValidationMessage();
-            var surnameValidationMessage = registerPage.GetSurnameValidationMessage();
-            var emailValidationMessage = registerPage.GetEmailValidationMessage();
-            var passwordValidationMessage = registerPage.GetPasswordValidationMessage();
-            var countryValidationMessage = registerPage.GetCountryValidationMessage();
-            var cityValidationMessage = registerPage.GetCityValidationMessage();
-            var agreementValidationMessage = registerPage.GetAgreementValidationMessage();
+            _registerPage.RegisterNewUser(newUser);
+            var firstNameValidationMessage = _registerPage.GetFirstNameValidationMessage();
+            var surnameValidationMessage = _registerPage.GetSurnameValidationMessage();
+            var emailValidationMessage = _registerPage.GetEmailValidationMessage();
+            var passwordValidationMessage = _registerPage.GetPasswordValidationMessage();
+            var countryValidationMessage = _registerPage.GetCountryValidationMessage();
+            var cityValidationMessage = _registerPage.GetCityValidationMessage();
+            var agreementValidationMessage = _registerPage.GetAgreementValidationMessage();
 
             Assert.Multiple(() =>
             {

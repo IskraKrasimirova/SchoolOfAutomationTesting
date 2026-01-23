@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using SeleniumTestFramework.Extensions;
 
 namespace SeleniumTestFramework.Pages
 {
@@ -19,11 +20,8 @@ namespace SeleniumTestFramework.Pages
         // Actions
         public void LoginWith(string email, string password)
         {
-            EmailInput.Clear();
-            EmailInput.SendKeys(email);
-
-            PasswordInput.Clear();
-            PasswordInput.SendKeys(password);
+            EmailInput.EnterText(email);
+            PasswordInput.EnterText(password);
 
             SubmitButton.Click();
         }
@@ -36,17 +34,22 @@ namespace SeleniumTestFramework.Pages
 
         public string? GetPasswordBrowserValidationMessage() => PasswordInput.GetAttribute("validationMessage");
 
+        public bool IsPasswordInputEmpty()
+        {
+            return string.IsNullOrWhiteSpace(PasswordInput.GetAttribute("value"));
+        }
+
         // Validations
         public void VerifyPasswordInputIsEmpty()
         {
             string? text = PasswordInput.GetAttribute("value");
-
             Assert.That(text, Is.EqualTo(string.Empty));
         }
 
-        public bool IsPasswordInputEmpty()
+        public void VerifyErrorMessageIsDisplayed(string errorMessage)
         {
-            return string.IsNullOrWhiteSpace(PasswordInput.GetAttribute("value"));
+            var errorDialogText = _driver.FindElement(By.ClassName("alert")).Text;
+            Assert.That(errorDialogText, Is.EqualTo(errorMessage));
         }
     }
 }

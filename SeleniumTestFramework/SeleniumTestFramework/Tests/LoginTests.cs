@@ -1,6 +1,8 @@
+using Bogus;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using SeleniumTestFramework.Pages;
+using SeleniumTestFramework.Utilities;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -9,13 +11,18 @@ namespace SeleniumTestFramework.Tests
     public class LoginTests
     {
         private IWebDriver _driver;
+        private LoginPage _loginPage;
 
         [SetUp]
         public void Setup()
         {
             new DriverManager().SetUpDriver(new ChromeConfig());
             _driver = new ChromeDriver();
+            _driver.Manage().Window.Maximize();
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+
             _driver.Navigate().GoToUrl("http://localhost:8080");
+            _loginPage = new LoginPage(_driver);
         }
 
         [TearDown]
@@ -27,18 +34,16 @@ namespace SeleniumTestFramework.Tests
 
         [Test]
         [TestCaseSource(nameof(ValidLoginData))]
-        public void LoginWith_ValidUserCredentials_ShouldBeSuccsessful(string email, string password, bool isAdmin)
+        public void LoginWith_ValidUserCredentials_ShouldShowDashboard(string email, string password, bool isAdmin)
         {
-            var loginPage = new LoginPage(_driver);
-
             // Assert we are on the correct page BEFORE interacting
             Assert.That(_driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
 
-            loginPage.LoginWith(email, password);
+            _loginPage.LoginWith(email, password);
 
             var homePage = new HomePage(_driver);
 
-            var emailDropdownText = homePage.GetEmailElementText();
+            var emailDropdownText = homePage.GetLoggedUserEmail();
             Assert.That(emailDropdownText, Is.EqualTo(email), "User email is not shown.");
 
             Assert.Multiple(() =>
@@ -68,15 +73,15 @@ namespace SeleniumTestFramework.Tests
         [TestCaseSource(nameof(NotValidLoginData))]
         public void LoginWith_NotValidUserCredentials_ShowsValidationMessage(string testedCase, string email, string password)
         {
-            var loginPage = new LoginPage(_driver);
             // Assert we are on the correct page BEFORE interacting
             Assert.That(_driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
 
-            loginPage.LoginWith(email, password);
+            _loginPage.LoginWith(email, password);
 
-            var errorDialogText = loginPage.GetValidationMessage();
-            Assert.That(errorDialogText, Is.EqualTo("Invalid email or password"));
-            Assert.IsTrue(loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
+            Assert.IsTrue(_loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
+
+            var errorDialogText = _loginPage.GetValidationMessage();
+            Assert.That(errorDialogText, Is.EqualTo("Invalid email or password")); 
         }
 
         private static IEnumerable<TestCaseData> NotValidLoginData()
@@ -87,28 +92,32 @@ namespace SeleniumTestFramework.Tests
         }
 
         [Test]
+        [Category("FromSession")]
         public void LoginWith_NonExistingUser_ShowsValidationMessage()
         {
-            var loginPage = new LoginPage(_driver);
-            loginPage.LoginWith("user@test.com", "wrongpass");
+            var faker = new Faker();
+            _loginPage.LoginWith(faker.Internet.Email(), faker.Internet.Password());
 
-            loginPage.VerifyPasswordInputIsEmpty();
+            Retry.Until(() =>
+            {
+                if (!_loginPage.IsPasswordInputEmpty())
+                    throw new RetryException("Password input is not empty yet.");
+            });
 
-            var errorDialogText = _driver.FindElement(By.ClassName("alert")).Text;
-            Assert.That(errorDialogText, Is.EqualTo("Invalid email or password"));
+            _loginPage.VerifyPasswordInputIsEmpty();
+            _loginPage.VerifyErrorMessageIsDisplayed("Invalid email or password");
         }
 
         [Test]
         [TestCaseSource(nameof(InvalidEmailFormat))]
         public void LoginWith_InvalidEmailFormat_ShowsBrowserValidationMessage(string email, string password, string message)
         {
-            var loginPage = new LoginPage(_driver);
             // Assert we are on the correct page BEFORE interacting
             Assert.That(_driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
 
-            loginPage.LoginWith(email, password);
+            _loginPage.LoginWith(email, password);
 
-            var validationMessage = loginPage.GetEmailBrowserValidationMessage();
+            var validationMessage = _loginPage.GetEmailBrowserValidationMessage();
 
             Assert.That(validationMessage, Does.Contain(message));
         }
@@ -129,10 +138,9 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void LoginWith_ShortPassword_ShowsValidationMessage()
         {
-            var loginPage = new LoginPage(_driver);
-            loginPage.LoginWith("admin@automation.com", "123");
+            _loginPage.LoginWith("admin@automation.com", "123");
 
-            var message = loginPage.GetPasswordValidationMessage();
+            var message = _loginPage.GetPasswordValidationMessage();
 
             Assert.That(message, Is.EqualTo("Password must be at least 6 characters"));
         }
@@ -140,10 +148,9 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void LoginWith_EmptyPassword_ShowsBrowserValidationMessage()
         {
-            var loginPage = new LoginPage(_driver);
-            loginPage.LoginWith("admin@automation.com", "123");
+            _loginPage.LoginWith("admin@automation.com", "");
 
-            var message = loginPage.GetPasswordBrowserValidationMessage();
+            var message = _loginPage.GetPasswordBrowserValidationMessage();
 
             Assert.That(message, Is.EqualTo("Please fill out this field."));
         }
