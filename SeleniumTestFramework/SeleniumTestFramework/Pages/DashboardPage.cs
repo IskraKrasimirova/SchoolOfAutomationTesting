@@ -2,7 +2,7 @@
 
 namespace SeleniumTestFramework.Pages
 {
-    public class HomePage
+    public class DashboardPage
     {
         private readonly IWebDriver _driver;
 
@@ -12,7 +12,7 @@ namespace SeleniumTestFramework.Pages
         private IWebElement UsersLink => _driver.FindElement(By.LinkText("Users"));
         private IWebElement SearchLink => _driver.FindElement(By.LinkText("Search"));
 
-        public HomePage(IWebDriver driver)
+        public DashboardPage(IWebDriver driver)
         {
             this._driver = driver;
         }
@@ -31,6 +31,20 @@ namespace SeleniumTestFramework.Pages
             return elements.Count > 0 && elements[0].Displayed;
         }
 
-        public string GetGreetingText() => UsernameHeader.Text;
+        public string GetGreetingText() => UsernameHeader.Text.Trim();
+
+        // Validations
+        public void VerifyLoggedUserEmailIs(string expectedUserEmail)
+        {
+            string actualUserEmail = this.LoggedUserAnchor.Text.Trim();
+
+            Assert.That(actualUserEmail, Is.EqualTo(expectedUserEmail));
+        }
+
+        public void VerifyUsernameIs(string username)
+        {
+            string headerText = this.UsernameHeader.Text.Trim();
+            Assert.That(headerText.Contains(username), Is.True);
+        }
     }
 }

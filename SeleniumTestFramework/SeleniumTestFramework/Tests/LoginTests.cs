@@ -1,6 +1,7 @@
 using Bogus;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using WebDriverManager;
@@ -12,6 +13,12 @@ namespace SeleniumTestFramework.Tests
     {
         private IWebDriver _driver;
         private LoginPage _loginPage;
+        private readonly SettingsModel _settingsModel;
+
+        public LoginTests()
+        {
+            _settingsModel = ConfigurationManager.Instance.SettingsModel;
+        }
 
         [SetUp]
         public void Setup()
@@ -21,7 +28,7 @@ namespace SeleniumTestFramework.Tests
             _driver.Manage().Window.Maximize();
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
-            _driver.Navigate().GoToUrl("http://localhost:8080");
+            _driver.Navigate().GoToUrl(_settingsModel.BaseUrl);
             _loginPage = new LoginPage(_driver);
         }
 
@@ -33,40 +40,56 @@ namespace SeleniumTestFramework.Tests
         }
 
         [Test]
+        [Category("FromLiveSession")]
+        public void LoginWith_ExistingUser_ShouldShowTheDashboard()
+        {
+            _loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
+
+            var dashboardPage = new DashboardPage(_driver);
+            dashboardPage.VerifyLoggedUserEmailIs(_settingsModel.Email);
+            dashboardPage.VerifyUsernameIs(_settingsModel.Username);
+        }
+
+        [Test]
         [TestCaseSource(nameof(ValidLoginData))]
-        public void LoginWith_ValidUserCredentials_ShouldShowDashboard(string email, string password, bool isAdmin)
+        public void LoginWith_ValidUserCredentials_ShouldShowTheDashboard(string email, string password, string username, bool isAdmin)
         {
             // Assert we are on the correct page BEFORE interacting
-            Assert.That(_driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
+            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
 
             _loginPage.LoginWith(email, password);
 
-            var homePage = new HomePage(_driver);
+            var dashboardPage = new DashboardPage(_driver);
 
-            var emailDropdownText = homePage.GetLoggedUserEmail();
+            var emailDropdownText = dashboardPage.GetLoggedUserEmail();
             Assert.That(emailDropdownText, Is.EqualTo(email), "User email is not shown.");
+
+            var greetingText = dashboardPage.GetGreetingText();
+            Assert.That(greetingText, Does.Contain(username), "The greeting text does not contain the username of the logged-in user.");
 
             Assert.Multiple(() =>
             {
-                Assert.IsTrue(homePage.IsHomeLinkDisplayed(), "Home link is not displayed.");
-                Assert.IsTrue(homePage.IsUsersLinkDisplayed(), "Users link is not displayed.");
-                Assert.IsTrue(homePage.IsSearchLinkDisplayed(), "Search link is not displayed.");
+                Assert.IsTrue(dashboardPage.IsHomeLinkDisplayed(), "Home link is not displayed.");
+                Assert.IsTrue(dashboardPage.IsUsersLinkDisplayed(), "Users link is not displayed.");
+                Assert.IsTrue(dashboardPage.IsSearchLinkDisplayed(), "Search link is not displayed.");
             });
 
             if (isAdmin)
             {
-                Assert.IsTrue(homePage.IsAddUserLinkDisplayed(), "Add User link should be visible for admin.");
+                Assert.IsTrue(dashboardPage.IsAddUserLinkDisplayed(), "Add User link should be visible for admin.");
             }
             else
             {
-                Assert.IsFalse(homePage.IsAddUserLinkDisplayed(), "Add User link should NOT be visible for common user.");
+                Assert.IsFalse(dashboardPage.IsAddUserLinkDisplayed(), "Add User link should NOT be visible for common user.");
             }
         }
 
         private static IEnumerable<TestCaseData> ValidLoginData()
         {
-            yield return new TestCaseData("admin@automation.com", "pass123", true);
-            yield return new TestCaseData("idimitrov@automation.com", "pass123", false);
+            var settingsModel = ConfigurationManager.Instance.SettingsModel;
+
+            yield return new TestCaseData(settingsModel.Email, settingsModel.Password, settingsModel.Username, true);
+            yield return new TestCaseData("idimitrov@automation.com", "pass123", "Ivan Dimotrov", false);
         }
 
         [Test]
@@ -74,7 +97,7 @@ namespace SeleniumTestFramework.Tests
         public void LoginWith_NotValidUserCredentials_ShowsValidationMessage(string testedCase, string email, string password)
         {
             // Assert we are on the correct page BEFORE interacting
-            Assert.That(_driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
+            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
 
             _loginPage.LoginWith(email, password);
 
@@ -92,7 +115,7 @@ namespace SeleniumTestFramework.Tests
         }
 
         [Test]
-        [Category("FromSession")]
+        [Category("FromLiveSession")]
         public void LoginWith_NonExistingUser_ShowsValidationMessage()
         {
             var faker = new Faker();
@@ -113,7 +136,7 @@ namespace SeleniumTestFramework.Tests
         public void LoginWith_InvalidEmailFormat_ShowsBrowserValidationMessage(string email, string password, string message)
         {
             // Assert we are on the correct page BEFORE interacting
-            Assert.That(_driver.Url, Does.Contain("/login"), "Login page did not load correctly.");
+            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
 
             _loginPage.LoginWith(email, password);
 
@@ -138,6 +161,8 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void LoginWith_ShortPassword_ShowsValidationMessage()
         {
+            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
+
             _loginPage.LoginWith("admin@automation.com", "123");
 
             var message = _loginPage.GetPasswordValidationMessage();
@@ -148,6 +173,8 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void LoginWith_EmptyPassword_ShowsBrowserValidationMessage()
         {
+            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
+
             _loginPage.LoginWith("admin@automation.com", "");
 
             var message = _loginPage.GetPasswordBrowserValidationMessage();

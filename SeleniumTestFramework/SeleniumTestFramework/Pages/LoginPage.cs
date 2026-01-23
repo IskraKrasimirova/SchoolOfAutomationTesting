@@ -26,6 +26,8 @@ namespace SeleniumTestFramework.Pages
             SubmitButton.Click();
         }
 
+        public bool IsAtLoginPage() => _driver.Url.Contains("/login");
+
         public string GetValidationMessage() => _driver.FindElement(By.ClassName("alert")).Text;
 
         public string? GetEmailBrowserValidationMessage() => EmailInput.GetAttribute("validationMessage");

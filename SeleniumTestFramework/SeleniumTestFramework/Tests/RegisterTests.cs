@@ -1,7 +1,10 @@
-﻿using OpenQA.Selenium;
+﻿using Bogus;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
+using SeleniumTestFramework.Utilities;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -11,6 +14,12 @@ namespace SeleniumTestFramework.Tests
     {
         private IWebDriver _driver;
         private RegisterPage _registerPage;
+        private readonly SettingsModel _settingsModel;
+
+        public RegisterTests()
+        {
+            _settingsModel = ConfigurationManager.Instance.SettingsModel;
+        }
 
         [SetUp]
         public void Setup()
@@ -18,7 +27,7 @@ namespace SeleniumTestFramework.Tests
             new DriverManager().SetUpDriver(new ChromeConfig());
             _driver = new ChromeDriver();
             _driver.Manage().Window.Maximize();
-            _driver.Navigate().GoToUrl("http://localhost:8080/register.php");
+            _driver.Navigate().GoToUrl($"{_settingsModel.BaseUrl}register.php");
             _registerPage = new RegisterPage(_driver);
         }
 
@@ -30,36 +39,40 @@ namespace SeleniumTestFramework.Tests
         }
 
         [Test]
-        public void RegistrationWith_ValidUserData_LogsUserIn_AndShowsHomePage()
+        public void RegistrationWith_ValidUserData_LogsUserIn_AndShowsDashboardPage()
         {
+            var faker = new Faker("en");
+
             var newUser = new RegisterModel
             (
-                "Mr.",
-                "John",
-                "Doe",
-                $"user{Guid.NewGuid().ToString("N").Substring(0, 6)}@test.com",
-                "secretpass",
-                "USA",
-                "New York",
+                faker.PickRandom(new[] { "Mr.", "Mrs." }),
+                faker.Name.FirstName(),
+                faker.Name.LastName(),
+                faker.Internet.Email(),
+                faker.Internet.Password(),
+                "Bulgaria", 
+                faker.PickRandom(new[] { "Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna" }),
                 true
             );
 
             _registerPage.RegisterNewUser(newUser);
 
-            var homePage = new HomePage(_driver);
+            Assert.That(_driver.Url, Does.Contain("index.php"), "Registration did not redirect to dashboard.");
 
-            var emailDropdownText = homePage.GetLoggedUserEmail();
+            var dashboardPage = new DashboardPage(_driver);
+
+            var emailDropdownText = dashboardPage.GetLoggedUserEmail();
             Assert.That(emailDropdownText, Is.EqualTo(newUser.Email), "User email is not shown.");
 
-            var greetingText = homePage.GetGreetingText();
+            var greetingText = dashboardPage.GetGreetingText();
             var expectedGreeting = $"Hello, {newUser.Title} {newUser.FirstName} {newUser.Surname}";
             Assert.That(greetingText, Is.EqualTo(expectedGreeting), "Greeting text is incorrect.");
 
             Assert.Multiple(() =>
             {
-                Assert.IsTrue(homePage.IsHomeLinkDisplayed(), "Home link is not displayed.");
-                Assert.IsTrue(homePage.IsUsersLinkDisplayed(), "Users link is not displayed.");
-                Assert.IsTrue(homePage.IsSearchLinkDisplayed(), "Search link is not displayed.");
+                Assert.IsTrue(dashboardPage.IsHomeLinkDisplayed(), "Home link is not displayed.");
+                Assert.IsTrue(dashboardPage.IsUsersLinkDisplayed(), "Users link is not displayed.");
+                Assert.IsTrue(dashboardPage.IsSearchLinkDisplayed(), "Search link is not displayed.");
             });
         }
 
@@ -88,6 +101,63 @@ namespace SeleniumTestFramework.Tests
                 Assert.That(cityValidationMessage, Is.EqualTo("Please enter your city."), "City validation message is incorrect.");
                 Assert.That(agreementValidationMessage, Is.EqualTo("You must agree to the terms of service."), "Agreement validation message is incorrect.");
             });
+        }
+
+        [Test]
+        public void RegistrationWith_ExistingEmail_ShowsErrorMessage()
+        {
+            var faker = new Faker("en");
+
+            var newUser = new RegisterModel
+            (
+                faker.PickRandom(new[] { "Mr.", "Mrs." }),
+                faker.Name.FirstName(),
+                faker.Name.LastName(),
+                _settingsModel.Email,
+                faker.Internet.Password(),
+                "Bulgaria",
+                faker.PickRandom(new[] { "Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna" }),
+                true
+            );
+
+            _registerPage.RegisterNewUser(newUser);
+            var errorMessage = _registerPage.GetGlobalAlertMessage();
+
+            Assert.That(errorMessage, Is.EqualTo("User with such email already exists"), "Expected error message for duplicate email was not shown.");
+        }
+
+        [Test]
+        [Category("Issue")]
+        public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
+        {
+            var faker = new Faker("en");
+
+            var newUser = new RegisterModel
+            (
+                faker.PickRandom(new[] { "Mr.", "Mrs." }),
+                faker.Name.FirstName(),
+                faker.Name.LastName(),
+                faker.Internet.Email(),
+                faker.Internet.Password(),
+                "Bulgaria",
+                "InvalidCityName123",
+                true
+            );
+
+            _registerPage.RegisterNewUser(newUser);
+
+            Retry.Until(() =>
+            {
+                var errorMessage = _registerPage.GetGlobalAlertMessage();
+                if (errorMessage != "City does not belong to the specified country") 
+                    throw new RetryException($"Still waiting for correct validation message. Current: {errorMessage}");
+            });
+
+            var errorMessage = _registerPage.GetGlobalAlertMessage();
+            Console.WriteLine($"ERROR: {errorMessage}");
+
+            Assert.That(errorMessage, Does.Not.Contain("Warning"), "Backend returned a PHP warning instead of a proper validation message.");
+            Assert.That(errorMessage, Is.EqualTo("City does not belong to the specified country"), "Expected city-country validation message was not shown.");
         }
     }
 }

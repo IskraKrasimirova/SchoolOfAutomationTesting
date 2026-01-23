@@ -1,0 +1,10 @@
+﻿namespace SeleniumTestFramework.Models
+{
+    public class SettingsModel
+    {
+        public string BaseUrl { get; init; }
+        public string Email { get; init; }
+        public string Password { get; init; }
+        public string Username { get; init; }
+    }
+}

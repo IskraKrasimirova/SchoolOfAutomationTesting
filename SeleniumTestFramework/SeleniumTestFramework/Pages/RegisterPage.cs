@@ -58,6 +58,8 @@ namespace SeleniumTestFramework.Pages
 
         public string GetAgreementValidationMessage() => GetValidationMessage(AgreementCheckbox);
 
+        public string GetGlobalAlertMessage() => _driver.FindElement(By.XPath("//form//div[contains(@class,'alert-warning')]")).Text.Trim();
+
         private string GetValidationMessage(IWebElement element)
         {
             var messageElement = element.FindElement(By.XPath("./following-sibling::div[@class='invalid-feedback']"));
