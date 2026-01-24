@@ -18,6 +18,7 @@ namespace SeleniumTestFramework.Pages
         private IWebElement CityInput => _driver.FindElement(By.XPath("//input[@id='city']"));
         private IWebElement AgreementCheckbox => _driver.FindElement(By.XPath("//input[@type='checkbox' and @id='tos']"));
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and @name='signup']"));
+        public IWebElement AlertElement => _driver.FindElement(By.XPath("//form//div[contains(@class,'alert-warning')]"));
 
         public RegisterPage(IWebDriver driver)
         {
@@ -58,7 +59,12 @@ namespace SeleniumTestFramework.Pages
 
         public string GetAgreementValidationMessage() => GetValidationMessage(AgreementCheckbox);
 
-        public string GetGlobalAlertMessage() => _driver.FindElement(By.XPath("//form//div[contains(@class,'alert-warning')]")).Text.Trim();
+        public string GetGlobalAlertMessage() => AlertElement.Text.Trim();
+
+        public bool IsPasswordInputEmpty()
+        {
+            return string.IsNullOrWhiteSpace(PasswordInput.GetAttribute("value"));
+        }
 
         private string GetValidationMessage(IWebElement element)
         {

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
@@ -121,13 +122,16 @@ namespace SeleniumTestFramework.Tests
             );
 
             _registerPage.RegisterNewUser(newUser);
+
+            Assert.IsTrue(_registerPage.IsPasswordInputEmpty(), "Password input should be cleared after failed registration.");
+
             var errorMessage = _registerPage.GetGlobalAlertMessage();
 
             Assert.That(errorMessage, Is.EqualTo("User with such email already exists"), "Expected error message for duplicate email was not shown.");
         }
 
         [Test]
-        [Category("Issue")]
+        [Category("BackendIssue")]
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
         {
             var faker = new Faker("en");
@@ -146,12 +150,22 @@ namespace SeleniumTestFramework.Tests
 
             _registerPage.RegisterNewUser(newUser);
 
+            Retry.Until(() => 
+            { 
+                if (!_registerPage.IsPasswordInputEmpty()) 
+                    throw new RetryException("Password input is not empty yet."); 
+            });
+
+            Assert.IsTrue(_registerPage.IsPasswordInputEmpty(), "Password input should be cleared after failed registration.");
+
             Retry.Until(() =>
             {
                 var errorMessage = _registerPage.GetGlobalAlertMessage();
-                if (errorMessage != "City does not belong to the specified country") 
+                if (errorMessage != "City does not belong to the specified country")
                     throw new RetryException($"Still waiting for correct validation message. Current: {errorMessage}");
-            });
+            }, retryNumber: 5, waitInMilliseconds: 5000);
+
+            //_driver.WaitUntilTextIsPresent(_registerPage.AlertElement, "City does not belong to the specified country");
 
             var errorMessage = _registerPage.GetGlobalAlertMessage();
             Console.WriteLine($"ERROR: {errorMessage}");

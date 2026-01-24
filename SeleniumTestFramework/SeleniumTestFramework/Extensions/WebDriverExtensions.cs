@@ -24,6 +24,12 @@ namespace SeleniumTestFramework.Extensions
                 .Until(ExpectedConditions.TextToBePresentInElementValue(element, value));
         }
 
+        public static void WaitUntilTextIsPresent(this IWebDriver driver, IWebElement element, string expectedText, int timeoutInSeconds = 5) 
+        { 
+            driver.WaitForPredicate(timeoutInSeconds)
+                .Until(ExpectedConditions.TextToBePresentInElement(element, expectedText)); 
+        }
+
         private static WebDriverWait WaitForPredicate(this IWebDriver driver, int timeoutInSeconds = 10)
         {
             var customWait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
