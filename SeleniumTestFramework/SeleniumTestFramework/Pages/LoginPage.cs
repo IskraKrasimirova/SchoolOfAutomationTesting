@@ -11,6 +11,7 @@ namespace SeleniumTestFramework.Pages
         private IWebElement EmailInput => _driver.FindElement(By.XPath("//input[@type='email']"));
         private IWebElement PasswordInput => _driver.FindElement(By.XPath("//input[@type='password']"));
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and contains(text(), 'Sign In')]"));
+        private IWebElement SignUpLink => _driver.FindElement(By.XPath("//a[contains(text(),'Sign Up Here')]"));
 
         public LoginPage(IWebDriver driver)
         {
@@ -26,7 +27,17 @@ namespace SeleniumTestFramework.Pages
             SubmitButton.Click();
         }
 
-        public bool IsAtLoginPage() => _driver.Url.Contains("/login");
+        public void GoToRegisterPage()
+        {
+            SignUpLink.Click();
+        }
+
+        public bool IsAtLoginPage()
+            => _driver.Url.Contains("/login")
+            && EmailInput.Displayed
+            && PasswordInput.Displayed
+            && SubmitButton.Displayed
+            && SignUpLink.Displayed;
 
         public string GetValidationMessage() => _driver.FindElement(By.ClassName("alert")).Text;
 

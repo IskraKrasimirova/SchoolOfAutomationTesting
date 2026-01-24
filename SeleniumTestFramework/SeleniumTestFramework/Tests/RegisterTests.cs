@@ -62,19 +62,7 @@ namespace SeleniumTestFramework.Tests
 
             var dashboardPage = new DashboardPage(_driver);
 
-            var emailDropdownText = dashboardPage.GetLoggedUserEmail();
-            Assert.That(emailDropdownText, Is.EqualTo(newUser.Email), "User email is not shown.");
-
-            var greetingText = dashboardPage.GetGreetingText();
-            var expectedGreeting = $"Hello, {newUser.Title} {newUser.FirstName} {newUser.Surname}";
-            Assert.That(greetingText, Is.EqualTo(expectedGreeting), "Greeting text is incorrect.");
-
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(dashboardPage.IsHomeLinkDisplayed(), "Home link is not displayed.");
-                Assert.IsTrue(dashboardPage.IsUsersLinkDisplayed(), "Users link is not displayed.");
-                Assert.IsTrue(dashboardPage.IsSearchLinkDisplayed(), "Search link is not displayed.");
-            });
+            dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", isAdmin: false);
         }
 
         [Test]

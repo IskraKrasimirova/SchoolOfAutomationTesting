@@ -61,27 +61,7 @@ namespace SeleniumTestFramework.Tests
 
             var dashboardPage = new DashboardPage(_driver);
 
-            var emailDropdownText = dashboardPage.GetLoggedUserEmail();
-            Assert.That(emailDropdownText, Is.EqualTo(email), "User email is not shown.");
-
-            var greetingText = dashboardPage.GetGreetingText();
-            Assert.That(greetingText, Does.Contain(username), "The greeting text does not contain the username of the logged-in user.");
-
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(dashboardPage.IsHomeLinkDisplayed(), "Home link is not displayed.");
-                Assert.IsTrue(dashboardPage.IsUsersLinkDisplayed(), "Users link is not displayed.");
-                Assert.IsTrue(dashboardPage.IsSearchLinkDisplayed(), "Search link is not displayed.");
-            });
-
-            if (isAdmin)
-            {
-                Assert.IsTrue(dashboardPage.IsAddUserLinkDisplayed(), "Add User link should be visible for admin.");
-            }
-            else
-            {
-                Assert.IsFalse(dashboardPage.IsAddUserLinkDisplayed(), "Add User link should NOT be visible for common user.");
-            }
+            dashboardPage.VerifyUserIsLoggedIn(email, username, isAdmin);
         }
 
         private static IEnumerable<TestCaseData> ValidLoginData()
@@ -101,10 +81,13 @@ namespace SeleniumTestFramework.Tests
 
             _loginPage.LoginWith(email, password);
 
-            Assert.IsTrue(_loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
+            _loginPage.VerifyPasswordInputIsEmpty();
+            _loginPage.VerifyErrorMessageIsDisplayed("Invalid email or password");
 
-            var errorDialogText = _loginPage.GetValidationMessage();
-            Assert.That(errorDialogText, Is.EqualTo("Invalid email or password")); 
+            //Assert.That(_loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
+
+            //var errorDialogText = _loginPage.GetValidationMessage();
+            //Assert.That(errorDialogText, Is.EqualTo("Invalid email or password")); 
         }
 
         private static IEnumerable<TestCaseData> NotValidLoginData()
