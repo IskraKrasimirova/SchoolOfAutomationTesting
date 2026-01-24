@@ -58,11 +58,9 @@ namespace SeleniumTestFramework.Tests
 
             _registerPage.RegisterNewUser(newUser);
 
-            Assert.That(_driver.Url, Does.Contain("index.php"), "Registration did not redirect to dashboard.");
-
             var dashboardPage = new DashboardPage(_driver);
-
-            dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", isAdmin: false);
+            dashboardPage.VerifyIsAtDashboardPage();
+            dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
         }
 
         [Test]
@@ -110,12 +108,8 @@ namespace SeleniumTestFramework.Tests
             );
 
             _registerPage.RegisterNewUser(newUser);
-
-            Assert.IsTrue(_registerPage.IsPasswordInputEmpty(), "Password input should be cleared after failed registration.");
-
-            var errorMessage = _registerPage.GetGlobalAlertMessage();
-
-            Assert.That(errorMessage, Is.EqualTo("User with such email already exists"), "Expected error message for duplicate email was not shown.");
+            _registerPage.VerifyPasswordInputIsEmpty();
+            _registerPage.VerifyGlobalAlertMessage("User with such email already exists");
         }
 
         // Backend has a hidden 15-character limit for city names. 
@@ -158,7 +152,7 @@ namespace SeleniumTestFramework.Tests
                     throw new RetryException("Password input is not empty yet.");
             });
 
-            Assert.IsTrue(_registerPage.IsPasswordInputEmpty(), "Password input should be cleared after failed registration.");
+            _registerPage.VerifyPasswordInputIsEmpty();
 
             Retry.Until(() =>
             {

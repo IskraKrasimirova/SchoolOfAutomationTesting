@@ -9,9 +9,9 @@ namespace SeleniumTestFramework.Pages
 
         private IWebElement LoggedUserAnchor => _driver.FindElement(By.XPath("//a[@id='navbarDropdown']"));
         private IWebElement UsernameHeader => _driver.FindElement(By.XPath("//div[contains(@class, 'container-fluid')]/h1"));
-        private IWebElement HomeLink => _driver.FindElement(By.LinkText("Home"));
-        private IWebElement UsersLink => _driver.FindElement(By.LinkText("Users"));
-        private IWebElement SearchLink => _driver.FindElement(By.LinkText("Search"));
+        private IWebElement HomeLink => _driver.FindElement(By.XPath("//a[contains(text(), 'Home')]"));
+        private IWebElement UsersLink => _driver.FindElement(By.XPath("//a[contains(text(), 'Users')]"));
+        private IWebElement SearchLink => _driver.FindElement(By.XPath("//a[contains(text(), 'Search')]"));
         private IWebElement LogoutLink => _driver.FindElement(By.XPath("//a[@class='dropdown-item' and contains(., 'Logout')]"));
         private By LogoutLinkLocator => By.XPath("//a[@class='dropdown-item' and contains(., 'Logout')]");
 
@@ -50,6 +50,12 @@ namespace SeleniumTestFramework.Pages
         }
 
         public string GetGreetingText() => UsernameHeader.Text.Trim();
+
+        public UsersPage GoToUsersPage()
+        {
+            UsersLink.Click();
+            return new UsersPage(_driver);
+        }
 
         // Validations
         public void VerifyLoggedUserEmailIs(string expectedUserEmail)
@@ -90,10 +96,17 @@ namespace SeleniumTestFramework.Pages
             }
         }
 
-        public UsersPage GoToUsersPage() 
-        { 
-            UsersLink.Click(); 
-            return new UsersPage(_driver); 
+        public void VerifyIsAtDashboardPage()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(_driver.Url, Does.Contain("/index.php"), "Did not navigate to Dashboard page.");
+                Assert.That(LoggedUserAnchor.Displayed, "Logged user link is not visible.");
+                Assert.That(UsernameHeader.Displayed, "User greeting  header is not visible.");
+                Assert.That(HomeLink.Displayed, "Home link is not visible.");
+                Assert.That(UsersLink.Displayed, "Users link is not visible.");
+                Assert.That(SearchLink.Displayed, "Search link is not visible.");
+            });
         }
     }
 }

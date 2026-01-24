@@ -27,17 +27,11 @@ namespace SeleniumTestFramework.Pages
             SubmitButton.Click();
         }
 
-        public void GoToRegisterPage()
+        public RegisterPage GoToRegisterPage()
         {
             SignUpLink.Click();
+            return new RegisterPage(_driver);
         }
-
-        public bool IsAtLoginPage()
-            => _driver.Url.Contains("/login")
-            && EmailInput.Displayed
-            && PasswordInput.Displayed
-            && SubmitButton.Displayed
-            && SignUpLink.Displayed;
 
         public string GetValidationMessage() => _driver.FindElement(By.ClassName("alert")).Text;
 
@@ -56,13 +50,25 @@ namespace SeleniumTestFramework.Pages
         public void VerifyPasswordInputIsEmpty()
         {
             string? text = PasswordInput.GetAttribute("value");
-            Assert.That(text, Is.EqualTo(string.Empty));
+            Assert.That(text, Is.EqualTo(string.Empty), "Password input should be cleared after failed login attempt.");
         }
 
         public void VerifyErrorMessageIsDisplayed(string errorMessage)
         {
             var errorDialogText = _driver.FindElement(By.ClassName("alert")).Text;
             Assert.That(errorDialogText, Is.EqualTo(errorMessage));
+        }
+
+        public void VerifyIsAtLoginPage()
+        {
+            Assert.Multiple(() => 
+            { 
+                Assert.That(_driver.Url, Does.Contain("/login"), "URL does not contain /login."); 
+                Assert.That(EmailInput.Displayed, "Email input is not visible."); 
+                Assert.That(PasswordInput.Displayed, "Password input is not visible."); 
+                Assert.That(SubmitButton.Displayed, "Sign-in button is not visible."); 
+                Assert.That(SignUpLink.Displayed, "Sign-up link is not visible."); 
+            });
         }
     }
 }

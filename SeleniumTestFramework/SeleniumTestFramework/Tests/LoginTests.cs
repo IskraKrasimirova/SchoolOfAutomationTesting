@@ -54,13 +54,13 @@ namespace SeleniumTestFramework.Tests
         [TestCaseSource(nameof(ValidLoginData))]
         public void LoginWith_ValidUserCredentials_ShouldShowTheDashboard(string email, string password, string username, bool isAdmin)
         {
-            // Assert we are on the correct page BEFORE interacting
-            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
+            // Verify we are on the correct page BEFORE interacting
+            _loginPage.VerifyIsAtLoginPage();
 
             _loginPage.LoginWith(email, password);
 
             var dashboardPage = new DashboardPage(_driver);
-
+            dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(email, username, isAdmin);
         }
 
@@ -76,24 +76,21 @@ namespace SeleniumTestFramework.Tests
         [TestCaseSource(nameof(NotValidLoginData))]
         public void LoginWith_NotValidUserCredentials_ShowsValidationMessage(string testedCase, string email, string password)
         {
-            // Assert we are on the correct page BEFORE interacting
-            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
+            // Verify we are on the correct page BEFORE interacting
+            _loginPage.VerifyIsAtLoginPage();
 
             _loginPage.LoginWith(email, password);
 
             _loginPage.VerifyPasswordInputIsEmpty();
-            _loginPage.VerifyErrorMessageIsDisplayed("Invalid email or password");
-
-            //Assert.That(_loginPage.IsPasswordInputEmpty(), "Password input should be cleared after failed login attempt.");
-
-            //var errorDialogText = _loginPage.GetValidationMessage();
-            //Assert.That(errorDialogText, Is.EqualTo("Invalid email or password")); 
+            _loginPage.VerifyErrorMessageIsDisplayed("Invalid email or password"); 
         }
 
         private static IEnumerable<TestCaseData> NotValidLoginData()
         {
-            yield return new TestCaseData("Wrong password", "admin@automation.com", "password");
-            yield return new TestCaseData("Wrong email", "admin@admin.com", "pass123");
+            var settingsModel = ConfigurationManager.Instance.SettingsModel;
+
+            yield return new TestCaseData("Wrong password", settingsModel.Email, "password");
+            yield return new TestCaseData("Wrong email", "admin@admin.com", settingsModel.Password);
             yield return new TestCaseData("Wrong email and password", "a@a.com", "wrongpassword");
         }
 
@@ -118,8 +115,8 @@ namespace SeleniumTestFramework.Tests
         [TestCaseSource(nameof(InvalidEmailFormat))]
         public void LoginWith_InvalidEmailFormat_ShowsBrowserValidationMessage(string email, string password, string message)
         {
-            // Assert we are on the correct page BEFORE interacting
-            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
+            // Verify we are on the correct page BEFORE interacting
+            _loginPage.VerifyIsAtLoginPage();
 
             _loginPage.LoginWith(email, password);
 
@@ -144,7 +141,8 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void LoginWith_ShortPassword_ShowsValidationMessage()
         {
-            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
+            // Verify we are on the correct page BEFORE interacting
+            _loginPage.VerifyIsAtLoginPage();
 
             _loginPage.LoginWith("admin@automation.com", "123");
 
@@ -156,7 +154,8 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void LoginWith_EmptyPassword_ShowsBrowserValidationMessage()
         {
-            Assert.That(_loginPage.IsAtLoginPage(), "Login page did not load correctly.");
+            // Verify we are on the correct page BEFORE interacting
+            _loginPage.VerifyIsAtLoginPage();
 
             _loginPage.LoginWith("admin@automation.com", "");
 

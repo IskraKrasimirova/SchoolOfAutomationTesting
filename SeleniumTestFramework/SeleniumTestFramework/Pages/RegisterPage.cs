@@ -19,6 +19,7 @@ namespace SeleniumTestFramework.Pages
         private IWebElement AgreementCheckbox => _driver.FindElement(By.XPath("//input[@type='checkbox' and @id='tos']"));
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and @name='signup']"));
         public IWebElement AlertElement => _driver.FindElement(By.XPath("//form//div[contains(@class,'alert-warning')]"));
+        private IWebElement RegistrationHeader => _driver.FindElement(By.XPath("//h3[text()='Register']"));
 
         public RegisterPage(IWebDriver driver)
         {
@@ -71,6 +72,36 @@ namespace SeleniumTestFramework.Pages
             var messageElement = element.FindElement(By.XPath("./following-sibling::div[@class='invalid-feedback']"));
 
             return messageElement.Text;
+        }
+
+        // Validations
+        public void VerifyIsAtRegisterPage()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(_driver.Url, Does.Contain("/register"), "Did not navigate to Register page.");
+                Assert.That(RegistrationHeader.Displayed, Is.True, "Registration header is not visible.");
+                Assert.That(FirstNameInput.Displayed, Is.True, "First Name input is not visible.");
+                Assert.That(SurnameInput.Displayed, Is.True, "Surname input is not visible.");
+                Assert.That(EmailInput.Displayed, Is.True, "Email input is not visible.");
+                Assert.That(PasswordInput.Displayed, Is.True, "Password input is not visible.");
+                Assert.That(CountryInput.Displayed, Is.True, "Country input is not visible.");
+                Assert.That(CityInput.Displayed, Is.True, "City input is not visible.");
+                Assert.That(AgreementCheckbox.Displayed, Is.True, "Agreement checkbox is not visible.");
+                Assert.That(SubmitButton.Displayed, Is.True, "Submit button is not visible.");
+            });
+        }
+
+        public void VerifyPasswordInputIsEmpty()
+        {
+            string? text = PasswordInput.GetAttribute("value");
+            Assert.That(text, Is.EqualTo(string.Empty), "Password input should be cleared after failed registration.");
+        }
+
+        public void VerifyGlobalAlertMessage(string expectedMessage)
+        {
+            var actualMessage = GetGlobalAlertMessage();
+            Assert.That(actualMessage, Is.EqualTo(expectedMessage), "The alert message is incorrect.");
         }
     }
 }

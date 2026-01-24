@@ -39,11 +39,8 @@ namespace SeleniumTestFramework.Tests
         public void UserCanRegister_AndAdminCanDeleteUser()
         {
             var loginPage = new LoginPage(_driver);
-            loginPage.GoToRegisterPage();
-
-            Assert.That(_driver.Url, Does.Contain("/register"), "Did not navigate to Register page.");
-
-            var registerPage = new RegisterPage(_driver);
+            var registerPage = loginPage.GoToRegisterPage();
+            registerPage.VerifyIsAtRegisterPage();
 
             var faker = new Faker("en");
 
@@ -61,26 +58,25 @@ namespace SeleniumTestFramework.Tests
 
             registerPage.RegisterNewUser(newUser);
 
-            Assert.That(_driver.Url, Does.Contain("index.php"), "Registration did not redirect to dashboard.");
-
             var dashboardPage = new DashboardPage(_driver);
+            dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
             
             dashboardPage.Logout();
-            Assert.That(loginPage.IsAtLoginPage(), "Logout did not redirect to login page.");
+            loginPage.VerifyIsAtLoginPage();
 
             loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
             dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
             
             var usersPage = dashboardPage.GoToUsersPage();
-            Assert.That(usersPage.IsAtUsersPage(), "Users page did not load correctly.");
-            Assert.That(usersPage.FindUserRowByEmail(newUser.Email), Is.Not.Null, "User not found.");
+            usersPage.VerifyIsAtUsersPage(true);
+            usersPage.VerifyUserExists(newUser.Email);
 
             usersPage.DeleteUser(newUser.Email); 
-            Assert.That(usersPage.FindUserRowByEmail(newUser.Email), Is.Null, "User still present after deletion.");
+            usersPage.VerifyUserDoesNotExist(newUser.Email);
 
             dashboardPage.Logout();
-            Assert.That(loginPage.IsAtLoginPage(), "Logout did not redirect to login page.");
+            loginPage.VerifyIsAtLoginPage();
 
             loginPage.LoginWith(newUser.Email, newUser.Password);
 
