@@ -51,7 +51,7 @@ namespace SeleniumTestFramework.Tests
                 faker.Name.LastName(),
                 faker.Internet.Email(),
                 faker.Internet.Password(),
-                "Bulgaria", 
+                "Bulgaria",
                 faker.PickRandom(new[] { "Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna" }),
                 true
             );
@@ -130,6 +130,20 @@ namespace SeleniumTestFramework.Tests
             Assert.That(errorMessage, Is.EqualTo("User with such email already exists"), "Expected error message for duplicate email was not shown.");
         }
 
+        // Backend has a hidden 15-character limit for city names. 
+        // When the city exceeds 15 characters, the server returns a PHP warning instead of 
+        // the expected validation message. The frontend displays the warning directly, 
+        // so the correct message never appears.
+        // For example, "Gorno Draglishte" has 16 characters, and is a valid city in Bulgaria. But the test fails with error message: Warning: Array to string conversion in /var/www/html/register.php on line 122 Array
+        // Another examples: "Sofia City Center" has 17 characters and the same issue occurs.
+        // "InvalidCityName123" has 18 characters and the same issue occurs.
+        // "Novo Selo Vidin" has 15 characters and works fine.
+        // Invalid city name with 1 character has the same issue.
+        // So, there is a backend validation for city length between 2 and 15 characters, but it is not shown with clear message in UI.
+        // The same hidden 2–15 character length validation applies to the Country field. 
+        // Values shorter than 2 or longer than 15 characters cause the backend to return 
+        // a PHP warning instead of a proper validation message, and the UI does not show 
+        // a clear error to the user.
         [Test]
         [Category("BackendIssue")]
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
@@ -144,16 +158,16 @@ namespace SeleniumTestFramework.Tests
                 faker.Internet.Email(),
                 faker.Internet.Password(),
                 "Bulgaria",
-                "InvalidCityName123",
+                "New York",
                 true
             );
 
             _registerPage.RegisterNewUser(newUser);
 
-            Retry.Until(() => 
-            { 
-                if (!_registerPage.IsPasswordInputEmpty()) 
-                    throw new RetryException("Password input is not empty yet."); 
+            Retry.Until(() =>
+            {
+                if (!_registerPage.IsPasswordInputEmpty())
+                    throw new RetryException("Password input is not empty yet.");
             });
 
             Assert.IsTrue(_registerPage.IsPasswordInputEmpty(), "Password input should be cleared after failed registration.");
