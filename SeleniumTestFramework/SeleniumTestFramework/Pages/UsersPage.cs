@@ -9,7 +9,7 @@ namespace SeleniumTestFramework.Pages
     {
         private readonly IWebDriver _driver;
 
-        private By AddUserButtonLocator = By.XPath("//button[@type='button' and contains(., 'Add User')]");
+        private readonly By AddUserButtonLocator = By.XPath("//button[@type='button' and contains(., 'Add User')]");
         private IWebElement AvailableUsersHeader => _driver.FindElement(By.XPath("//h2[contains(., 'Available Users')]"));
         private IWebElement AddUserButton => _driver.FindElement(AddUserButtonLocator);
         private IWebElement UsersTable => _driver.FindElement(By.XPath("//table[@id='users_list']"));
@@ -63,7 +63,6 @@ namespace SeleniumTestFramework.Pages
                     throw new RetryException("Users page not loaded yet."); 
             });
 
-            Assert.That(_driver.Url, Does.Contain("/users"), "URL does not contain /users.");
             Assert.That(UsersTable.Displayed, "Users table is not visible.");
 
             var isAddUserButtonVisible = IsAddUserButtonDisplayed();

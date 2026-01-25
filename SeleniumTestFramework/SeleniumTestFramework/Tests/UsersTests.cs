@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
@@ -10,10 +9,13 @@ using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumTestFramework.Tests
 {
+    [TestFixture(Category = "Users")]
     public class UsersTests
     {
         private IWebDriver _driver;
         private readonly SettingsModel _settingsModel;
+        private static readonly string[] _titles = ["Mr.", "Mrs."];
+        private static readonly string[] _cities = ["Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna"];
 
         public UsersTests()
         {
@@ -43,17 +45,24 @@ namespace SeleniumTestFramework.Tests
             var registerPage = loginPage.GoToRegisterPage();
             registerPage.VerifyIsAtRegisterPage();
 
-            var faker = new Faker("en");
+            var faker = new Faker();
+
+            // ToDo: Add UserFactory for creating users with valid and invalid data
+            // Ensure first name and surname do not exceed 15 characters
+            var firstName = faker.Name.FirstName();
+            firstName = firstName.Length > 15 ? firstName.Substring(0, 15) : firstName;
+            var surname = faker.Name.LastName();
+            surname = surname.Length > 15 ? surname.Substring(0, 15) : surname;
 
             var newUser = new RegisterModel
             (
-                faker.PickRandom(new[] { "Mr.", "Mrs." }),
-                faker.Name.FirstName(),
-                faker.Name.LastName(),
+                faker.PickRandom(_titles),
+                firstName,
+                surname,
                 faker.Internet.Email(),
                 faker.Internet.Password(),
                 "Bulgaria",
-                faker.PickRandom(new[] { "Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna" }),
+                faker.PickRandom(_cities),
                 true
             );
 
@@ -62,19 +71,19 @@ namespace SeleniumTestFramework.Tests
             var dashboardPage = new DashboardPage(_driver);
             dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
-            
+
             dashboardPage.LogoutViaUsersPage();
             loginPage.VerifyIsAtLoginPage();
 
             loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
             dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
-            
+
             var usersPage = dashboardPage.GoToUsersPage();
             usersPage.VerifyIsAtUsersPage(true);
             usersPage.VerifyUserExists(newUser.Email);
 
-            usersPage.DeleteUser(newUser.Email); 
+            usersPage.DeleteUser(newUser.Email);
             usersPage.VerifyUserDoesNotExist(newUser.Email);
 
             dashboardPage.LogoutViaUsersPage();

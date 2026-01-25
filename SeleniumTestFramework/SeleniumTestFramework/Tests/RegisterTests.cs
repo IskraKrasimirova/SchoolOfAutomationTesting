@@ -1,8 +1,6 @@
 ﻿using Bogus;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
@@ -11,11 +9,13 @@ using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumTestFramework.Tests
 {
+    [TestFixture(Category = "Register")]
     public class RegisterTests
     {
         private IWebDriver _driver;
         private RegisterPage _registerPage;
         private readonly SettingsModel _settingsModel;
+        private static readonly string[] _titles = ["Mr.", "Mrs."];
         private static readonly string[] _cities = ["Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna"];
 
         public RegisterTests()
@@ -43,11 +43,11 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ValidUserData_LogsUserIn_AndShowsDashboardPage()
         {
-            var faker = new Faker("en");
+            var faker = new Faker();
 
             var newUser = new RegisterModel
             (
-                faker.PickRandom(new[] { "Mr.", "Mrs." }),
+                faker.PickRandom(_titles),
                 faker.Name.FirstName(),
                 faker.Name.LastName(),
                 faker.Internet.Email(),
@@ -69,7 +69,7 @@ namespace SeleniumTestFramework.Tests
         {
             var newUser = new RegisterModel("Mr.", "", "", "", "", "", "", false);
             // "Mr." is a default title in dropdown. The title cannot be empty due to the structure of HTML.
-            // So, the error message for title will never appear.
+            // So, the error message for title will never appear. Issue!
             _registerPage.RegisterNewUser(newUser);
             var firstNameValidationMessage = _registerPage.GetFirstNameValidationMessage();
             var surnameValidationMessage = _registerPage.GetSurnameValidationMessage();
@@ -94,11 +94,11 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ExistingEmail_ShowsErrorMessage()
         {
-            var faker = new Faker("en");
+            var faker = new Faker();
 
             var newUser = new RegisterModel
             (
-                faker.PickRandom(new[] { "Mr.", "Mrs." }),
+                faker.PickRandom(_titles),
                 faker.Name.FirstName(),
                 faker.Name.LastName(),
                 _settingsModel.Email,
@@ -131,11 +131,11 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
         {
-            var faker = new Faker("en");
+            var faker = new Faker();
 
             var newUser = new RegisterModel
             (
-                faker.PickRandom(new[] { "Mr.", "Mrs." }),
+                faker.PickRandom(_titles),
                 faker.Name.FirstName(),
                 faker.Name.LastName(),
                 faker.Internet.Email(),

@@ -10,6 +10,7 @@ using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumTestFramework.Tests
 {
+    [TestFixture(Category ="Login")]
     public class LoginTests
     {
         private IWebDriver _driver;
