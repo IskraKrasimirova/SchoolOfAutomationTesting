@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
@@ -62,10 +63,11 @@ namespace SeleniumTestFramework.Tests
             dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
             
-            dashboardPage.Logout();
+            dashboardPage.LogoutViaUsersPage();
             loginPage.VerifyIsAtLoginPage();
 
             loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
+            dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
             
             var usersPage = dashboardPage.GoToUsersPage();
@@ -75,7 +77,7 @@ namespace SeleniumTestFramework.Tests
             usersPage.DeleteUser(newUser.Email); 
             usersPage.VerifyUserDoesNotExist(newUser.Email);
 
-            dashboardPage.Logout();
+            dashboardPage.LogoutViaUsersPage();
             loginPage.VerifyIsAtLoginPage();
 
             loginPage.LoginWith(newUser.Email, newUser.Password);

@@ -1,6 +1,7 @@
 using Bogus;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
@@ -58,6 +59,7 @@ namespace SeleniumTestFramework.Tests
             _loginPage.VerifyIsAtLoginPage();
 
             _loginPage.LoginWith(email, password);
+            _driver.WaitUntilUrlContains("/index");
 
             var dashboardPage = new DashboardPage(_driver);
             dashboardPage.VerifyIsAtDashboardPage();

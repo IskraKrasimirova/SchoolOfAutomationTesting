@@ -70,13 +70,14 @@ namespace SeleniumTestFramework.Pages
 
         public void VerifyIsAtLoginPage()
         {
-            Assert.Multiple(() => 
-            { 
-                Assert.That(_driver.Url, Does.Contain("/login"), "URL does not contain /login."); 
-                Assert.That(EmailInput.Displayed, "Email input is not visible."); 
-                Assert.That(PasswordInput.Displayed, "Password input is not visible."); 
-                Assert.That(SubmitButton.Displayed, "Sign-in button is not visible."); 
-                Assert.That(SignUpLink.Displayed, "Sign-up link is not visible."); 
+            _driver.WaitUntilUrlContains("/login");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(EmailInput.Displayed, "Email input is not visible.");
+                Assert.That(PasswordInput.Displayed, "Password input is not visible.");
+                Assert.That(SubmitButton.Displayed, "Sign-in button is not visible.");
+                Assert.That(SignUpLink.Displayed, "Sign-up link is not visible.");
             });
         }
     }

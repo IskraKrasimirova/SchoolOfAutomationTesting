@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using SeleniumTestFramework.Extensions;
-using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Pages
 {
@@ -14,23 +13,13 @@ namespace SeleniumTestFramework.Pages
         private IWebElement UsersLink => _driver.FindElement(By.XPath("//a[contains(text(), 'Users')]"));
         private IWebElement SearchLink => _driver.FindElement(By.XPath("//a[contains(text(), 'Search')]"));
         private IWebElement LogoutLink => _driver.FindElement(By.XPath("//a[@class='dropdown-item' and contains(., 'Logout')]"));
-        private By LogoutLinkLocator => By.XPath("//a[@class='dropdown-item' and contains(., 'Logout')]");
 
         public DashboardPage(IWebDriver driver)
         {
             this._driver = driver;
         }
 
-        public string GetLoggedUserEmail()
-        {
-            Retry.Until(() =>
-            {
-                if (!LoggedUserAnchor.Displayed)
-                    throw new RetryException("Logged user anchor not visible yet.");
-            });
-
-            return LoggedUserAnchor.Text.Trim();
-        }
+        public string GetLoggedUserEmail() => LoggedUserAnchor.Text.Trim();
 
         public bool IsHomeLinkDisplayed() => HomeLink.Displayed;
 
@@ -46,28 +35,34 @@ namespace SeleniumTestFramework.Pages
 
         public string GetGreetingText() => UsernameHeader.Text.Trim();
 
+        // UI Issue. Logout dropdown does not open on Dashboard page (index.php).
+        // aria-expanded remains false after click.
+        // Console error: bootstrap is not defined.
+        // As a workaround, logout is performed via Users page (users.php) where dropdown behaves correctly.
         public void Logout()
         {
-            Retry.Until(() =>
-            {
-                if (!LoggedUserAnchor.Displayed)
-                    throw new RetryException("User dropdown not visible yet.");
+            _driver.WaitUntilElementIsVisible(LoggedUserAnchor);
+            LoggedUserAnchor.Click();
 
-                LoggedUserAnchor.Click();
-            });
+            //// Error in console 'bootstrap is not defined'
+            //// Enforce opening the dropdown
+            //((IJavaScriptExecutor)_driver)
+            //    .ExecuteScript("document.querySelector('#navbarDropdown').setAttribute('aria-expanded', 'true');" +
+            //                   "document.querySelector('.dropdown-menu').style.display = 'block';");
 
-            // Error in console 'bootstrap is not defined'
-            // Enforce opening the dropdown
-            ((IJavaScriptExecutor)_driver)
-                .ExecuteScript("document.querySelector('#navbarDropdown').setAttribute('aria-expanded', 'true');" +
-                               "document.querySelector('.dropdown-menu').style.display = 'block';");
+            _driver.WaitUntilElementIsVisible(LogoutLink);
+            LogoutLink.Click();
+        }
 
-            Retry.Until(() =>
-            {
-                if (!LogoutLink.Displayed)
-                    throw new RetryException("Logout link not visible yet.");
-            });
+        public void LogoutViaUsersPage()
+        {
+            if (!IsAtUsersPage())
+                UsersLink.Click();
 
+            _driver.WaitUntilElementIsVisible(LoggedUserAnchor);
+            LoggedUserAnchor.Click();
+
+            _driver.WaitUntilElementIsVisible(LogoutLink);
             LogoutLink.Click();
         }
 
@@ -77,6 +72,8 @@ namespace SeleniumTestFramework.Pages
 
             return new UsersPage(_driver);
         }
+
+        private bool IsAtUsersPage() => _driver.Url.Contains("/users");
 
         // Validations
         public void VerifyLoggedUserEmailIs(string expectedUserEmail)
@@ -94,16 +91,11 @@ namespace SeleniumTestFramework.Pages
 
         public void VerifyIsAtDashboardPage()
         {
-            Retry.Until(() =>
-            {
-                if (!LoggedUserAnchor.Displayed)
-                    throw new RetryException("Dashboard not fully loaded yet.");
-            });
+            _driver.WaitUntilUrlContains("/index");
+            _driver.WaitUntilElementIsVisible(LoggedUserAnchor);
 
             Assert.Multiple(() =>
             {
-                Assert.That(_driver.Url, Does.Contain("/index.php"), "Did not navigate to Dashboard page.");
-                Assert.That(LoggedUserAnchor.Displayed, "Logged user link is not visible.");
                 Assert.That(UsernameHeader.Displayed, "User greeting  header is not visible.");
                 Assert.That(HomeLink.Displayed, "Home link is not visible.");
                 Assert.That(UsersLink.Displayed, "Users link is not visible.");
@@ -113,11 +105,7 @@ namespace SeleniumTestFramework.Pages
 
         public void VerifyUserIsLoggedIn(string email, string username, bool isAdmin)
         {
-            Retry.Until(() =>
-            {
-                if (!LoggedUserAnchor.Displayed)
-                    throw new RetryException("User dropdown not visible yet.");
-            });
+            _driver.WaitUntilElementIsVisible(LoggedUserAnchor);
 
             var loggedUserEmail = GetLoggedUserEmail();
             Assert.That(loggedUserEmail, Is.EqualTo(email), "User email is not shown.");

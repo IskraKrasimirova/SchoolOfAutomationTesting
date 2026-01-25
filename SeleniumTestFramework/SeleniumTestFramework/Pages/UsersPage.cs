@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Pages
@@ -54,26 +55,26 @@ namespace SeleniumTestFramework.Pages
 
         public void VerifyIsAtUsersPage(bool isAdmin)
         {
+            _driver.WaitUntilUrlContains("/users");
+
             Retry.Until(() => 
             { 
                 if (!AvailableUsersHeader.Displayed) 
                     throw new RetryException("Users page not loaded yet."); 
             });
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(_driver.Url, Does.Contain("/users"), "URL does not contain /users.");
-                Assert.That(AvailableUsersHeader.Displayed, "Available Users header is not visible.");
-                Assert.That(UsersTable.Displayed, "Users table is not visible.");
-            });
+            Assert.That(_driver.Url, Does.Contain("/users"), "URL does not contain /users.");
+            Assert.That(UsersTable.Displayed, "Users table is not visible.");
+
+            var isAddUserButtonVisible = IsAddUserButtonDisplayed();
 
             if (isAdmin)
             {
-                Assert.That(IsAddUserButtonDisplayed(), "Add User button should be visible for admin.");
+                Assert.That(isAddUserButtonVisible, "Add User button should be visible for admin.");
             }
             else
             {
-                Assert.That(IsAddUserButtonDisplayed(), Is.False, "Add User button should NOT be visible for common user.");
+                Assert.That(isAddUserButtonVisible, Is.False, "Add User button should NOT be visible for common user.");
             }
         }
 

@@ -16,6 +16,7 @@ namespace SeleniumTestFramework.Tests
         private IWebDriver _driver;
         private RegisterPage _registerPage;
         private readonly SettingsModel _settingsModel;
+        private static readonly string[] _cities = ["Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna"];
 
         public RegisterTests()
         {
@@ -52,7 +53,7 @@ namespace SeleniumTestFramework.Tests
                 faker.Internet.Email(),
                 faker.Internet.Password(),
                 "Bulgaria",
-                faker.PickRandom(new[] { "Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna" }),
+                faker.PickRandom(_cities),
                 true
             );
 
@@ -103,7 +104,7 @@ namespace SeleniumTestFramework.Tests
                 _settingsModel.Email,
                 faker.Internet.Password(),
                 "Bulgaria",
-                faker.PickRandom(new[] { "Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna" }),
+                faker.PickRandom(_cities),
                 true
             );
 

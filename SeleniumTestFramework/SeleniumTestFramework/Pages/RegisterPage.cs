@@ -9,6 +9,7 @@ namespace SeleniumTestFramework.Pages
     {
         private readonly IWebDriver _driver;
 
+        private IWebElement RegistrationHeader => _driver.FindElement(By.XPath("//h3[text()='Register']"));
         private IWebElement TitleDropdown => _driver.FindElement(By.XPath("//select[@id='title']"));
         private IWebElement FirstNameInput => _driver.FindElement(By.XPath("//input[@id='first_name']"));
         private IWebElement SurnameInput => _driver.FindElement(By.XPath("//input[@id='sir_name']"));
@@ -19,8 +20,7 @@ namespace SeleniumTestFramework.Pages
         private IWebElement AgreementCheckbox => _driver.FindElement(By.XPath("//input[@type='checkbox' and @id='tos']"));
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and @name='signup']"));
         public IWebElement AlertElement => _driver.FindElement(By.XPath("//form//div[contains(@class,'alert-warning')]"));
-        private IWebElement RegistrationHeader => _driver.FindElement(By.XPath("//h3[text()='Register']"));
-
+        
         public RegisterPage(IWebDriver driver)
         {
             this._driver = driver;
@@ -77,9 +77,10 @@ namespace SeleniumTestFramework.Pages
         // Validations
         public void VerifyIsAtRegisterPage()
         {
+            _driver.WaitUntilUrlContains("/register");
+
             Assert.Multiple(() =>
             {
-                Assert.That(_driver.Url, Does.Contain("/register"), "Did not navigate to Register page.");
                 Assert.That(RegistrationHeader.Displayed, Is.True, "Registration header is not visible.");
                 Assert.That(FirstNameInput.Displayed, Is.True, "First Name input is not visible.");
                 Assert.That(SurnameInput.Displayed, Is.True, "Surname input is not visible.");

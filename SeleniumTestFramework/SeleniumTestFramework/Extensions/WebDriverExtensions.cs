@@ -12,6 +12,18 @@ namespace SeleniumTestFramework.Extensions
             element.SendKeys(text);
         }
 
+        public static void WaitUntilUrlContains(this IWebDriver driver, string expectedUrlPart, int timeoutInSeconds = 5)
+        {
+            driver.WaitForPredicate(timeoutInSeconds)
+                .Until(ExpectedConditions.UrlContains(expectedUrlPart));
+        }
+
+        public static void WaitUntilElementIsVisible(this IWebDriver driver, IWebElement element, int timeoutInSeconds = 5)
+        {
+            driver.WaitForPredicate(timeoutInSeconds)
+                .Until(d => element.Displayed);
+        }
+
         public static void WaitUntilElementIsClickable(this IWebDriver driver, IWebElement element, int timeoutInSeconds = 5)
         {
             driver.WaitForPredicate(timeoutInSeconds)
