@@ -7,9 +7,10 @@ namespace SeleniumTestFramework.Pages
     {
         private readonly IWebDriver _driver;
 
+        private By PasswordInputLocator = By.XPath("//input[@type='password']");
         // Elements 
         private IWebElement EmailInput => _driver.FindElement(By.XPath("//input[@type='email']"));
-        private IWebElement PasswordInput => _driver.FindElement(By.XPath("//input[@type='password']"));
+        private IWebElement PasswordInput => _driver.FindElement(PasswordInputLocator);
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and contains(text(), 'Sign In')]"));
         private IWebElement SignUpLink => _driver.FindElement(By.XPath("//a[contains(text(),'Sign Up Here')]"));
 
@@ -43,14 +44,22 @@ namespace SeleniumTestFramework.Pages
 
         public bool IsPasswordInputEmpty()
         {
-            return string.IsNullOrWhiteSpace(PasswordInput.GetAttribute("value"));
+            try
+            {
+                return string.IsNullOrWhiteSpace(PasswordInput.GetAttribute("value"));
+            }
+            catch (StaleElementReferenceException)
+            {
+                return string.IsNullOrWhiteSpace(PasswordInput.GetAttribute("value"));
+            }
         }
 
         // Validations
         public void VerifyPasswordInputIsEmpty()
         {
-            string? text = PasswordInput.GetAttribute("value");
-            Assert.That(text, Is.EqualTo(string.Empty), "Password input should be cleared after failed login attempt.");
+            //string? text = PasswordInput.GetAttribute("value");
+            //Assert.That(text, Is.EqualTo(string.Empty), "Password input should be cleared after failed login attempt.");
+            Assert.That(IsPasswordInputEmpty(), Is.True, "Password input should be cleared after failed login attempt.");
         }
 
         public void VerifyErrorMessageIsDisplayed(string errorMessage)

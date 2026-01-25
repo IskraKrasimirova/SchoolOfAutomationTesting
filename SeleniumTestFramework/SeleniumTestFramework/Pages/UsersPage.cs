@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Pages
 {
@@ -53,6 +54,12 @@ namespace SeleniumTestFramework.Pages
 
         public void VerifyIsAtUsersPage(bool isAdmin)
         {
+            Retry.Until(() => 
+            { 
+                if (!AvailableUsersHeader.Displayed) 
+                    throw new RetryException("Users page not loaded yet."); 
+            });
+
             Assert.Multiple(() =>
             {
                 Assert.That(_driver.Url, Does.Contain("/users"), "URL does not contain /users.");
@@ -78,8 +85,12 @@ namespace SeleniumTestFramework.Pages
 
         public void VerifyUserDoesNotExist(string email)
         {
-            IWebElement? userRow = FindUserRowByEmail(email);
-            Assert.That(userRow, Is.Null, $"User with email {email} is still present.");
+            Retry.Until(() =>
+            {
+                var userRow = FindUserRowByEmail(email);
+                if (userRow != null)
+                    throw new RetryException($"User with email {email} is still present.");
+            });
         }
     }
 }

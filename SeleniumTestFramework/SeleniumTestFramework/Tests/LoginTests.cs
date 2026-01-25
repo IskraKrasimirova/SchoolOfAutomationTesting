@@ -81,6 +81,12 @@ namespace SeleniumTestFramework.Tests
 
             _loginPage.LoginWith(email, password);
 
+            Retry.Until(() =>
+            {
+                if (!_loginPage.IsPasswordInputEmpty())
+                    throw new RetryException("Password input is not empty yet.");
+            });
+
             _loginPage.VerifyPasswordInputIsEmpty();
             _loginPage.VerifyErrorMessageIsDisplayed("Invalid email or password"); 
         }

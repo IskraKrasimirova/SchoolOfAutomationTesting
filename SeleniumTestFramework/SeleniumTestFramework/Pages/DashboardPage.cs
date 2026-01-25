@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumTestFramework.Extensions;
+using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Pages
 {
@@ -20,22 +21,16 @@ namespace SeleniumTestFramework.Pages
             this._driver = driver;
         }
 
-        public void Logout()
+        public string GetLoggedUserEmail()
         {
-            LoggedUserAnchor.Click();
+            Retry.Until(() =>
+            {
+                if (!LoggedUserAnchor.Displayed)
+                    throw new RetryException("Logged user anchor not visible yet.");
+            });
 
-            //var logoutLink = _driver.FindElements(LogoutLinkLocator).FirstOrDefault(); _driver.WaitUntilElementIsClickable(logoutLink);
-
-            // Форсирано отваряне на dropdown-а
-            // Error in console 'bootstrap is not defined'
-            ((IJavaScriptExecutor)_driver)
-            .ExecuteScript("document.querySelector('#navbarDropdown').setAttribute('aria-expanded', 'true');" + "document.querySelector('.dropdown-menu').style.display = 'block';");
-
-            var logoutLink = _driver.FindElement(LogoutLinkLocator);
-            logoutLink.Click();
+            return LoggedUserAnchor.Text.Trim();
         }
-
-        public string GetLoggedUserEmail() => LoggedUserAnchor.Text;
 
         public bool IsHomeLinkDisplayed() => HomeLink.Displayed;
 
@@ -51,9 +46,35 @@ namespace SeleniumTestFramework.Pages
 
         public string GetGreetingText() => UsernameHeader.Text.Trim();
 
+        public void Logout()
+        {
+            Retry.Until(() =>
+            {
+                if (!LoggedUserAnchor.Displayed)
+                    throw new RetryException("User dropdown not visible yet.");
+
+                LoggedUserAnchor.Click();
+            });
+
+            // Error in console 'bootstrap is not defined'
+            // Enforce opening the dropdown
+            ((IJavaScriptExecutor)_driver)
+                .ExecuteScript("document.querySelector('#navbarDropdown').setAttribute('aria-expanded', 'true');" +
+                               "document.querySelector('.dropdown-menu').style.display = 'block';");
+
+            Retry.Until(() =>
+            {
+                if (!LogoutLink.Displayed)
+                    throw new RetryException("Logout link not visible yet.");
+            });
+
+            LogoutLink.Click();
+        }
+
         public UsersPage GoToUsersPage()
         {
             UsersLink.Click();
+
             return new UsersPage(_driver);
         }
 
@@ -71,10 +92,35 @@ namespace SeleniumTestFramework.Pages
             Assert.That(headerText.Contains(username), Is.True);
         }
 
+        public void VerifyIsAtDashboardPage()
+        {
+            Retry.Until(() =>
+            {
+                if (!LoggedUserAnchor.Displayed)
+                    throw new RetryException("Dashboard not fully loaded yet.");
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_driver.Url, Does.Contain("/index.php"), "Did not navigate to Dashboard page.");
+                Assert.That(LoggedUserAnchor.Displayed, "Logged user link is not visible.");
+                Assert.That(UsernameHeader.Displayed, "User greeting  header is not visible.");
+                Assert.That(HomeLink.Displayed, "Home link is not visible.");
+                Assert.That(UsersLink.Displayed, "Users link is not visible.");
+                Assert.That(SearchLink.Displayed, "Search link is not visible.");
+            });
+        }
+
         public void VerifyUserIsLoggedIn(string email, string username, bool isAdmin)
         {
-            var emailDropdownText = GetLoggedUserEmail();
-            Assert.That(emailDropdownText, Is.EqualTo(email), "User email is not shown.");
+            Retry.Until(() =>
+            {
+                if (!LoggedUserAnchor.Displayed)
+                    throw new RetryException("User dropdown not visible yet.");
+            });
+
+            var loggedUserEmail = GetLoggedUserEmail();
+            Assert.That(loggedUserEmail, Is.EqualTo(email), "User email is not shown.");
 
             var greetingText = GetGreetingText();
             Assert.That(greetingText, Does.Contain(username), "The greeting text does not contain the username of the logged-in user.");
@@ -94,19 +140,6 @@ namespace SeleniumTestFramework.Pages
             {
                 Assert.That(IsAddUserLinkDisplayed(), Is.False, "Add User link should NOT be visible for common user.");
             }
-        }
-
-        public void VerifyIsAtDashboardPage()
-        {
-            Assert.Multiple(() =>
-            {
-                Assert.That(_driver.Url, Does.Contain("/index.php"), "Did not navigate to Dashboard page.");
-                Assert.That(LoggedUserAnchor.Displayed, "Logged user link is not visible.");
-                Assert.That(UsernameHeader.Displayed, "User greeting  header is not visible.");
-                Assert.That(HomeLink.Displayed, "Home link is not visible.");
-                Assert.That(UsersLink.Displayed, "Users link is not visible.");
-                Assert.That(SearchLink.Displayed, "Search link is not visible.");
-            });
         }
     }
 }
