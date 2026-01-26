@@ -1,12 +1,10 @@
-﻿using Bogus;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
-using Bogus.Extensions;
 
 namespace SeleniumTestFramework.Tests
 {
@@ -80,7 +78,7 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ExistingEmail_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Email = _settingsModel.Email);
+            var newUser = UserFactory.CreateUserWith(u => u.Set(email: _settingsModel.Email));
 
             _registerPage.RegisterNewUser(newUser);
             _registerPage.VerifyPasswordInputIsEmpty();
@@ -106,7 +104,7 @@ namespace SeleniumTestFramework.Tests
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
         {
 
-            var newUser = UserFactory.CreateUserWith(u => u.City = "New York");
+            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "New York"));
             _registerPage.RegisterNewUser(newUser);
 
             Retry.Until(() =>
