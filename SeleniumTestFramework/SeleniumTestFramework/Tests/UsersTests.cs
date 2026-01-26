@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Bogus.Extensions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using SeleniumTestFramework.Models;
@@ -47,18 +48,11 @@ namespace SeleniumTestFramework.Tests
 
             var faker = new Faker();
 
-            // ToDo: Add UserFactory for creating users with valid and invalid data
-            // Ensure first name and surname do not exceed 15 characters
-            var firstName = faker.Name.FirstName();
-            firstName = firstName.Length > 15 ? firstName.Substring(0, 15) : firstName;
-            var surname = faker.Name.LastName();
-            surname = surname.Length > 15 ? surname.Substring(0, 15) : surname;
-
             var newUser = new RegisterModel
             (
                 faker.PickRandom(_titles),
-                firstName,
-                surname,
+                faker.Name.FirstName().ClampLength(2, 15),
+                faker.Name.LastName().ClampLength(2, 15),
                 faker.Internet.Email(),
                 faker.Internet.Password(),
                 "Bulgaria",

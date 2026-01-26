@@ -6,6 +6,7 @@ using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
+using Bogus.Extensions;
 
 namespace SeleniumTestFramework.Tests
 {
@@ -48,8 +49,8 @@ namespace SeleniumTestFramework.Tests
             var newUser = new RegisterModel
             (
                 faker.PickRandom(_titles),
-                faker.Name.FirstName(),
-                faker.Name.LastName(),
+                faker.Name.FirstName().ClampLength(2, 15),
+                faker.Name.LastName().ClampLength(2, 15),
                 faker.Internet.Email(),
                 faker.Internet.Password(),
                 "Bulgaria",
@@ -99,8 +100,8 @@ namespace SeleniumTestFramework.Tests
             var newUser = new RegisterModel
             (
                 faker.PickRandom(_titles),
-                faker.Name.FirstName(),
-                faker.Name.LastName(),
+                faker.Name.FirstName().ClampLength(2, 15),
+                faker.Name.LastName().ClampLength(2, 15),
                 _settingsModel.Email,
                 faker.Internet.Password(),
                 "Bulgaria",
@@ -136,8 +137,8 @@ namespace SeleniumTestFramework.Tests
             var newUser = new RegisterModel
             (
                 faker.PickRandom(_titles),
-                faker.Name.FirstName(),
-                faker.Name.LastName(),
+                faker.Name.FirstName().ClampLength(2, 15),
+                faker.Name.LastName().ClampLength(2, 15),
                 faker.Internet.Email(),
                 faker.Internet.Password(),
                 "Bulgaria",
