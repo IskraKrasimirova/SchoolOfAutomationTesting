@@ -79,8 +79,8 @@ namespace SeleniumTestFramework.Tests
         public void RegistrationWith_ExistingEmail_ShowsErrorMessage()
         {
             var newUser = UserFactory.CreateUserWith(u => u.Set(email: _settingsModel.Email));
-
             _registerPage.RegisterNewUser(newUser);
+
             _registerPage.VerifyPasswordInputIsEmpty();
             _registerPage.VerifyGlobalAlertMessage("User with such email already exists");
         }
@@ -103,8 +103,7 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
         {
-
-            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "New York"));
+            var newUser = UserFactory.CreateUserWith(u => u.Set(country: "Bulgaria", city: "New York"));
             _registerPage.RegisterNewUser(newUser);
 
             Retry.Until(() =>
@@ -121,8 +120,6 @@ namespace SeleniumTestFramework.Tests
                 if (errorMessage != "City does not belong to the specified country")
                     throw new RetryException($"Still waiting for correct validation message. Current: {errorMessage}");
             }, retryNumber: 5, waitInMilliseconds: 5000);
-
-            //_driver.WaitUntilTextIsPresent(_registerPage.AlertElement, "City does not belong to the specified country");
 
             var errorMessage = _registerPage.GetGlobalAlertMessage();
             Console.WriteLine($"ERROR: {errorMessage}");

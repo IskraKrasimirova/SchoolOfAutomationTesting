@@ -1,6 +1,4 @@
-﻿using Bogus;
-using Bogus.Extensions;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
@@ -15,8 +13,6 @@ namespace SeleniumTestFramework.Tests
     {
         private IWebDriver _driver;
         private readonly SettingsModel _settingsModel;
-        private static readonly string[] _titles = ["Mr.", "Mrs."];
-        private static readonly string[] _cities = ["Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna"];
 
         public UsersTests()
         {
