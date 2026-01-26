@@ -3,12 +3,12 @@
     public class RegisterModel
     {
         public string Title { get; }
-        public string FirstName { get; }
-        public string Surname { get; }
-        public string Email { get; }
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
         public string Password { get; }
         public string Country { get; }
-        public string City { get; }
+        public string City { get; set; }
         public bool AgreeToTerms { get; }
 
         public RegisterModel(string title, string firstName, string surname, string email, string password, string country, string city, bool agreeToTerms)

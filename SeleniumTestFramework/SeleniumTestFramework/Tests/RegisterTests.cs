@@ -16,8 +16,6 @@ namespace SeleniumTestFramework.Tests
         private IWebDriver _driver;
         private RegisterPage _registerPage;
         private readonly SettingsModel _settingsModel;
-        private static readonly string[] _titles = ["Mr.", "Mrs."];
-        private static readonly string[] _cities = ["Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna"];
 
         public RegisterTests()
         {
@@ -44,20 +42,7 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ValidUserData_LogsUserIn_AndShowsDashboardPage()
         {
-            var faker = new Faker();
-
-            var newUser = new RegisterModel
-            (
-                faker.PickRandom(_titles),
-                faker.Name.FirstName().ClampLength(2, 15),
-                faker.Name.LastName().ClampLength(2, 15),
-                faker.Internet.Email(),
-                faker.Internet.Password(),
-                "Bulgaria",
-                faker.PickRandom(_cities),
-                true
-            );
-
+            var newUser = UserFactory.CreateValidUser();
             _registerPage.RegisterNewUser(newUser);
 
             var dashboardPage = new DashboardPage(_driver);
@@ -95,19 +80,7 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ExistingEmail_ShowsErrorMessage()
         {
-            var faker = new Faker();
-
-            var newUser = new RegisterModel
-            (
-                faker.PickRandom(_titles),
-                faker.Name.FirstName().ClampLength(2, 15),
-                faker.Name.LastName().ClampLength(2, 15),
-                _settingsModel.Email,
-                faker.Internet.Password(),
-                "Bulgaria",
-                faker.PickRandom(_cities),
-                true
-            );
+            var newUser = UserFactory.CreateUserWith(u => u.Email = _settingsModel.Email);
 
             _registerPage.RegisterNewUser(newUser);
             _registerPage.VerifyPasswordInputIsEmpty();
@@ -132,20 +105,8 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
         {
-            var faker = new Faker();
 
-            var newUser = new RegisterModel
-            (
-                faker.PickRandom(_titles),
-                faker.Name.FirstName().ClampLength(2, 15),
-                faker.Name.LastName().ClampLength(2, 15),
-                faker.Internet.Email(),
-                faker.Internet.Password(),
-                "Bulgaria",
-                "New York",
-                true
-            );
-
+            var newUser = UserFactory.CreateUserWith(u => u.City = "New York");
             _registerPage.RegisterNewUser(newUser);
 
             Retry.Until(() =>

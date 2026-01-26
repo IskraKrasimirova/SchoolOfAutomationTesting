@@ -46,19 +46,7 @@ namespace SeleniumTestFramework.Tests
             var registerPage = loginPage.GoToRegisterPage();
             registerPage.VerifyIsAtRegisterPage();
 
-            var faker = new Faker();
-
-            var newUser = new RegisterModel
-            (
-                faker.PickRandom(_titles),
-                faker.Name.FirstName().ClampLength(2, 15),
-                faker.Name.LastName().ClampLength(2, 15),
-                faker.Internet.Email(),
-                faker.Internet.Password(),
-                "Bulgaria",
-                faker.PickRandom(_cities),
-                true
-            );
+            var newUser = UserFactory.CreateValidUser();
 
             registerPage.RegisterNewUser(newUser);
 
