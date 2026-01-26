@@ -8,29 +8,20 @@ namespace SeleniumTestFramework.Utilities
     {
         private static readonly Faker Faker = new();
         private static readonly string[] Titles = ["Mr.", "Mrs."];
-        private static readonly Dictionary<string, List<string>> CountryCities = new()
-        {
-            ["Bulgaria"] = ["Sofia", "Varna", "Plovdiv", "Burgas"],
-            ["Germany"] = ["Berlin", "Hamburg", "Munich", "Frankfurt"],
-            ["USA"] = ["New York", "Chicago", "Los Angeles", "Houston"],
-            ["UK"] = ["London", "Manchester", "Liverpool", "Birmingham"]
-        };
+        private static readonly List<string> ValidCities = ["Burgas", "Elin Pelin", "Kardjali", "Pleven", "Plovdiv", "Pravets", "Sofia", "Sopot", "Varna"];
 
 
         public static RegisterModel CreateValidUser()
         {
-            var country = Faker.PickRandom(CountryCities.Keys.ToList());
-            var city = Faker.PickRandom(CountryCities[country]);
-
             return new RegisterModel
             (
                 Faker.PickRandom(Titles),
-                Faker.Name.FirstName().ClampLength(2, 15),
-                Faker.Name.LastName().ClampLength(2, 15),
+                Faker.Name.FirstName().Replace("'", "").ClampLength(2, 15),
+                Faker.Name.LastName().Replace("'", "").ClampLength(2, 15),
                 Faker.Internet.Email(),
                 Faker.Internet.Password(),
-                country,
-                city,
+                "Bulgaria",
+                Faker.PickRandom(ValidCities),
                 true
             );
         }

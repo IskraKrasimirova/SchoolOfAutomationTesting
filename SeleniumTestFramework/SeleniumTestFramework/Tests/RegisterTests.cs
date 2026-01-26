@@ -103,7 +103,7 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(country: "Bulgaria", city: "New York"));
+            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "New York"));
             _registerPage.RegisterNewUser(newUser);
 
             Retry.Until(() =>
