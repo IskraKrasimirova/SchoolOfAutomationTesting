@@ -25,6 +25,7 @@ namespace SeleniumTestFramework.Pages
             EmailInput.EnterText(email);
             PasswordInput.EnterText(password);
 
+            // _driver.ScrollToElementAndClick(SubmitButton);
             SubmitButton.Click();
         }
 

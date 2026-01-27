@@ -149,7 +149,7 @@ namespace SeleniumTestFramework.Tests
 
         [Test]
         [Category("BackendIssue")]
-        public void RegistrationWith_ValidCityForCountry_WithUnicodeCharacters_ShowsErrorMessage()
+        public void RegistrationWith_ValidCityForCountry_WithUnicodeCharacters_ShowsBackendWarning()
         {
             var newUser = UserFactory.CreateUserWith(u => u.Set(country: "Côte d'Ivoire", city: "Nuku'alofa"));
             _registerPage.RegisterNewUser(newUser);

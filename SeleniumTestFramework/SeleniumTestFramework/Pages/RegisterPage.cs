@@ -43,7 +43,7 @@ namespace SeleniumTestFramework.Pages
                 AgreementCheckbox.Click();
             }
 
-            SubmitButton.Click();
+            _driver.ScrollToElementAndClick(SubmitButton);
         }
 
         public string GetFirstNameValidationMessage() => GetValidationMessage(FirstNameInput);
