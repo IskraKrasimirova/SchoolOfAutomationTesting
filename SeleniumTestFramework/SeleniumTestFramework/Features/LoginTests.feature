@@ -25,7 +25,7 @@ Scenario: Login with non-existing user, should not be successful and error messa
 @Smoke
 Scenario Outline: Login with specific user with predefined role, should be successful and the dashboard should be displayed
 	When I login with "<email>" and "<password>"
-	Then I should see the logged user in the main header
+	Then I should see the logged user "<email>" in the navbar dropdown
 	And I should be able to logout successfully
 
 	Examples: 

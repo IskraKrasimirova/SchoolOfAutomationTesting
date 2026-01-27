@@ -1,11 +1,8 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using Reqnroll;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -16,26 +13,25 @@ namespace SeleniumTestFramework.Steps
         private LoginPage _loginPage;
         private readonly SettingsModel _settingsModel;
 
-        public LoginSteps()
+        public LoginSteps(IWebDriver driver, SettingsModel model)
         {
-            _settingsModel = ConfigurationManager.Instance.SettingsModel;
+            this._driver = driver;
+            this._settingsModel = model;
         }
 
         [BeforeScenario]
         public void BeforeScenario()
         {
-            new DriverManager().SetUpDriver(new ChromeConfig());
-            _driver = new ChromeDriver();
-            _driver.Manage().Window.Maximize();
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-
             _loginPage = new LoginPage(_driver);
         }
 
         [AfterScenario]
         public void AfterScenario()
         {
-            _driver.Quit();
+            //_driver.Quit();
+            //_driver.Dispose();
+            _driver.Manage().Cookies.DeleteAllCookies();
+            _driver.Navigate().GoToUrl(_settingsModel.BaseUrl);
         }
 
         [Given("I navigate to the main page")]
@@ -75,7 +71,6 @@ namespace SeleniumTestFramework.Steps
             }
         }
 
-
         [Then("I should still be on the login page")]
         public void ThenIShouldStillBeOnTheLoginPage()
         {
@@ -93,21 +88,6 @@ namespace SeleniumTestFramework.Steps
 
             _loginPage.VerifyPasswordInputIsEmpty();
             _loginPage.VerifyErrorMessageIsDisplayed(errorText);
-        }
-
-        [Then("I should see the logged user in the main header")]
-        public void ThenIShouldSeeTheLoggedUserInTheMainHeader()
-        {
-            var dashboardPage = new DashboardPage(_driver);
-            dashboardPage.VerifyLoggedUserEmailIs(_settingsModel.Email);
-            dashboardPage.VerifyUsernameIs(_settingsModel.Username);
-        }
-
-        [Then("I should be able to logout successfully")]
-        public void ThenIShouldBeAbleToLogoutSuccessfully()
-        {
-            var dashboardPage = new DashboardPage(_driver);
-            dashboardPage.Logout();
         }
     }
 }

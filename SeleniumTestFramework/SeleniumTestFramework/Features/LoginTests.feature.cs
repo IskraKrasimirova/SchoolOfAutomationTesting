@@ -250,7 +250,7 @@ await this.FeatureBackgroundAsync();
  await testRunner.WhenAsync(string.Format("I login with \"{0}\" and \"{1}\"", email, password), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 28
- await testRunner.ThenAsync("I should see the logged user in the main header", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync(string.Format("I should see the logged user \"{0}\" in the navbar dropdown", email), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 29
  await testRunner.AndAsync("I should be able to logout successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
