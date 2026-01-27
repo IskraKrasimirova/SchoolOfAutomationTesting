@@ -11,12 +11,14 @@ namespace SeleniumTestFramework.Steps
     {
         private readonly IWebDriver _driver;
         private readonly SettingsModel _settingsModel;
+        private readonly ScenarioContext _scenarioContext;
         private LoginPage _loginPage;
 
-        public LoginSteps(IWebDriver driver, SettingsModel model, LoginPage loginPage)
+        public LoginSteps(IWebDriver driver, SettingsModel model, ScenarioContext scenarioContex, LoginPage loginPage)
         {
             this._driver = driver;
             this._settingsModel = model;
+            this._scenarioContext = scenarioContex;
             this._loginPage = loginPage;
         }
 
@@ -70,6 +72,32 @@ namespace SeleniumTestFramework.Steps
             {
                 _loginPage.LoginWith(email, password);
             }
+        }
+
+        [When("the administrator logs in with valid credentials")]
+        public void WhenTheAdministratorLogsInWithValidCredentials()
+        {
+            WhenILoginWithValidCredentials();
+        }
+
+        [When("I login with the deleted user's credentials")]
+        public void WhenILoginWithTheDeletedUsersCredentials()
+        {
+            var deletedUser = (RegisterModel)_scenarioContext["RegisteredUser"];
+            _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);
+            //WhenILoginWithAnd(deletedUser.Email, deletedUser.Password);
+        }
+
+        [When("I navigate to the main page")]
+        public void WhenINavigateToTheMainPage()
+        {
+            GivenINavigateToTheMainPage();
+        }
+
+        [When("I verify that the login form is displayed")]
+        public void WhenIVerifyThatTheLoginFormIsDisplayed()
+        {
+            GivenIVerifyThatTheLoginFormIsDisplayed();
         }
 
         [Then("I should still be on the login page")]
