@@ -84,6 +84,23 @@ namespace SeleniumTestFramework.Tests
             _registerPage.VerifyPasswordInputIsEmpty();
             _registerPage.VerifyGlobalAlertMessage("User with such email already exists");
         }
+        
+        // There is a relationship between the Country and City fields.
+        // The city must belong to the specified country. But the city field does not have
+        // a dropdown or autocomplete to help the user select a valid city for the chosen country.
+        [Test]
+        [Category("BackendIssue")]
+        public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
+        {
+            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "New York"));
+            _registerPage.RegisterNewUser(newUser);
+
+            _registerPage.VerifyPasswordInputIsEmpty();
+
+            var errorMessage = _registerPage.GetGlobalAlertMessage();
+
+            Assert.That(errorMessage, Is.EqualTo("City does not belong to the specified country"), "Expected city-country validation message was not shown.");
+        }
 
         // Backend has a hidden 15-character limit for city names. 
         // When the city exceeds 15 characters, the server returns a PHP warning instead of 
@@ -101,31 +118,72 @@ namespace SeleniumTestFramework.Tests
         // a clear error to the user.
         [Test]
         [Category("BackendIssue")]
-        public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
+        public void RegistrationWith_TooLongCountryNameAndValidCityForCountry_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "New York"));
+            var newUser = UserFactory.CreateUserWith(u => u.Set(country: "Bosnia and Herzegovina", city: "Tuzla"));
             _registerPage.RegisterNewUser(newUser);
 
-            Retry.Until(() =>
-            {
-                if (!_registerPage.IsPasswordInputEmpty())
-                    throw new RetryException("Password input is not empty yet.");
-            });
-
             _registerPage.VerifyPasswordInputIsEmpty();
-
-            Retry.Until(() =>
-            {
-                var errorMessage = _registerPage.GetGlobalAlertMessage();
-                if (errorMessage != "City does not belong to the specified country")
-                    throw new RetryException($"Still waiting for correct validation message. Current: {errorMessage}");
-            }, retryNumber: 5, waitInMilliseconds: 5000);
 
             var errorMessage = _registerPage.GetGlobalAlertMessage();
             Console.WriteLine($"ERROR: {errorMessage}");
 
-            Assert.That(errorMessage, Does.Not.Contain("Warning"), "Backend returned a PHP warning instead of a proper validation message.");
-            Assert.That(errorMessage, Is.EqualTo("City does not belong to the specified country"), "Expected city-country validation message was not shown.");
+            Assert.That(errorMessage, Does.Contain("Warning"), "Backend returned a PHP warning instead of a proper validation message.");
+        }
+
+        [Test]
+        [Category("BackendIssue")]
+        public void RegistrationWith_TooLongCityNameAndValidCityForCountry_ShowsErrorMessage()
+        {
+            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "Gorno Draglishte"));
+            _registerPage.RegisterNewUser(newUser);
+
+            _registerPage.VerifyPasswordInputIsEmpty();
+
+            var errorMessage = _registerPage.GetGlobalAlertMessage();
+            Console.WriteLine($"ERROR: {errorMessage}");
+
+            Assert.That(errorMessage, Does.Contain("Warning"), "Backend returned a PHP warning instead of a proper validation message.");
+        }
+
+
+        [Test]
+        [Category("BackendIssue")]
+        public void RegistrationWith_ValidCityForCountry_WithUnicodeCharacters_ShowsErrorMessage()
+        {
+            var newUser = UserFactory.CreateUserWith(u => u.Set(country: "Côte d'Ivoire", city: "Nuku'alofa"));
+            _registerPage.RegisterNewUser(newUser);
+
+            _registerPage.VerifyPasswordInputIsEmpty();
+
+            var errorMessage = _registerPage.GetGlobalAlertMessage();
+            Console.WriteLine($"ERROR: {errorMessage}");
+
+            Assert.That(errorMessage, Does.Contain("Warning"), "Backend returned a PHP warning instead of a proper validation message.");
+        }
+
+        // These are valid country and city names that include special characters, but the error message is not proper.
+        [Test]
+        [TestCaseSource(nameof(CityOrCountryWithSpecialCharacters))]
+        [Category("BackendIssue")]
+        public void RegistrationWith_ValidCityForCountry_WithSpecialCharacters_ShowsErrorMessage(string testedCase, string country, string city)
+        {
+            var newUser = UserFactory.CreateUserWith(u => u.Set(country: country, city: city));
+            _registerPage.RegisterNewUser(newUser);
+
+            _registerPage.VerifyPasswordInputIsEmpty();
+
+            var errorMessage = _registerPage.GetGlobalAlertMessage();
+            Console.WriteLine($"ERROR: {errorMessage}");
+
+            Assert.That(errorMessage, Is.Not.Null.And.Not.Empty, "Expected backend to return an error message, but got nothing.");
+            Assert.That(errorMessage, Is.EqualTo("City does not belong to the specified country"), "Expected validation message was not shown.");
+        }
+
+        private static IEnumerable<TestCaseData> CityOrCountryWithSpecialCharacters()
+        {
+            yield return new TestCaseData("Country name with symbols", "Guinea-Bissau", "Bafata");
+            yield return new TestCaseData("City name with symbols", "Australia", "O'Connor");
         }
     }
 }

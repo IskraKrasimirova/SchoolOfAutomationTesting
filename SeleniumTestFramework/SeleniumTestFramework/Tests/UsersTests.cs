@@ -50,7 +50,7 @@ namespace SeleniumTestFramework.Tests
             dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
 
-            dashboardPage.LogoutViaUsersPage();
+            dashboardPage.Logout();
             loginPage.VerifyIsAtLoginPage();
 
             loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
@@ -64,7 +64,7 @@ namespace SeleniumTestFramework.Tests
             usersPage.DeleteUser(newUser.Email);
             usersPage.VerifyUserDoesNotExist(newUser.Email);
 
-            dashboardPage.LogoutViaUsersPage();
+            dashboardPage.Logout();
             loginPage.VerifyIsAtLoginPage();
 
             loginPage.LoginWith(newUser.Email, newUser.Password);

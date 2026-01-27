@@ -42,6 +42,18 @@ namespace SeleniumTestFramework.Extensions
                 .Until(ExpectedConditions.TextToBePresentInElement(element, expectedText)); 
         }
 
+        public static void ScrollToElement(this IWebDriver driver, IWebElement element)
+        {
+            IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
+            jsExecutor.ExecuteScript("arguments[0].scrollIntoView()", element);
+        }
+
+        public static void ScrollToElementAndClick(this IWebDriver driver, IWebElement element)
+        {
+            driver.ScrollToElement(element);
+            element.Click();
+        }
+
         private static WebDriverWait WaitForPredicate(this IWebDriver driver, int timeoutInSeconds = 10)
         {
             var customWait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));

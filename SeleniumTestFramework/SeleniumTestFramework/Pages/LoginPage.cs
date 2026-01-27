@@ -7,7 +7,7 @@ namespace SeleniumTestFramework.Pages
     {
         private readonly IWebDriver _driver;
 
-        private By PasswordInputLocator = By.XPath("//input[@type='password']");
+        private readonly By PasswordInputLocator = By.XPath("//input[@type='password']");
         // Elements 
         private IWebElement EmailInput => _driver.FindElement(By.XPath("//input[@type='email']"));
         private IWebElement PasswordInput => _driver.FindElement(PasswordInputLocator);

@@ -38,22 +38,21 @@ namespace SeleniumTestFramework.Pages
         // UI Issue. Logout dropdown does not open on Dashboard page (index.php).
         // aria-expanded remains false after click.
         // Console error: bootstrap is not defined.
+        // This issue apears even with menual clicking on the dropdown.
         // As a workaround, logout is performed via Users page (users.php) where dropdown behaves correctly.
         public void Logout()
         {
-            _driver.WaitUntilElementIsVisible(LoggedUserAnchor);
+            _driver.WaitUntilElementIsClickable(LoggedUserAnchor);
             LoggedUserAnchor.Click();
 
-            //// Error in console 'bootstrap is not defined'
-            //// Enforce opening the dropdown
-            //((IJavaScriptExecutor)_driver)
-            //    .ExecuteScript("document.querySelector('#navbarDropdown').setAttribute('aria-expanded', 'true');" +
-            //                   "document.querySelector('.dropdown-menu').style.display = 'block';");
-
-            _driver.WaitUntilElementIsVisible(LogoutLink);
+            _driver.WaitUntilElementIsClickable(LogoutLink);
             LogoutLink.Click();
         }
 
+        // Workaround for the logout issue on Dashboard page
+        // Navigate to Users page first, then logout
+        // The problem is due to incomplete/broken index.php file.
+        // After recovering the file, this method is no more needed.
         public void LogoutViaUsersPage()
         {
             if (!IsAtUsersPage())

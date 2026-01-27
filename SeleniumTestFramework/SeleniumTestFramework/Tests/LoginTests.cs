@@ -45,6 +45,7 @@ namespace SeleniumTestFramework.Tests
         [Category("FromLiveSession")]
         public void LoginWith_ExistingUser_ShouldShowTheDashboard()
         {
+            _loginPage.VerifyIsAtLoginPage();
             _loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
 
             var dashboardPage = new DashboardPage(_driver);
