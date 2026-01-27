@@ -9,20 +9,21 @@ namespace SeleniumTestFramework.Steps
     [Binding]
     public class LoginSteps
     {
-        private IWebDriver _driver;
-        private LoginPage _loginPage;
+        private readonly IWebDriver _driver;
         private readonly SettingsModel _settingsModel;
+        private LoginPage _loginPage;
 
-        public LoginSteps(IWebDriver driver, SettingsModel model)
+        public LoginSteps(IWebDriver driver, SettingsModel model, LoginPage loginPage)
         {
             this._driver = driver;
             this._settingsModel = model;
+            this._loginPage = loginPage;
         }
 
         [BeforeScenario]
         public void BeforeScenario()
         {
-            _loginPage = new LoginPage(_driver);
+            //_loginPage = new LoginPage(_driver);
         }
 
         [AfterScenario]

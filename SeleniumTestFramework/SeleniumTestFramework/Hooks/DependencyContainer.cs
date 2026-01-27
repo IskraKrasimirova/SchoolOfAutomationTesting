@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
@@ -30,6 +31,11 @@ namespace SeleniumTestFramework.Hooks
             {
                 return ConfigurationManager.Instance.SettingsModel;
             });
+
+            services.AddScoped<LoginPage>();
+            services.AddScoped<DashboardPage>();
+            services.AddScoped<RegisterPage>();
+            services.AddScoped<UsersPage>();
 
             return services;
         }
