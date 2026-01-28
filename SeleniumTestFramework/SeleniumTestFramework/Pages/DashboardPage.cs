@@ -35,11 +35,13 @@ namespace SeleniumTestFramework.Pages
 
         public string GetGreetingText() => UsernameHeader.Text.Trim();
 
-        // UI Issue. Logout dropdown does not open on Dashboard page (index.php).
+        // Logout dropdown does not open on Dashboard page (index.php).
         // aria-expanded remains false after click.
         // Console error: bootstrap is not defined.
-        // This issue apears even with menual clicking on the dropdown.
+        // This issue apears even with manual clicking on the dropdown.
         // As a workaround, logout is performed via Users page (users.php) where dropdown behaves correctly.
+        // The problem was in incomplete/broken index.php file.
+        // After recovering the file, the workaround is no more needed.
         public void Logout()
         {
             _driver.WaitUntilElementIsClickable(LoggedUserAnchor);
@@ -49,30 +51,12 @@ namespace SeleniumTestFramework.Pages
             LogoutLink.Click();
         }
 
-        // Workaround for the logout issue on Dashboard page
-        // Navigate to Users page first, then logout
-        // The problem is due to incomplete/broken index.php file.
-        // After recovering the file, this method is no more needed.
-        public void LogoutViaUsersPage()
-        {
-            if (!IsAtUsersPage())
-                UsersLink.Click();
-
-            _driver.WaitUntilElementIsVisible(LoggedUserAnchor);
-            LoggedUserAnchor.Click();
-
-            _driver.WaitUntilElementIsVisible(LogoutLink);
-            LogoutLink.Click();
-        }
-
         public UsersPage GoToUsersPage()
         {
             UsersLink.Click();
 
             return new UsersPage(_driver);
         }
-
-        private bool IsAtUsersPage() => _driver.Url.Contains("/users");
 
         // Validations
         public void VerifyLoggedUserEmailIs(string expectedUserEmail)

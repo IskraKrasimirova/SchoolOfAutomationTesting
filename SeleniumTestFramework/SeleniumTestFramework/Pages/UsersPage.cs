@@ -14,33 +14,22 @@ namespace SeleniumTestFramework.Pages
         private IWebElement AddUserButton => _driver.FindElement(AddUserButtonLocator);
         private IWebElement UsersTable => _driver.FindElement(By.XPath("//table[@id='users_list']"));
 
+        // Dynamic elements 
+        private IWebElement GetDeleteButtonForEmail(string email) => _driver.FindElement(By.XPath($"//td[contains(text(), '{email}')]/following-sibling::td/a"));
+
+        private IWebElement? FindUserRowByEmail(string email) => _driver.FindElements(By.XPath($"//td[contains(text(), '{email}')]/parent::tr"))
+           .FirstOrDefault();
+
         public UsersPage(IWebDriver driver)
         {
             this._driver = driver;
         }
 
-        public IWebElement? FindUserRowByEmail(string email)
-        {
-            var userRows = UsersTable.FindElements(By.XPath(".//tbody/tr"));
-
-            foreach (var userRow in userRows)
-            {
-                var emailCell = userRow.FindElements(By.XPath(".//td"))
-                                   .FirstOrDefault(cell => cell.Text.Trim().Equals(email, StringComparison.OrdinalIgnoreCase));
-
-                if (emailCell != null)
-                    return userRow;
-            }
-
-            return null;
-        }
-
         public void DeleteUser(string email)
         {
-            var userRow = FindUserRowByEmail(email);
-            Assert.That(userRow, Is.Not.Null, $"User with email {email} was not found.");
+            var deleteLink = GetDeleteButtonForEmail(email);
+            Assert.That(deleteLink, Is.Not.Null, $"Delete button for {email} was not found.");
 
-            var deleteLink = userRow.FindElement(By.XPath(".//a[contains(@class, 'text-danger') and contains(., 'Delete')]"));
             new Actions(_driver).MoveToElement(deleteLink).Perform();
             deleteLink.Click();
 
@@ -57,10 +46,10 @@ namespace SeleniumTestFramework.Pages
         {
             _driver.WaitUntilUrlContains("/users");
 
-            Retry.Until(() => 
-            { 
-                if (!AvailableUsersHeader.Displayed) 
-                    throw new RetryException("Users page not loaded yet."); 
+            Retry.Until(() =>
+            {
+                if (!AvailableUsersHeader.Displayed)
+                    throw new RetryException("Users page not loaded yet.");
             });
 
             Assert.That(UsersTable.Displayed, "Users table is not visible.");
