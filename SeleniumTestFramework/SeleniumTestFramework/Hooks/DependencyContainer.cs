@@ -36,7 +36,7 @@ namespace SeleniumTestFramework.Hooks
             services.AddScoped<DashboardPage>();
             services.AddScoped<RegisterPage>();
             services.AddScoped<UsersPage>();
-
+            
             return services;
         }
     }

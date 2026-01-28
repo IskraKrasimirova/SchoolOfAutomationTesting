@@ -22,19 +22,18 @@ namespace SeleniumTestFramework.Steps
             this._registerPage = _registerPage;
         }
 
-        [BeforeScenario]
-        public void BeforeScenario()
+        [When("I verify that the registration form is displayed")]
+        public void WhenIVerifyThatTheRegistrationFormIsDisplayed()
         {
-            _driver.Navigate().GoToUrl($"{_settingsModel.BaseUrl}register.php");
+            _registerPage.VerifyIsAtRegisterPage();
         }
 
-        [Given("a new user can register with valid data successfully")]
-        public void GivenANewUserCanRegisterWithValidDataSuccessfully()
+        [When("I register a new user with valid details")]
+        public void WhenIRegisterANewUserWithValidDetails()
         {
             var newUser = UserFactory.CreateValidUser();
             _registerPage.RegisterNewUser(newUser);
             _scenarioContext["RegisteredUser"] = newUser;
         }
-
     }
 }

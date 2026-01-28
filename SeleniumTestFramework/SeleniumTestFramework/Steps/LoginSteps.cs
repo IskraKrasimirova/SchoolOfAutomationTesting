@@ -22,21 +22,6 @@ namespace SeleniumTestFramework.Steps
             this._loginPage = loginPage;
         }
 
-        [BeforeScenario]
-        public void BeforeScenario()
-        {
-            //_loginPage = new LoginPage(_driver);
-        }
-
-        [AfterScenario]
-        public void AfterScenario()
-        {
-            //_driver.Quit();
-            //_driver.Dispose();
-            _driver.Manage().Cookies.DeleteAllCookies();
-            _driver.Navigate().GoToUrl(_settingsModel.BaseUrl);
-        }
-
         [Given("I navigate to the main page")]
         public void GivenINavigateToTheMainPage()
         {
@@ -74,10 +59,16 @@ namespace SeleniumTestFramework.Steps
             }
         }
 
-        [When("the administrator logs in with valid credentials")]
-        public void WhenTheAdministratorLogsInWithValidCredentials()
+        [When("I navigate to the registration page")]
+        public void WhenINavigateToTheRegistrationPage()
         {
-            WhenILoginWithValidCredentials();
+            _loginPage.GoToRegisterPage();
+        }
+
+        [When("I login with admin credentials")]
+        public void WhenILoginWithAdminCredentials()
+        {
+            _loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
         }
 
         [When("I login with the deleted user's credentials")]
@@ -85,19 +76,6 @@ namespace SeleniumTestFramework.Steps
         {
             var deletedUser = (RegisterModel)_scenarioContext["RegisteredUser"];
             _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);
-            //WhenILoginWithAnd(deletedUser.Email, deletedUser.Password);
-        }
-
-        [When("I navigate to the main page")]
-        public void WhenINavigateToTheMainPage()
-        {
-            GivenINavigateToTheMainPage();
-        }
-
-        [When("I verify that the login form is displayed")]
-        public void WhenIVerifyThatTheLoginFormIsDisplayed()
-        {
-            GivenIVerifyThatTheLoginFormIsDisplayed();
         }
 
         [Then("I should still be on the login page")]

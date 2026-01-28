@@ -21,20 +21,12 @@ namespace SeleniumTestFramework.Steps
             _usersPage = usersPage;
         }
 
-        [AfterScenario]
-        public void AfterScenario()
-        {
-            _driver.Manage().Cookies.DeleteAllCookies();
-            _driver.Navigate().GoToUrl(_settingsModel.BaseUrl);
-        }
-
-        [When("the administrator deletes the created user")]
-        public void WhenTheAdministratorDeletesTheCreatedUser()
+        [When("I delete the created user")]
+        public void WhenIDeleteTheCreatedUser()
         {
             var user = (RegisterModel)_scenarioContext["RegisteredUser"];
             _usersPage.DeleteUser(user.Email);
         }
-
 
         [Then("the new user should be present in the users list")]
         public void ThenTheNewUserShouldBePresentInTheUsersList()

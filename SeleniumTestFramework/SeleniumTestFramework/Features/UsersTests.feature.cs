@@ -105,6 +105,18 @@ namespace SeleniumTestFramework.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
+        {
+#line 5
+#line hidden
+#line 6
+ await testRunner.GivenAsync("I navigate to the main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 7
+ await testRunner.AndAsync("I verify that the login form is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+        }
+        
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersTests.feature.ndjson", 3);
@@ -124,7 +136,7 @@ namespace SeleniumTestFramework.Features
                     "new user in the users list and delete it", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
+#line 10
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -134,46 +146,52 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
- await testRunner.GivenAsync("a new user can register with valid data successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 8
- await testRunner.AndAsync("the user can see the dashboard with its data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 9
- await testRunner.AndAsync("the user should be able to logout successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 5
+await this.FeatureBackgroundAsync();
 #line hidden
 #line 11
- await testRunner.WhenAsync("the administrator logs in with valid credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("I navigate to the registration page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 12
- await testRunner.AndAsync("navigates to the users page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I verify that the registration form is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 13
- await testRunner.ThenAsync("the new user should be present in the users list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.AndAsync("I register a new user with valid details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 14
+ await testRunner.ThenAsync("I should see the dashboard of the user", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 15
- await testRunner.WhenAsync("the administrator deletes the created user", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.AndAsync("I should be able to logout successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 16
- await testRunner.ThenAsync("the user should no longer be present in the users list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 17
+ await testRunner.WhenAsync("I login with admin credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 18
- await testRunner.WhenAsync("the administrator logs out successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.AndAsync("I verify the dashboard shows admin details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 19
- await testRunner.AndAsync("I navigate to the main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I navigate to the users page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 20
- await testRunner.AndAsync("I verify that the login form is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.ThenAsync("the new user should be present in the users list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 22
- await testRunner.WhenAsync("I login with the deleted user\'s credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("I delete the created user", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 23
- await testRunner.ThenAsync("I should still be on the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("the user should no longer be present in the users list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 24
+ await testRunner.AndAsync("I should be able to logout successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 26
+ await testRunner.WhenAsync("I login with the deleted user\'s credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 27
+ await testRunner.ThenAsync("I should still be on the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 28
  await testRunner.AndAsync("I should see an error message with the following text \"Invalid email or password\"" +
                         "", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden

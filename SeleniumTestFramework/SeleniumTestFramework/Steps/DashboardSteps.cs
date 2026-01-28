@@ -35,8 +35,15 @@ namespace SeleniumTestFramework.Steps
             _dashboardPage.Logout();
         }
 
-        [When("navigates to the users page")]
-        public void WhenNavigatesToTheUsersPage()
+        [When("I verify the dashboard shows admin details")]
+        public void WhenIVerifyTheDashboardShowsAdminDetails()
+        {
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
+        }
+
+        [When("I navigate to the users page")]
+        public void WhenINavigateToTheUsersPage()
         {
             _dashboardPage.GoToUsersPage();
         }
@@ -46,7 +53,6 @@ namespace SeleniumTestFramework.Steps
         {
             _dashboardPage.Logout();
         }
-
 
         [Then("I should see the logged user in the main header")]
         public void ThenIShouldSeeTheLoggedUserInTheMainHeader()
@@ -70,6 +76,14 @@ namespace SeleniumTestFramework.Steps
         public void ThenIShouldBeAbleToLogoutSuccessfully()
         {
             _dashboardPage.Logout();
+        }
+
+        [Then("I should see the dashboard of the user")]
+        public void ThenIShouldSeeTheDashboardOfTheUser()
+        {
+            var user = (RegisterModel)_scenarioContext["RegisteredUser"];
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(user.Email, $"{user.FirstName} {user.Surname}", false);
         }
     }
 }
