@@ -2,7 +2,7 @@
 
 The system should allow the administrator to manage user accounts, including creating, listing and deleting users. A common user should be able to view the list of users but not create or delete them.
 
-Background: 
+Background:
 	Given I navigate to the main page
 	And I verify that the login form is displayed
 
@@ -23,6 +23,15 @@ Scenario: A user can register a new account successfully and the administrator c
 	Then the user should no longer be present in the users list
 	And I should be able to logout successfully
 
-	When I login with the deleted user's credentials
+	When I try to login with the deleted user's credentials
+	Then I should still be on the login page
+	And I should see an error message with the following text "Invalid email or password"
+
+@Users
+# Scenario with a single When–Then structure
+Scenario: Admin can see a newly registered user in the users list and delete it
+	When I register a new user with valid details and log out 
+	And I login with admin credentials, navigate to the users page, delete the created user, and log out 
+	And I try to login with the deleted user's credentials
 	Then I should still be on the login page
 	And I should see an error message with the following text "Invalid email or password"

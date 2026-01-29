@@ -71,8 +71,8 @@ namespace SeleniumTestFramework.Steps
             _loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
         }
 
-        [When("I login with the deleted user's credentials")]
-        public void WhenILoginWithTheDeletedUsersCredentials()
+        [When("I try to login with the deleted user's credentials")]
+        public void WhenITryToLoginWithTheDeletedUsersCredentials()
         {
             var deletedUser = (RegisterModel)_scenarioContext["RegisteredUser"];
             _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);

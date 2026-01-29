@@ -7,6 +7,7 @@ using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
+using WebDriverManager.Helpers;
 
 namespace SeleniumTestFramework.Hooks
 {
@@ -18,7 +19,7 @@ namespace SeleniumTestFramework.Hooks
             var services = new ServiceCollection();
             services.AddSingleton<IWebDriver>(sp =>
             {
-                new DriverManager().SetUpDriver(new ChromeConfig());
+                new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
 
                 var driver = new ChromeDriver();
                 driver.Manage().Window.Maximize();
