@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium;
-using Reqnroll;
+﻿using Reqnroll;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 
@@ -8,23 +7,21 @@ namespace SeleniumTestFramework.Steps
     [Binding]
     public class DashboardSteps
     {
-        private readonly IWebDriver _driver;
-        private readonly SettingsModel _settingsModel;
         private readonly ScenarioContext _scenarioContext;
         private DashboardPage _dashboardPage;
+        private readonly SettingsModel _settingsModel;
 
-        public DashboardSteps(IWebDriver webDriver, SettingsModel model, ScenarioContext scenarioContext, DashboardPage dashboardPage)
+        public DashboardSteps(ScenarioContext scenarioContext, DashboardPage dashboardPage, SettingsModel model)
         {
-            this._driver = webDriver;
-            this._settingsModel = model;
             this._scenarioContext = scenarioContext;
             this._dashboardPage = dashboardPage;
+            this._settingsModel = model;
         }
 
         [Given("the user can see the dashboard with its data")]
         public void GivenTheUserCanSeeTheDashboardWithItsData()
         {
-            var newUser = (RegisterModel)_scenarioContext["RegisteredUser"];
+            var newUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
         }
@@ -33,6 +30,12 @@ namespace SeleniumTestFramework.Steps
         public void GivenTheUserShouldBeAbleToLogoutSuccessfully()
         {
             _dashboardPage.Logout();
+        }
+
+        [Given("I navigate to the users page")]
+        public void GivenINavigateToTheUsersPage()
+        {
+            _dashboardPage.GoToUsersPage();
         }
 
         [When("I verify the dashboard shows admin details")]
@@ -46,6 +49,12 @@ namespace SeleniumTestFramework.Steps
         public void WhenINavigateToTheUsersPage()
         {
             _dashboardPage.GoToUsersPage();
+        }
+
+        [When("I log out successefuly")]
+        public void WhenILogOutSuccessefuly()
+        {
+            _dashboardPage.Logout();
         }
 
         [When("the administrator logs out successfully")]
@@ -81,7 +90,7 @@ namespace SeleniumTestFramework.Steps
         [Then("I should see the dashboard of the user")]
         public void ThenIShouldSeeTheDashboardOfTheUser()
         {
-            var user = (RegisterModel)_scenarioContext["RegisteredUser"];
+            var user = _scenarioContext.Get<RegisterModel>("RegisteredUser");
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(user.Email, $"{user.FirstName} {user.Surname}", false);
         }

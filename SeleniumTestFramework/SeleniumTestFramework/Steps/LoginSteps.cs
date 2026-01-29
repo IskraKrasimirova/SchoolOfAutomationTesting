@@ -10,16 +10,16 @@ namespace SeleniumTestFramework.Steps
     public class LoginSteps
     {
         private readonly IWebDriver _driver;
-        private readonly SettingsModel _settingsModel;
         private readonly ScenarioContext _scenarioContext;
-        private LoginPage _loginPage;
+        private readonly LoginPage _loginPage;
+        private readonly SettingsModel _settingsModel;
 
-        public LoginSteps(IWebDriver driver, SettingsModel model, ScenarioContext scenarioContex, LoginPage loginPage)
+        public LoginSteps(IWebDriver driver, ScenarioContext scenarioContex, LoginPage loginPage, SettingsModel model)
         {
             this._driver = driver;
-            this._settingsModel = model;
             this._scenarioContext = scenarioContex;
             this._loginPage = loginPage;
+            this._settingsModel = model;
         }
 
         [Given("I navigate to the main page")]
@@ -32,6 +32,13 @@ namespace SeleniumTestFramework.Steps
         public void GivenIVerifyThatTheLoginFormIsDisplayed()
         {
             _loginPage.VerifyIsAtLoginPage();
+        }
+
+        [Given("I login with admin credentials")]
+        public void GivenILoginWithAdminCredentials()
+        {
+            _loginPage.VerifyIsAtLoginPage();
+            _loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
         }
 
         [When("I login with valid credentials")]
@@ -74,7 +81,7 @@ namespace SeleniumTestFramework.Steps
         [When("I try to login with the deleted user's credentials")]
         public void WhenITryToLoginWithTheDeletedUsersCredentials()
         {
-            var deletedUser = (RegisterModel)_scenarioContext["RegisteredUser"];
+            var deletedUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
             _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);
         }
 
@@ -95,6 +102,14 @@ namespace SeleniumTestFramework.Steps
 
             _loginPage.VerifyPasswordInputIsEmpty();
             _loginPage.VerifyErrorMessageIsDisplayed(errorText);
+        }
+
+        [Then("I login with the deleted user's credentials")]
+        public void ThenILoginWithTheDeletedUsersCredentials()
+        {
+            _loginPage.VerifyIsAtLoginPage();
+            var deletedUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);
         }
     }
 }

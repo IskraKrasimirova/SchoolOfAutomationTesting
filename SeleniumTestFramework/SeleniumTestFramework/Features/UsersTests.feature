@@ -6,7 +6,9 @@ Background:
 	Given I navigate to the main page
 	And I verify that the login form is displayed
 
+@E2E
 @Users
+# Scenario with a multiple When–Then structure is not considered as a best practice
 Scenario: A user can register a new account successfully and the administrator can see the new user in the users list and delete it
 	When I navigate to the registration page
 	And I verify that the registration form is displayed
@@ -27,11 +29,17 @@ Scenario: A user can register a new account successfully and the administrator c
 	Then I should still be on the login page
 	And I should see an error message with the following text "Invalid email or password"
 
-@Users
-# Scenario with a single When–Then structure
-Scenario: Admin can see a newly registered user in the users list and delete it
-	When I register a new user with valid details and log out 
-	And I login with admin credentials, navigate to the users page, delete the created user, and log out 
-	And I try to login with the deleted user's credentials
-	Then I should still be on the login page
+@E2E
+@Users @BestPractice
+# Scenario with a single When–Then structure final version
+Scenario: Verify a registered user can be deleted by an admin user and the user cannot login afterwards
+	Given I register a new user
+	And I login with admin credentials
+	And I navigate to the users page
+
+	When I delete the created user
+	And I log out successefuly
+
+	Then I login with the deleted user's credentials
+	And I should still be on the login page
 	And I should see an error message with the following text "Invalid email or password"

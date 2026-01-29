@@ -17,7 +17,7 @@ namespace SeleniumTestFramework.Hooks
         public static IServiceCollection CreateServices()
         {
             var services = new ServiceCollection();
-            services.AddSingleton<IWebDriver>(sp =>
+            services.AddScoped<IWebDriver>(sp =>
             {
                 new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
 
