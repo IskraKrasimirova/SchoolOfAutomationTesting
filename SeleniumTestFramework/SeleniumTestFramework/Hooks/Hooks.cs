@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using Reqnroll;
+using SeleniumTestFramework.DatabaseOperations.Operations;
+using SeleniumTestFramework.Models;
 
 namespace SeleniumTestFramework.Hooks
 {
@@ -7,14 +9,33 @@ namespace SeleniumTestFramework.Hooks
     public class Hooks
     {
         private readonly IWebDriver _driver;
+        private readonly UserOperations _userOperations;
+        private readonly ScenarioContext _scenarioContext;
 
-        public Hooks(IWebDriver driver)
+        public Hooks(ScenarioContext scenarioContext, IWebDriver driver, UserOperations userOperations)
         {
+            this._scenarioContext = scenarioContext;
             this._driver = driver;
+            this._userOperations = userOperations;
         }
 
-        [AfterScenario]
-        public void AfterScenario()
+        [AfterScenario(Order = 1)]
+        public void Cleanup()
+        {
+            if (_scenarioContext.TryGetValue("RegisteredUser", out RegisterModel user))
+            {
+                _userOperations.DeleteUserWithEmail(user.Email);
+            }
+        }
+
+        [AfterScenario(Order = 2)]
+        public void DeleteCurrentUser()
+        {
+            _userOperations.DeleteUserWithEmail("ani@ani.com");
+        }
+
+        [AfterScenario(Order = 9999)]
+        public void CloseBrowser()
         {
             _driver.Quit();
             _driver.Dispose();

@@ -6,9 +6,11 @@ Background:
 	Given I navigate to the main page
 	And I verify that the login form is displayed
 
+@ignore
 @E2E
 @Users
-# Scenario with a multiple When–Then structure is not considered as a best practice
+# Scenario with a multiple When–Then structure is not considered as a best practice. 
+# I'll leave it because it shows the usage of ignore tag.
 Scenario: A user can register a new account successfully and the administrator can see the new user in the users list and delete it
 	When I navigate to the registration page
 	And I verify that the registration form is displayed
@@ -30,7 +32,7 @@ Scenario: A user can register a new account successfully and the administrator c
 	And I should see an error message with the following text "Invalid email or password"
 
 @E2E
-@Users @BestPractice
+@Users 
 # Scenario with a single When–Then structure final version
 Scenario: Verify a registered user can be deleted by an admin user and the user cannot login afterwards
 	Given I register a new user
