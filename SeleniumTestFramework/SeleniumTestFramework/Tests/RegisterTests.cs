@@ -1,40 +1,20 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumTestFramework.Tests
 {
     [TestFixture(Category = "Register")]
-    public class RegisterTests
+    public class RegisterTests:UiTestBase
     {
-        private IWebDriver _driver;
         private RegisterPage _registerPage;
-        private readonly SettingsModel _settingsModel;
-
-        public RegisterTests()
-        {
-            _settingsModel = ConfigurationManager.Instance.SettingsModel;
-        }
 
         [SetUp]
-        public void Setup()
+        public void TestSetup()
         {
-            new DriverManager().SetUpDriver(new ChromeConfig());
-            _driver = new ChromeDriver();
-            _driver.Manage().Window.Maximize();
-            _driver.Navigate().GoToUrl($"{_settingsModel.BaseUrl}register.php");
-            _registerPage = new RegisterPage(_driver);
-        }
-
-        [TearDown]
-        public void Teardown()
-        {
-            _driver.Quit();
-            _driver.Dispose();
+            Driver.Navigate().GoToUrl($"{Settings.BaseUrl}register.php");
+            _registerPage = TestScope.ServiceProvider.GetRequiredService<RegisterPage>();
         }
 
         [Test]
@@ -43,7 +23,7 @@ namespace SeleniumTestFramework.Tests
             var newUser = UserFactory.CreateValidUser();
             _registerPage.RegisterNewUser(newUser);
 
-            var dashboardPage = new DashboardPage(_driver);
+            var dashboardPage = TestScope.ServiceProvider.GetRequiredService<DashboardPage>();
             dashboardPage.VerifyIsAtDashboardPage();
             dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
         }
@@ -78,7 +58,7 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ExistingEmail_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(email: _settingsModel.Email));
+            var newUser = UserFactory.CreateUserWith(u => u.Set(email: Settings.Email));
             _registerPage.RegisterNewUser(newUser);
 
             _registerPage.VerifyPasswordInputIsEmpty();

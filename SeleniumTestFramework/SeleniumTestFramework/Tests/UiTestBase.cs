@@ -9,7 +9,7 @@ namespace SeleniumTestFramework.Tests
     {
         protected ServiceProvider Provider { get; private set; }
         protected IWebDriver Driver { get; private set; }
-        protected SettingsModel SettingsModel { get; private set; }
+        protected SettingsModel Settings { get; private set; }
         protected IServiceScope TestScope { get; private set; }
 
         [OneTimeSetUp]
@@ -17,7 +17,7 @@ namespace SeleniumTestFramework.Tests
         {
             var services = DependencyContainer.CreateServices(); 
             Provider = services.BuildServiceProvider(); 
-            SettingsModel = Provider.GetRequiredService<SettingsModel>();
+            Settings = Provider.GetRequiredService<SettingsModel>();
         }
 
         [SetUp]

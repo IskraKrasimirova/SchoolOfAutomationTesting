@@ -18,7 +18,7 @@ namespace SeleniumTestFramework.Tests
         {
             _loginPage = TestScope.ServiceProvider.GetRequiredService<LoginPage>();
             _dashboardPage = TestScope.ServiceProvider.GetRequiredService<DashboardPage>();
-            Driver.Navigate().GoToUrl(SettingsModel.BaseUrl);
+            Driver.Navigate().GoToUrl(Settings.BaseUrl);
         }
 
         [Test]
@@ -26,10 +26,10 @@ namespace SeleniumTestFramework.Tests
         public void LoginWith_ExistingUser_ShouldShowTheDashboard()
         {
             _loginPage.VerifyIsAtLoginPage();
-            _loginPage.LoginWith(SettingsModel.Email, SettingsModel.Password);
+            _loginPage.LoginWith(Settings.Email, Settings.Password);
 
-            _dashboardPage.VerifyLoggedUserEmailIs(SettingsModel.Email);
-            _dashboardPage.VerifyUsernameIs(SettingsModel.Username);
+            _dashboardPage.VerifyLoggedUserEmailIs(Settings.Email);
+            _dashboardPage.VerifyUsernameIs(Settings.Username);
         }
 
         [Test]

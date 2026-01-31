@@ -1,76 +1,60 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using SeleniumTestFramework.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumTestFramework.Tests
 {
     [TestFixture(Category = "Users")]
-    public class UsersTests
+    public class UsersTests: UiTestBase
     {
-        private IWebDriver _driver;
-        private readonly SettingsModel _settingsModel;
-
-        public UsersTests()
-        {
-            _settingsModel = ConfigurationManager.Instance.SettingsModel;
-        }
+        private LoginPage _loginPage;
+        private RegisterPage _registerPage; 
+        private DashboardPage _dashboardPage;
 
         [SetUp]
-        public void Setup()
+        public void TestSetup()
         {
-            new DriverManager().SetUpDriver(new ChromeConfig());
-            _driver = new ChromeDriver();
-            _driver.Manage().Window.Maximize();
-            _driver.Navigate().GoToUrl(_settingsModel.BaseUrl);
-        }
+            _loginPage = TestScope.ServiceProvider.GetRequiredService<LoginPage>();
+            _registerPage = TestScope.ServiceProvider.GetRequiredService<RegisterPage>();
+            _dashboardPage = TestScope.ServiceProvider.GetRequiredService<DashboardPage>();
 
-        [TearDown]
-        public void Teardown()
-        {
-            _driver.Quit();
-            _driver.Dispose();
+            Driver.Navigate().GoToUrl(Settings.BaseUrl);
         }
 
         [Test]
         public void UserCanRegister_AndAdminCanDeleteUser()
         {
-            var loginPage = new LoginPage(_driver);
-            var registerPage = loginPage.GoToRegisterPage();
-            registerPage.VerifyIsAtRegisterPage();
+            _loginPage.GoToRegisterPage();
+            _registerPage.VerifyIsAtRegisterPage();
 
             var newUser = UserFactory.CreateValidUser();
 
-            registerPage.RegisterNewUser(newUser);
+            _registerPage.RegisterNewUser(newUser);
 
-            var dashboardPage = new DashboardPage(_driver);
-            dashboardPage.VerifyIsAtDashboardPage();
-            dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
 
-            dashboardPage.Logout();
-            loginPage.VerifyIsAtLoginPage();
+            _dashboardPage.Logout();
+            _loginPage.VerifyIsAtLoginPage();
 
-            loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
-            dashboardPage.VerifyIsAtDashboardPage();
-            dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
+            _loginPage.LoginWith(Settings.Email, Settings.Password);
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(Settings.Email, Settings.Username, true);
 
-            var usersPage = dashboardPage.GoToUsersPage();
+            var usersPage = _dashboardPage.GoToUsersPage();
             usersPage.VerifyIsAtUsersPage(true);
             usersPage.VerifyUserExists(newUser.Email);
 
             usersPage.DeleteUser(newUser.Email);
             usersPage.VerifyUserDoesNotExist(newUser.Email);
 
-            dashboardPage.Logout();
-            loginPage.VerifyIsAtLoginPage();
+            _dashboardPage.Logout();
+            _loginPage.VerifyIsAtLoginPage();
 
-            loginPage.LoginWith(newUser.Email, newUser.Password);
+            _loginPage.LoginWith(newUser.Email, newUser.Password);
 
-            loginPage.VerifyPasswordInputIsEmpty();
-            loginPage.VerifyErrorMessageIsDisplayed("Invalid email or password");
+            _loginPage.VerifyPasswordInputIsEmpty();
+            _loginPage.VerifyErrorMessageIsDisplayed("Invalid email or password");
         }
     }
 }
