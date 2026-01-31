@@ -20,6 +20,13 @@ namespace SeleniumTestFramework.Hooks
         }
 
         [AfterScenario(Order = 1)]
+        public void CloseBrowser()
+        {
+            _driver.Quit();
+            _driver.Dispose();
+        }
+
+        [AfterScenario(Order = 2)]
         public void Cleanup()
         {
             if (_scenarioContext.TryGetValue("RegisteredUser", out RegisterModel user))
@@ -28,17 +35,10 @@ namespace SeleniumTestFramework.Hooks
             }
         }
 
-        [AfterScenario(Order = 2)]
+        [AfterScenario(Order = 9999)]
         public void DeleteCurrentUser()
         {
             _userOperations.DeleteUserWithEmail("ani@ani.com");
-        }
-
-        [AfterScenario(Order = 9999)]
-        public void CloseBrowser()
-        {
-            _driver.Quit();
-            _driver.Dispose();
         }
     }
 }

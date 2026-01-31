@@ -1,44 +1,24 @@
 using Bogus;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using Microsoft.Extensions.DependencyInjection;
 using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
 
 namespace SeleniumTestFramework.Tests
 {
     [TestFixture(Category ="Login")]
-    public class LoginTests
+    public class LoginTests: UiTestBase
     {
-        private IWebDriver _driver;
         private LoginPage _loginPage;
-        private readonly SettingsModel _settingsModel;
-
-        public LoginTests()
-        {
-            _settingsModel = ConfigurationManager.Instance.SettingsModel;
-        }
+        private DashboardPage _dashboardPage;
 
         [SetUp]
-        public void Setup()
+        public void TestSetup()
         {
-            new DriverManager().SetUpDriver(new ChromeConfig());
-            _driver = new ChromeDriver();
-            _driver.Manage().Window.Maximize();
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-
-            _driver.Navigate().GoToUrl(_settingsModel.BaseUrl);
-            _loginPage = new LoginPage(_driver);
-        }
-
-        [TearDown]
-        public void Teardown()
-        {
-            _driver.Quit();
-            _driver.Dispose();
+            _loginPage = TestScope.ServiceProvider.GetRequiredService<LoginPage>();
+            _dashboardPage = TestScope.ServiceProvider.GetRequiredService<DashboardPage>();
+            Driver.Navigate().GoToUrl(SettingsModel.BaseUrl);
         }
 
         [Test]
@@ -46,11 +26,10 @@ namespace SeleniumTestFramework.Tests
         public void LoginWith_ExistingUser_ShouldShowTheDashboard()
         {
             _loginPage.VerifyIsAtLoginPage();
-            _loginPage.LoginWith(_settingsModel.Email, _settingsModel.Password);
+            _loginPage.LoginWith(SettingsModel.Email, SettingsModel.Password);
 
-            var dashboardPage = new DashboardPage(_driver);
-            dashboardPage.VerifyLoggedUserEmailIs(_settingsModel.Email);
-            dashboardPage.VerifyUsernameIs(_settingsModel.Username);
+            _dashboardPage.VerifyLoggedUserEmailIs(SettingsModel.Email);
+            _dashboardPage.VerifyUsernameIs(SettingsModel.Username);
         }
 
         [Test]
@@ -61,11 +40,10 @@ namespace SeleniumTestFramework.Tests
             _loginPage.VerifyIsAtLoginPage();
 
             _loginPage.LoginWith(email, password);
-            _driver.WaitUntilUrlContains("/index");
+            Driver.WaitUntilUrlContains("/index");
 
-            var dashboardPage = new DashboardPage(_driver);
-            dashboardPage.VerifyIsAtDashboardPage();
-            dashboardPage.VerifyUserIsLoggedIn(email, username, isAdmin);
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(email, username, isAdmin);
         }
 
         private static IEnumerable<TestCaseData> ValidLoginData()
