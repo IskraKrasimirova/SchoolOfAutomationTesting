@@ -36,6 +36,12 @@ namespace SeleniumTestFramework.Pages
             _driver.SwitchTo().Alert().Accept();
         }
 
+        public AddUserModalPage OpenAddUserModal()
+        {
+            AddUserButton.Click();
+            return new AddUserModalPage(_driver);
+        }
+
         public bool IsAddUserButtonDisplayed()
         {
             var addUserButtons = _driver.FindElements(AddUserButtonLocator);

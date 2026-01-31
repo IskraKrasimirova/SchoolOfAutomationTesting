@@ -33,6 +33,11 @@ namespace SeleniumTestFramework.Hooks
             {
                 _userOperations.DeleteUserWithEmail(user.Email);
             }
+
+            if (_scenarioContext.TryGetValue("AddedUser", out AddUserModel addedUser))
+            {
+                _userOperations.DeleteUserWithEmail(addedUser.Email);
+            }
         }
 
         [AfterScenario(Order = 9999)]

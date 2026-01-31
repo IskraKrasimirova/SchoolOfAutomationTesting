@@ -111,5 +111,14 @@ namespace SeleniumTestFramework.Steps
             var deletedUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
             _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);
         }
+
+        [Then("I login with the new user's credentials")]
+        public void ThenILoginWithTheNewUsersCredentials()
+        {
+            _loginPage.VerifyIsAtLoginPage();
+            var addedUser = _scenarioContext.Get<AddUserModel>("AddedUser");
+            _loginPage.LoginWith(addedUser.Email, addedUser.Password);
+        }
+
     }
 }

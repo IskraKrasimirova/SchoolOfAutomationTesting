@@ -33,5 +33,20 @@ namespace SeleniumTestFramework.Utilities
             overrides(user);
             return user;
         }
+
+        public static AddUserModel CreateValidCommonUser()
+        {
+            return new AddUserModel
+            (
+                Faker.PickRandom(Titles),
+                Faker.Name.FirstName().Replace("'", "").ClampLength(2, 15),
+                Faker.Name.LastName().Replace("'", "").ClampLength(2, 15),
+                Faker.Internet.Email(),
+                Faker.Internet.Password(),
+                "Bulgaria",
+                Faker.PickRandom(ValidCities),
+                false
+            );
+        }
     }
 }

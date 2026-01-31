@@ -35,6 +35,8 @@ namespace SeleniumTestFramework.Steps
         [Given("I navigate to the users page")]
         public void GivenINavigateToTheUsersPage()
         {
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
             _dashboardPage.GoToUsersPage();
         }
 
@@ -91,6 +93,14 @@ namespace SeleniumTestFramework.Steps
         public void ThenIShouldSeeTheDashboardOfTheUser()
         {
             var user = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(user.Email, $"{user.FirstName} {user.Surname}", false);
+        }
+
+        [Then("I should see the dashboard of the added user")]
+        public void ThenIShouldSeeTheDashboardOfTheAddedUser()
+        {
+            var user = _scenarioContext.Get<AddUserModel>("AddedUser");
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(user.Email, $"{user.FirstName} {user.Surname}", false);
         }

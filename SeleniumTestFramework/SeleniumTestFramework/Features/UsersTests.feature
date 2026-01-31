@@ -45,3 +45,14 @@ Scenario: Verify a registered user can be deleted by an admin user and the user 
 	Then I login with the deleted user's credentials
 	And I should still be on the login page
 	And I should see an error message with the following text "Invalid email or password"
+
+
+@users
+Scenario: Verify admin user can add a new user and the new user can login successfully
+	Given I login with admin credentials
+	And I navigate to the users page
+	When I add a new user with valid details
+	And I log out successefuly
+	Then I login with the new user's credentials
+	And I should see the dashboard of the added user 
+	And I should be able to logout successfully

@@ -1,6 +1,7 @@
 ﻿using Reqnroll;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
+using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -25,6 +26,23 @@ namespace SeleniumTestFramework.Steps
 
             _usersPage.DeleteUser(user.Email);
             _usersPage.VerifyUserDoesNotExist(user.Email);
+        }
+
+        [When("I add a new user with valid details")]
+        public void WhenIAddANewUserWithValidDetails()
+        {
+            var modal = _usersPage.OpenAddUserModal();
+            modal.VerifyIsAtAddUserModal();
+
+            var newUser = UserFactory.CreateValidCommonUser();
+            modal.AddUser(newUser);
+
+            _scenarioContext.Add("AddedUser", newUser);
+
+            modal.VerifyModalIsClosed();
+
+            _usersPage.VerifyIsAtUsersPage(true);
+            _usersPage.VerifyUserExists(newUser.Email);
         }
 
         [Then("the new user should be present in the users list")]
