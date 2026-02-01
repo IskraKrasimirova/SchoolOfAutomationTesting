@@ -17,6 +17,13 @@ namespace SeleniumTestFramework.Steps
             _usersPage = usersPage;
         }
 
+        [Given("I open the Add New User form")]
+        public void GivenIOpenTheAddNewUserForm()
+        {
+            var addUserModal = _usersPage.OpenAddUserModal();
+            addUserModal.VerifyIsAtAddUserModal();
+        }
+
         [When("I delete the created user")]
         public void WhenIDeleteTheCreatedUser()
         {

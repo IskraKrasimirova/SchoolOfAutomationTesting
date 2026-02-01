@@ -48,5 +48,32 @@ namespace SeleniumTestFramework.Utilities
                 false
             );
         }
+
+        public static AddUserModel CreateUserWith(Action<AddUserModel> overrides)
+        {
+            var user = CreateValidCommonUser();
+
+            overrides(user);
+            return user;
+        }
+
+        //// Generic method to create a user of type T with overrides
+        //public static T CreateUserWith<T>(Action<T> overrides) where T : UserBaseModel 
+        //{ 
+        //    T user = CreateValid<T>(); 
+        //    overrides(user);
+        //    return user; 
+        //}
+
+        //private static T CreateValid<T>() where T : UserBaseModel 
+        //{ 
+        //    if (typeof(T) == typeof(RegisterModel)) 
+        //        return (T)(UserBaseModel)CreateValidUser(); 
+            
+        //    if (typeof(T) == typeof(AddUserModel)) 
+        //        return (T)(UserBaseModel)CreateValidCommonUser(); 
+            
+        //    throw new NotSupportedException($"Unsupported model type: {typeof(T).Name}"); 
+        //}
     }
 }

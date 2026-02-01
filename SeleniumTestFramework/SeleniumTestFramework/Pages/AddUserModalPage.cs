@@ -3,11 +3,6 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeleniumTestFramework.Pages
 {
@@ -25,6 +20,7 @@ namespace SeleniumTestFramework.Pages
         private IWebElement CityInput => _driver.FindElement(By.XPath("//input[@id='city']"));
         private IWebElement IsAdminCheckbox => _driver.FindElement(By.XPath("//input[@type='checkbox' and @id='is_admin']"));
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and text()='Add User']"));
+        private IWebElement FormAlertElement => _driver.FindElement(By.XPath("//div[@id='formAlert' and contains(@class,'alert-danger')]"));
 
         public AddUserModalPage(IWebDriver driver)
         {
@@ -54,6 +50,44 @@ namespace SeleniumTestFramework.Pages
             _driver.ScrollToElementAndClick(SubmitButton);
         }
 
+        public string GetFormErrorMessage() => FormAlertElement.Text.Trim();
+
+        public string GetFieldValidationMessage(string field)
+        {
+            IWebElement element;
+
+            switch (field)
+            {
+                case "title":
+                    element = TitleDropdown;
+                    break;
+                case "firstName":
+                    element = FirstNameInput;
+                    break;
+                case "surname":
+                    element = SurnameInput;
+                    break;
+                case "country":
+                    element = CountryDropdown;
+                    break;
+                case "city":
+                    element = CityInput;
+                    break;
+                case "email":
+                    element = EmailInput;
+                    break;
+                case "password":
+                    element = PasswordInput;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            var messageElement = element.FindElement(By.XPath("./following-sibling::div[@class='invalid-feedback']"));
+
+            return messageElement.Text.Trim();
+        }
+
         public void VerifyModalIsClosed()
         {
             Retry.Until(() =>
@@ -73,6 +107,12 @@ namespace SeleniumTestFramework.Pages
             });
 
             Assert.That(AddUserHeader.Text.Trim(), Is.EqualTo("Add New User"));
+        }
+
+        public void VerifyFormAlertMessage(string expectedMessage)
+        {
+            var actualMessage = GetFormErrorMessage();
+            Assert.That(actualMessage, Is.EqualTo(expectedMessage), "The alert message is incorrect.");
         }
     }
 }

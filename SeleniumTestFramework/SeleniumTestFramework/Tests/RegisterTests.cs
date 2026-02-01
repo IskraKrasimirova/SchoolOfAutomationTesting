@@ -58,7 +58,7 @@ namespace SeleniumTestFramework.Tests
         [Test]
         public void RegistrationWith_ExistingEmail_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(email: Settings.Email));
+            var newUser = UserFactory.CreateUserWith((RegisterModel u) => u.Set(email: Settings.Email));
             _registerPage.RegisterNewUser(newUser);
 
             _registerPage.VerifyPasswordInputIsEmpty();
@@ -72,7 +72,7 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_NotValidCityForCountry_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "New York"));
+            var newUser = UserFactory.CreateUserWith((RegisterModel u) => u.Set(city: "New York"));
             _registerPage.RegisterNewUser(newUser);
 
             _registerPage.VerifyPasswordInputIsEmpty();
@@ -100,7 +100,8 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_TooLongCountryNameAndValidCityForCountry_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(country: "Bosnia and Herzegovina", city: "Tuzla"));
+            var newUser = UserFactory.CreateUserWith((RegisterModel u) => 
+            u.Set(country: "Bosnia and Herzegovina", city: "Tuzla"));
             _registerPage.RegisterNewUser(newUser);
 
             _registerPage.VerifyPasswordInputIsEmpty();
@@ -115,7 +116,7 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_TooLongCityNameAndValidCityForCountry_ShowsErrorMessage()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(city: "Gorno Draglishte"));
+            var newUser = UserFactory.CreateUserWith((RegisterModel u) => u.Set(city: "Gorno Draglishte"));
             _registerPage.RegisterNewUser(newUser);
 
             _registerPage.VerifyPasswordInputIsEmpty();
@@ -131,7 +132,7 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_ValidCityForCountry_WithUnicodeCharacters_ShowsBackendWarning()
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(country: "Côte d'Ivoire", city: "Nuku'alofa"));
+            var newUser = UserFactory.CreateUserWith((RegisterModel u) => u.Set(country: "Côte d'Ivoire", city: "Nuku'alofa"));
             _registerPage.RegisterNewUser(newUser);
 
             _registerPage.VerifyPasswordInputIsEmpty();
@@ -148,7 +149,7 @@ namespace SeleniumTestFramework.Tests
         [Category("BackendIssue")]
         public void RegistrationWith_ValidCityForCountry_WithSpecialCharacters_ShowsErrorMessage(string testedCase, string country, string city)
         {
-            var newUser = UserFactory.CreateUserWith(u => u.Set(country: country, city: city));
+            var newUser = UserFactory.CreateUserWith((RegisterModel u) => u.Set(country: country, city: city));
             _registerPage.RegisterNewUser(newUser);
 
             _registerPage.VerifyPasswordInputIsEmpty();

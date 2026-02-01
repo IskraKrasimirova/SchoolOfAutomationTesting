@@ -61,6 +61,12 @@ namespace SeleniumTestFramework.Hooks
                 return new UsersPage(driver);
             });
 
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new AddUserModalPage(driver);
+            });
+
             // Short syntax for registering page classes
             //services.AddScoped<LoginPage>();
             //services.AddScoped<DashboardPage>();
