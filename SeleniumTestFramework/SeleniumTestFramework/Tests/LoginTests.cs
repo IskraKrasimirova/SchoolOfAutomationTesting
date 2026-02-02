@@ -1,9 +1,9 @@
 using Bogus;
 using Microsoft.Extensions.DependencyInjection;
-using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.Utilities.Extensions;
 
 namespace SeleniumTestFramework.Tests
 {

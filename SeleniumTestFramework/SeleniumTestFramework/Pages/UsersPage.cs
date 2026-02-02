@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.Utilities.Extensions;
 
 namespace SeleniumTestFramework.Pages
 {
