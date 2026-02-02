@@ -567,6 +567,7 @@ await this.FeatureBackgroundAsync();
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Invalid email format is not validated by the system")]
+        [global::NUnit.Framework.IgnoreAttribute("Ignored scenario")]
         [global::NUnit.Framework.CategoryAttribute("Users")]
         [global::NUnit.Framework.CategoryAttribute("Negative")]
         [global::NUnit.Framework.CategoryAttribute("issue")]
@@ -577,7 +578,8 @@ await this.FeatureBackgroundAsync();
             string[] @__tags = new string[] {
                     "Users",
                     "Negative",
-                    "issue"};
+                    "issue",
+                    "ignore"};
             if ((exampleTags != null))
             {
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
@@ -589,7 +591,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Invalid email format is not validated by the system", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 120
+#line 122
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -602,10 +604,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 121
+#line 123
  await testRunner.WhenAsync(string.Format("I try to add a new user with email \"{0}\"", email), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 122
+#line 124
  await testRunner.ThenAsync("I should see a validation message for \"email\" with text \"Please enter a valid ema" +
                         "il address.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden

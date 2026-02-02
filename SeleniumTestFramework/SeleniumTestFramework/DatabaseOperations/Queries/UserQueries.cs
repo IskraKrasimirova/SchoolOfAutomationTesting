@@ -6,5 +6,11 @@
             DELETE FROM users 
             WHERE Email = @Email; 
         ";
+
+        public const string InsertUser = @" 
+            INSERT INTO users (first_name, sir_name, title, country, city, email, password) 
+            VALUES (@FirstName, @Surname, @Title, @Country, @City, @Email, @Password); 
+            SELECT LAST_INSERT_ID(); 
+        ";
     }
 }
