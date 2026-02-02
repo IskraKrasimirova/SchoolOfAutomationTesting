@@ -2,6 +2,7 @@
 using Reqnroll;
 using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Utilities.Constants;
 
 namespace SeleniumTestFramework.Hooks
 {
@@ -29,12 +30,12 @@ namespace SeleniumTestFramework.Hooks
         [AfterScenario(Order = 2)]
         public void Cleanup()
         {
-            if (_scenarioContext.TryGetValue("RegisteredUser", out RegisterModel user))
+            if (_scenarioContext.TryGetValue(ContextConstants.RegisteredUser, out RegisterModel user))
             {
                 _userOperations.DeleteUserWithEmail(user.Email);
             }
 
-            if (_scenarioContext.TryGetValue("AddedUser", out AddUserModel addedUser))
+            if (_scenarioContext.TryGetValue(ContextConstants.AddedUser, out AddUserModel addedUser))
             {
                 _userOperations.DeleteUserWithEmail(addedUser.Email);
             }

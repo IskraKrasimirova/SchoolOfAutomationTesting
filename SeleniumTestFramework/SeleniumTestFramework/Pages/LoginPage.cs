@@ -3,10 +3,8 @@ using SeleniumTestFramework.Extensions;
 
 namespace SeleniumTestFramework.Pages
 {
-    public class LoginPage
+    public class LoginPage: BasePage
     {
-        private readonly IWebDriver _driver;
-
         private readonly By PasswordInputLocator = By.XPath("//input[@type='password']");
         // Elements 
         private IWebElement EmailInput => _driver.FindElement(By.XPath("//input[@type='email']"));
@@ -14,9 +12,8 @@ namespace SeleniumTestFramework.Pages
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and contains(text(), 'Sign In')]"));
         private IWebElement SignUpLink => _driver.FindElement(By.XPath("//a[contains(text(),'Sign Up Here')]"));
 
-        public LoginPage(IWebDriver driver)
+        public LoginPage(IWebDriver driver): base(driver)
         {
-            this._driver = driver;
         }
 
         // Actions

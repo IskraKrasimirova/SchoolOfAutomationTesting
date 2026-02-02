@@ -5,10 +5,8 @@ using SeleniumTestFramework.Models;
 
 namespace SeleniumTestFramework.Pages
 {
-    public class RegisterPage
+    public class RegisterPage: BasePage
     {
-        private readonly IWebDriver _driver;
-
         private IWebElement RegistrationHeader => _driver.FindElement(By.XPath("//h3[text()='Register']"));
         private IWebElement TitleDropdown => _driver.FindElement(By.XPath("//select[@id='title']"));
         private IWebElement FirstNameInput => _driver.FindElement(By.XPath("//input[@id='first_name']"));
@@ -21,9 +19,8 @@ namespace SeleniumTestFramework.Pages
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and @name='signup']"));
         public IWebElement AlertElement => _driver.FindElement(By.XPath("//form//div[contains(@class,'alert-warning')]"));
         
-        public RegisterPage(IWebDriver driver)
+        public RegisterPage(IWebDriver driver): base(driver)
         {
-            this._driver = driver;
         }
 
         public void RegisterNewUser(RegisterModel model)

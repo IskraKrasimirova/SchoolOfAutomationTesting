@@ -1,6 +1,7 @@
 ﻿using Reqnroll;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.Utilities.Constants;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -28,7 +29,7 @@ namespace SeleniumTestFramework.Steps
             _registerPage.VerifyIsAtRegisterPage();
             var newUser = UserFactory.CreateValidUser();
             _registerPage.RegisterNewUser(newUser);
-            _scenarioContext.Add("RegisteredUser", newUser);
+            _scenarioContext.Add(ContextConstants.RegisteredUser, newUser);
 
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
@@ -47,7 +48,7 @@ namespace SeleniumTestFramework.Steps
         {
             var newUser = UserFactory.CreateValidUser();
             _registerPage.RegisterNewUser(newUser);
-            _scenarioContext.Add("RegisteredUser", newUser);
+            _scenarioContext.Add(ContextConstants.RegisteredUser, newUser);
         }
     }
 }

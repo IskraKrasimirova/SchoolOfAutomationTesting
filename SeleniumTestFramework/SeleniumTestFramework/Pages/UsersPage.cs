@@ -5,10 +5,8 @@ using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Pages
 {
-    public class UsersPage
+    public class UsersPage: BasePage
     {
-        private readonly IWebDriver _driver;
-
         private readonly By AddUserButtonLocator = By.XPath("//button[@type='button' and contains(., 'Add User')]");
         private IWebElement AvailableUsersHeader => _driver.FindElement(By.XPath("//h2[contains(., 'Available Users')]"));
         private IWebElement AddUserButton => _driver.FindElement(AddUserButtonLocator);
@@ -20,9 +18,8 @@ namespace SeleniumTestFramework.Pages
         private IWebElement? FindUserRowByEmail(string email) => _driver.FindElements(By.XPath($"//td[contains(text(), '{email}')]/parent::tr"))
            .FirstOrDefault();
 
-        public UsersPage(IWebDriver driver)
+        public UsersPage(IWebDriver driver): base(driver)
         {
-            this._driver = driver;
         }
 
         public void DeleteUser(string email)

@@ -6,10 +6,8 @@ using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Pages
 {
-    public class AddUserModalPage
+    public class AddUserModalPage : BasePage
     {
-        private readonly IWebDriver _driver;
-
         private IWebElement AddUserHeader => _driver.FindElement(By.XPath("//h5[@id='addUserModalLabel']"));
         private IWebElement TitleDropdown => _driver.FindElement(By.XPath("//select[@id='title']"));
         private IWebElement FirstNameInput => _driver.FindElement(By.XPath("//input[@id='first_name']"));
@@ -22,9 +20,8 @@ namespace SeleniumTestFramework.Pages
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and text()='Add User']"));
         private IWebElement FormAlertElement => _driver.FindElement(By.XPath("//div[@id='formAlert' and contains(@class,'alert-danger')]"));
 
-        public AddUserModalPage(IWebDriver driver)
+        public AddUserModalPage(IWebDriver driver) : base(driver)
         {
-            this._driver = driver;
         }
 
         public void AddUser(AddUserModel model)

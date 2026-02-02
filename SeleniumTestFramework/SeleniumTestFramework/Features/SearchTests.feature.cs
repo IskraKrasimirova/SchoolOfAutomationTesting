@@ -27,7 +27,9 @@ namespace SeleniumTestFramework.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "SearchTests", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "SearchTests", "Validates that a user can search by country/city. The search results should only " +
+                "include users matching the search criteria and should display their skills. Vali" +
+                "dates that database‑created users with skills appear correctly in UI search.", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "SearchTests.feature"
 #line hidden
@@ -103,25 +105,47 @@ namespace SeleniumTestFramework.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
+        {
+#line 5
+ #line hidden
+#line 6
+    await testRunner.GivenAsync("I navigate to the main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 7
+    await testRunner.AndAsync("I verify that the login form is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 8
+    await testRunner.AndAsync("I login with admin credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 9
+    await testRunner.AndAsync("I navigate to the search page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+        }
+        
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SearchTests.feature.ndjson", 3);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("[scenario name]")]
-        [global::NUnit.Framework.CategoryAttribute("tag1")]
-        public async global::System.Threading.Tasks.Task ScenarioName()
+        [global::NUnit.Framework.DescriptionAttribute("User created directly in the database with skills appears in UI search")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
+        [global::NUnit.Framework.CategoryAttribute("DB")]
+        [global::NUnit.Framework.CategoryAttribute("Search")]
+        public async global::System.Threading.Tasks.Task UserCreatedDirectlyInTheDatabaseWithSkillsAppearsInUISearch()
         {
             string[] tagsOfScenario = new string[] {
-                    "tag1"};
+                    "Users",
+                    "DB",
+                    "Search"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("[scenario name]", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User created directly in the database with skills appears in UI search", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
-this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line 12
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -130,14 +154,56 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
- await testRunner.GivenAsync("[context]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 5
+ await this.FeatureBackgroundAsync();
 #line hidden
-#line 8
- await testRunner.WhenAsync("[action]", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "firstName",
+                            "Ivan"});
+                table2.AddRow(new string[] {
+                            "surname",
+                            "Petrov"});
+                table2.AddRow(new string[] {
+                            "email",
+                            "ivan.petrov@test.com"});
+                table2.AddRow(new string[] {
+                            "country",
+                            "Bulgaria"});
+                table2.AddRow(new string[] {
+                            "city",
+                            "Sofia"});
+                table2.AddRow(new string[] {
+                            "title",
+                            "Mr."});
+                table2.AddRow(new string[] {
+                            "password",
+                            "Password123!"});
+                table2.AddRow(new string[] {
+                            "isAdmin",
+                            "false"});
+#line 13
+    await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table2, "Given ");
 #line hidden
-#line 9
- await testRunner.ThenAsync("[outcome]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "skillName",
+                            "competence"});
+                table3.AddRow(new string[] {
+                            "Java",
+                            "3"});
+                table3.AddRow(new string[] {
+                            "Automated Testing",
+                            "5"});
+#line 22
+    await testRunner.AndAsync("the user has the following skills:", ((string)(null)), table3, "And ");
+#line hidden
+#line 26
+    await testRunner.WhenAsync("I search for users with skill \"Java\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 27
+    await testRunner.ThenAsync("I should see \"Ivan Petrov\" in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 28
+    await testRunner.AndAsync("the skill \"Java\" should be displayed for \"Ivan Petrov\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

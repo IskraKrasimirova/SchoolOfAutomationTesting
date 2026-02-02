@@ -3,6 +3,7 @@ using Reqnroll;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.Utilities.Constants;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -81,7 +82,7 @@ namespace SeleniumTestFramework.Steps
         [When("I try to login with the deleted user's credentials")]
         public void WhenITryToLoginWithTheDeletedUsersCredentials()
         {
-            var deletedUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            var deletedUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);
         }
 
@@ -108,7 +109,7 @@ namespace SeleniumTestFramework.Steps
         public void ThenILoginWithTheDeletedUsersCredentials()
         {
             _loginPage.VerifyIsAtLoginPage();
-            var deletedUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            var deletedUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _loginPage.LoginWith(deletedUser.Email, deletedUser.Password);
         }
 
@@ -116,7 +117,7 @@ namespace SeleniumTestFramework.Steps
         public void ThenILoginWithTheNewUsersCredentials()
         {
             _loginPage.VerifyIsAtLoginPage();
-            var addedUser = _scenarioContext.Get<AddUserModel>("AddedUser");
+            var addedUser = _scenarioContext.Get<AddUserModel>(ContextConstants.AddedUser);
             _loginPage.LoginWith(addedUser.Email, addedUser.Password);
         }
 

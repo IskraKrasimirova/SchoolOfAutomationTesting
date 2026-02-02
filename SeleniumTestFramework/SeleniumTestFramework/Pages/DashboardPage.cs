@@ -3,10 +3,8 @@ using SeleniumTestFramework.Extensions;
 
 namespace SeleniumTestFramework.Pages
 {
-    public class DashboardPage
+    public class DashboardPage: BasePage
     {
-        private readonly IWebDriver _driver;
-
         private IWebElement LoggedUserAnchor => _driver.FindElement(By.XPath("//a[@id='navbarDropdown']"));
         private IWebElement UsernameHeader => _driver.FindElement(By.XPath("//div[contains(@class, 'container-fluid')]/h1"));
         private IWebElement HomeLink => _driver.FindElement(By.XPath("//a[contains(text(), 'Home')]"));
@@ -14,9 +12,8 @@ namespace SeleniumTestFramework.Pages
         private IWebElement SearchLink => _driver.FindElement(By.XPath("//a[contains(text(), 'Search')]"));
         private IWebElement LogoutLink => _driver.FindElement(By.XPath("//a[@class='dropdown-item' and contains(., 'Logout')]"));
 
-        public DashboardPage(IWebDriver driver)
+        public DashboardPage(IWebDriver driver): base(driver)
         {
-            this._driver = driver;
         }
 
         public string GetLoggedUserEmail() => LoggedUserAnchor.Text.Trim();
@@ -56,6 +53,13 @@ namespace SeleniumTestFramework.Pages
             UsersLink.Click();
 
             return new UsersPage(_driver);
+        }
+
+        public SearchPage GoToSearchPage()
+        {
+            SearchLink.Click();
+
+            return new SearchPage(_driver);
         }
 
         // Validations

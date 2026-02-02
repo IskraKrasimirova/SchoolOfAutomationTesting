@@ -1,6 +1,7 @@
 ﻿using Reqnroll;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
+using SeleniumTestFramework.Utilities.Constants;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -21,7 +22,7 @@ namespace SeleniumTestFramework.Steps
         [Given("the user can see the dashboard with its data")]
         public void GivenTheUserCanSeeTheDashboardWithItsData()
         {
-            var newUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            var newUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(newUser.Email, $"{newUser.FirstName} {newUser.Surname}", false);
         }
@@ -38,6 +39,14 @@ namespace SeleniumTestFramework.Steps
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
             _dashboardPage.GoToUsersPage();
+        }
+
+        [Given("I navigate to the search page")]
+        public void GivenINavigateToTheSearchPage()
+        {
+            _dashboardPage.VerifyIsAtDashboardPage();
+            _dashboardPage.VerifyUserIsLoggedIn(_settingsModel.Email, _settingsModel.Username, true);
+            _dashboardPage.GoToSearchPage();
         }
 
         [When("I verify the dashboard shows admin details")]
@@ -92,7 +101,7 @@ namespace SeleniumTestFramework.Steps
         [Then("I should see the dashboard of the user")]
         public void ThenIShouldSeeTheDashboardOfTheUser()
         {
-            var user = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            var user = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(user.Email, $"{user.FirstName} {user.Surname}", false);
         }
@@ -100,7 +109,7 @@ namespace SeleniumTestFramework.Steps
         [Then("I should see the dashboard of the added user")]
         public void ThenIShouldSeeTheDashboardOfTheAddedUser()
         {
-            var user = _scenarioContext.Get<AddUserModel>("AddedUser");
+            var user = _scenarioContext.Get<AddUserModel>(ContextConstants.AddedUser);
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(user.Email, $"{user.FirstName} {user.Surname}", false);
         }

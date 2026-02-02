@@ -2,6 +2,7 @@
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.Utilities.Constants;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -28,7 +29,7 @@ namespace SeleniumTestFramework.Steps
         public void WhenIDeleteTheCreatedUser()
         {
             _usersPage.VerifyIsAtUsersPage(true);
-            var user = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            var user = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _usersPage.VerifyUserExists(user.Email);
 
             _usersPage.DeleteUser(user.Email);
@@ -44,7 +45,7 @@ namespace SeleniumTestFramework.Steps
             var newUser = UserFactory.CreateValidCommonUser();
             modal.AddUser(newUser);
 
-            _scenarioContext.Add("AddedUser", newUser);
+            _scenarioContext.Add(ContextConstants.AddedUser, newUser);
 
             modal.VerifyModalIsClosed();
 
@@ -56,7 +57,7 @@ namespace SeleniumTestFramework.Steps
         public void ThenTheNewUserShouldBePresentInTheUsersList()
         {
             _usersPage.VerifyIsAtUsersPage(true);
-            var newUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            var newUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _usersPage.VerifyUserExists(newUser.Email);
         }
 
@@ -64,7 +65,7 @@ namespace SeleniumTestFramework.Steps
         public void ThenTheUserShouldNoLongerBePresentInTheUsersList()
         {
             //var newUser = (RegisterModel)_scenarioContext["RegisteredUser"];
-            var newUser = _scenarioContext.Get<RegisterModel>("RegisteredUser");
+            var newUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _usersPage.VerifyUserDoesNotExist(newUser.Email);
         }
     }

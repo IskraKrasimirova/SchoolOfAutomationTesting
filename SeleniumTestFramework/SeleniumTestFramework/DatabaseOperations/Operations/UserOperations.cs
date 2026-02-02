@@ -51,7 +51,7 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
             GC.SuppressFinalize(this);
         }
 
-        private void AddParameter(IDbCommand command, string parameterName, object value)
+        private static void AddParameter(IDbCommand command, string parameterName, object value)
         {
             var parameter = command.CreateParameter();
             parameter.ParameterName = parameterName;
