@@ -37,6 +37,32 @@ namespace SeleniumTestFramework.Hooks
                 return driver;
             });
 
+            RegisterPages(services);
+            RegisterDatabaseOperations(services);
+
+            return services;
+        }
+
+        private static void RegisterDatabaseOperations(ServiceCollection services)
+        {
+            services.AddScoped<IDbConnection>(sp =>
+            {
+                var settings = sp.GetRequiredService<SettingsModel>();
+                var connectionString = settings.ConnectionString;
+
+                var dbConnection = new MySqlConnection(connectionString);
+                return dbConnection;
+            });
+
+            services.AddScoped(sp =>
+            {
+                var dbConnection = sp.GetRequiredService<IDbConnection>();
+                return new UserOperations(dbConnection);
+            });
+        }
+
+        private static void RegisterPages(ServiceCollection services)
+        {
             services.AddScoped(sp =>
             {
                 var driver = sp.GetRequiredService<IWebDriver>();
@@ -67,28 +93,17 @@ namespace SeleniumTestFramework.Hooks
                 return new AddUserModalPage(driver);
             });
 
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new SearchPage(driver);
+            });
+
             // Short syntax for registering page classes
             //services.AddScoped<LoginPage>();
             //services.AddScoped<DashboardPage>();
             //services.AddScoped<RegisterPage>();
             //services.AddScoped<UsersPage>();
-
-            services.AddScoped<IDbConnection>(sp =>
-            {
-                var settings = sp.GetRequiredService<SettingsModel>();
-                var connectionString = settings.ConnectionString;
-
-                var dbConnection = new MySqlConnection(connectionString);
-                return dbConnection;
-            });
-
-            services.AddScoped(sp =>
-            {
-                var dbConnection = sp.GetRequiredService<IDbConnection>();
-                return new UserOperations(dbConnection);
-            });
-
-            return services;
         }
     }
 }

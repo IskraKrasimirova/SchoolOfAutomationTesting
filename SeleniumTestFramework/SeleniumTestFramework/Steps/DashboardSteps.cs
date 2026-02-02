@@ -113,5 +113,14 @@ namespace SeleniumTestFramework.Steps
             _dashboardPage.VerifyIsAtDashboardPage();
             _dashboardPage.VerifyUserIsLoggedIn(user.Email, $"{user.FirstName} {user.Surname}", false);
         }
+
+        [Then("I should see the created user is logged successfully")]
+        public void ThenIShouldSeeTheCreatedUserIsLoggedSuccessfully()
+        {
+            var registeredUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
+            this._dashboardPage.VerifyLoggedUserEmailIs(registeredUser.Email);
+            this._dashboardPage.VerifyUsernameIs($"{registeredUser.FirstName} {registeredUser.Surname}");
+        }
+
     }
 }

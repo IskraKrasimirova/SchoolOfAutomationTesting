@@ -12,5 +12,13 @@
             VALUES (@FirstName, @Surname, @Title, @Country, @City, @Email, @Password); 
             SELECT LAST_INSERT_ID(); 
         ";
+
+        public static string GetUserByEmail(string email)
+        {
+            return $@"
+                SELECT 1 FROM users
+                WHERE email = '{email}';
+            ";
+        }
     }
 }

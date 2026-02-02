@@ -41,10 +41,11 @@ namespace SeleniumTestFramework.Hooks
             }
         }
 
-        [AfterScenario(Order = 9999)]
+        [AfterScenario("DeleteRegisteredUser", Order = 9999)]
         public void DeleteCurrentUser()
         {
-            _userOperations.DeleteUserWithEmail("ani@ani.com");
+            var registeredUser = this._scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
+            _userOperations.DeleteUserWithEmail(registeredUser.Email);
         }
     }
 }
