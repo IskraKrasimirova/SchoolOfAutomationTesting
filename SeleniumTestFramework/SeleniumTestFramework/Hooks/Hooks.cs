@@ -2,6 +2,7 @@
 using Reqnroll;
 using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Models.UserModels;
 using SeleniumTestFramework.Utilities.Constants;
 
 namespace SeleniumTestFramework.Hooks
@@ -27,25 +28,32 @@ namespace SeleniumTestFramework.Hooks
             _driver.Dispose();
         }
 
-        [AfterScenario(Order = 2)]
-        public void Cleanup()
-        {
-            if (_scenarioContext.TryGetValue(ContextConstants.RegisteredUser, out RegisterModel user))
-            {
-                _userOperations.DeleteUserWithEmail(user.Email);
-            }
-
-            if (_scenarioContext.TryGetValue(ContextConstants.AddedUser, out AddUserModel addedUser))
-            {
-                _userOperations.DeleteUserWithEmail(addedUser.Email);
-            }
-        }
-
-        [AfterScenario("DeleteRegisteredUser", Order = 9999)]
+        [AfterScenario("DeleteRegisteredUser", Order = 2)]
         public void DeleteCurrentUser()
         {
-            var registeredUser = this._scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
+            var registeredUser = this._scenarioContext.Get<UserModel>(ContextConstants.RegisteredUser);
             _userOperations.DeleteUserWithEmail(registeredUser.Email);
+        }
+
+        [AfterScenario(Order = 9999)]
+        public void Cleanup()
+        {
+            try
+            {
+                if (_scenarioContext.TryGetValue(ContextConstants.RegisteredUser, out RegisterModel user))
+                {
+                    _userOperations.DeleteUserWithEmail(user.Email);
+                }
+
+                if (_scenarioContext.TryGetValue(ContextConstants.AddedUser, out AddUserModel addedUser))
+                {
+                    _userOperations.DeleteUserWithEmail(addedUser.Email);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception cleanup: {ex.Message}");
+            }
         }
     }
 }

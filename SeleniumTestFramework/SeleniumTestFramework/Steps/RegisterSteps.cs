@@ -1,5 +1,6 @@
 ﻿using Reqnroll;
 using SeleniumTestFramework.DatabaseOperations.Operations;
+using SeleniumTestFramework.Models.Factories;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using SeleniumTestFramework.Utilities.Constants;
@@ -14,9 +15,12 @@ namespace SeleniumTestFramework.Steps
         private readonly DashboardPage _dashboardPage;
         private readonly LoginPage _loginPage;
         private readonly UserOperations _userOperations;
+        private readonly IUserFactory _userFactory;
 
-        public RegisterSteps(ScenarioContext scenarioContext, RegisterPage _registerPage, DashboardPage dashboardPage, LoginPage loginPage, UserOperations userOperations)
+
+        public RegisterSteps(IUserFactory userFactory, ScenarioContext scenarioContext, RegisterPage _registerPage, DashboardPage dashboardPage, LoginPage loginPage, UserOperations userOperations)
         {
+            this._userFactory = userFactory;
             this._scenarioContext = scenarioContext;
             this._registerPage = _registerPage;
             this._dashboardPage = dashboardPage;
@@ -48,7 +52,7 @@ namespace SeleniumTestFramework.Steps
             _loginPage.GoToRegisterPage();
             _registerPage.VerifyIsAtRegisterPage();
 
-            var newUser = UserFactory.CreateValidUser();
+            var newUser = _userFactory.CreateDefault();
             _registerPage.RegisterNewUser(newUser);
             _scenarioContext.Add(ContextConstants.RegisteredUser, newUser);
 

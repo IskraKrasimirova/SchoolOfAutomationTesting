@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using Bogus.Extensions;
-using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Models.UserModels;
 
 namespace SeleniumTestFramework.Utilities
 {

@@ -2,10 +2,11 @@
 using OpenQA.Selenium.Support.UI;
 using SeleniumTestFramework.Extensions;
 using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Models.UserModels;
 
 namespace SeleniumTestFramework.Pages
 {
-    public class RegisterPage: BasePage
+    public class RegisterPage : BasePage
     {
         private IWebElement RegistrationHeader => _driver.FindElement(By.XPath("//h3[text()='Register']"));
         private IWebElement TitleDropdown => _driver.FindElement(By.XPath("//select[@id='title']"));
@@ -18,8 +19,8 @@ namespace SeleniumTestFramework.Pages
         private IWebElement AgreementCheckbox => _driver.FindElement(By.XPath("//input[@type='checkbox' and @id='tos']"));
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and @name='signup']"));
         public IWebElement AlertElement => _driver.FindElement(By.XPath("//form//div[contains(@class,'alert-warning')]"));
-        
-        public RegisterPage(IWebDriver driver): base(driver)
+
+        public RegisterPage(IWebDriver driver) : base(driver)
         {
         }
 
@@ -38,6 +39,26 @@ namespace SeleniumTestFramework.Pages
             if (model.AgreeToTerms && !AgreementCheckbox.Selected)
             {
                 AgreementCheckbox.Click();
+            }
+
+            _driver.ScrollToElementAndClick(SubmitButton);
+        }
+
+        public void RegisterNewUser(UserModel model)
+        {
+            var select = new SelectElement(TitleDropdown);
+            select.SelectByText(model.Title);
+
+            _driver.ScrollToElementAndSendText(FirstNameInput, model.FirstName);
+            _driver.ScrollToElementAndSendText(SurnameInput, model.Surname);
+            _driver.ScrollToElementAndSendText(EmailInput, model.Email);
+            _driver.ScrollToElementAndSendText(PasswordInput, model.Password);
+            _driver.ScrollToElementAndSendText(CountryInput, model.Country);
+            _driver.ScrollToElementAndSendText(CityInput, model.City);
+
+            if (!AgreementCheckbox.Selected)
+            {
+                _driver.ScrollToElementAndClick(AgreementCheckbox);
             }
 
             _driver.ScrollToElementAndClick(SubmitButton);

@@ -54,6 +54,14 @@ namespace SeleniumTestFramework.Extensions
             element.Click();
         }
 
+        public static void ScrollToElementAndSendText(this IWebDriver driver, IWebElement element, string text)
+        {
+            driver.ScrollToElement(element);
+
+            element.Clear();
+            element.SendKeys(text);
+        }
+
         private static WebDriverWait WaitForPredicate(this IWebDriver driver, int timeoutInSeconds = 10)
         {
             var customWait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));

@@ -1,5 +1,6 @@
 ﻿using Reqnroll;
 using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Models.UserModels;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities.Constants;
 
@@ -117,7 +118,7 @@ namespace SeleniumTestFramework.Steps
         [Then("I should see the created user is logged successfully")]
         public void ThenIShouldSeeTheCreatedUserIsLoggedSuccessfully()
         {
-            var registeredUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
+            var registeredUser = _scenarioContext.Get<UserModel>(ContextConstants.RegisteredUser);
             this._dashboardPage.VerifyLoggedUserEmailIs(registeredUser.Email);
             this._dashboardPage.VerifyUsernameIs($"{registeredUser.FirstName} {registeredUser.Surname}");
         }

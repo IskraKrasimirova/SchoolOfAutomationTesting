@@ -1,5 +1,6 @@
 ﻿using Reqnroll;
 using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Models.UserModels;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using System.Diagnostics.Metrics;

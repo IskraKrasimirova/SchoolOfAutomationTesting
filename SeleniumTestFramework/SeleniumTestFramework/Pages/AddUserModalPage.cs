@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumTestFramework.Extensions;
-using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Models.UserModels;
 using SeleniumTestFramework.Utilities;
 
 namespace SeleniumTestFramework.Pages

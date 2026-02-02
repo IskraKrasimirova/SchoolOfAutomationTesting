@@ -5,6 +5,8 @@ using OpenQA.Selenium.Chrome;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Models;
+using SeleniumTestFramework.Models.Builders;
+using SeleniumTestFramework.Models.Factories;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities;
 using System.Data;
@@ -36,6 +38,9 @@ namespace SeleniumTestFramework.Hooks
 
                 return driver;
             });
+
+            services.AddSingleton<IUserFactory, UsersFactory>();
+            services.AddScoped<UserBuilder>();
 
             RegisterPages(services);
             RegisterDatabaseOperations(services);
