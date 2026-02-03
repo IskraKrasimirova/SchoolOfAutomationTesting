@@ -54,6 +54,14 @@ namespace SeleniumTestFramework.Utilities.Extensions
             element.Click();
         }
 
+        public static void ScrollAndJsClick(this IWebDriver driver, IWebElement element)
+        {
+            var js = (IJavaScriptExecutor)driver;
+
+            js.ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", element);
+            js.ExecuteScript("arguments[0].click();", element);
+        }
+
         public static void ScrollToElementAndSendText(this IWebDriver driver, IWebElement element, string text)
         {
             driver.ScrollToElement(element);

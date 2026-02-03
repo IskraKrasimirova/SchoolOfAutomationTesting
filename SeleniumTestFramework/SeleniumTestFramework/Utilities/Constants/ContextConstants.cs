@@ -4,5 +4,7 @@
     {
         public const string RegisteredUser = "RegisteredUser";
         public const string AddedUser = "AddedUser";
+        public const string InsertedUser = "InsertedUser";
+        public const string NewRegisteredUser = "NewRegisteredUser";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using Reqnroll;
+using SeleniumTestFramework.DatabaseOperations.Entities;
 using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Models.UserModels;
@@ -28,32 +29,35 @@ namespace SeleniumTestFramework.Hooks
             _driver.Dispose();
         }
 
-        [AfterScenario("DeleteRegisteredUser", Order = 2)]
-        public void DeleteCurrentUser()
-        {
-            var registeredUser = this._scenarioContext.Get<UserModel>(ContextConstants.RegisteredUser);
-            _userOperations.DeleteUserWithEmail(registeredUser.Email);
-        }
-
-        [AfterScenario(Order = 9999)]
+        [AfterScenario(Order = 2)]
         public void Cleanup()
         {
-            try
+            if (_scenarioContext.TryGetValue(ContextConstants.RegisteredUser, out RegisterModel registeredUser))
             {
-                if (_scenarioContext.TryGetValue(ContextConstants.RegisteredUser, out RegisterModel user))
-                {
-                    _userOperations.DeleteUserWithEmail(user.Email);
-                }
+                _userOperations.DeleteUserWithEmail(registeredUser.Email);
+            }
 
-                if (_scenarioContext.TryGetValue(ContextConstants.AddedUser, out AddUserModel addedUser))
-                {
-                    _userOperations.DeleteUserWithEmail(addedUser.Email);
-                }
-            }
-            catch (Exception ex)
+            if (_scenarioContext.TryGetValue(ContextConstants.AddedUser, out AddUserModel addedUser))
             {
-                Console.WriteLine($"Exception cleanup: {ex.Message}");
+                _userOperations.DeleteUserWithEmail(addedUser.Email);
             }
+
+            if (_scenarioContext.TryGetValue(ContextConstants.InsertedUser, out UserEntity insertedUser))
+            {
+                _userOperations.DeleteUserWithEmail(insertedUser.Email);
+            }
+
+            if (_scenarioContext.TryGetValue(ContextConstants.NewRegisteredUser, out UserModel user))
+            {
+                _userOperations.DeleteUserWithEmail(user.Email);
+            }
+        }
+
+        [AfterScenario("DeleteRegisteredUser", Order = 9999)]
+        public void DeleteCurrentUser()
+        {
+            var registeredUser = this._scenarioContext.Get<UserModel>(ContextConstants.NewRegisteredUser);
+            _userOperations.DeleteUserWithEmail(registeredUser.Email);
         }
     }
 }

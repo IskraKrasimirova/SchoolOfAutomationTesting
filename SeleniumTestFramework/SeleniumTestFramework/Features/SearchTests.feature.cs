@@ -108,18 +108,18 @@ namespace SeleniumTestFramework.Features
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
 #line 5
- #line hidden
+#line hidden
 #line 6
-    await testRunner.GivenAsync("I navigate to the main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("I navigate to the main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 7
-    await testRunner.AndAsync("I verify that the login form is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I verify that the login form is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 8
-    await testRunner.AndAsync("I login with admin credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I login with admin credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 9
-    await testRunner.AndAsync("I navigate to the search page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I navigate to the search page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -145,7 +145,7 @@ namespace SeleniumTestFramework.Features
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 12
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -155,34 +155,28 @@ namespace SeleniumTestFramework.Features
             {
                 await this.ScenarioStartAsync();
 #line 5
- await this.FeatureBackgroundAsync();
+await this.FeatureBackgroundAsync();
 #line hidden
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "firstName",
-                            "Ivan"});
-                table2.AddRow(new string[] {
                             "surname",
-                            "Petrov"});
-                table2.AddRow(new string[] {
                             "email",
-                            "ivan.petrov@test.com"});
-                table2.AddRow(new string[] {
                             "country",
-                            "Bulgaria"});
-                table2.AddRow(new string[] {
                             "city",
-                            "Sofia"});
-                table2.AddRow(new string[] {
                             "title",
-                            "Mr."});
-                table2.AddRow(new string[] {
                             "password",
-                            "Password123!"});
+                            "isAdmin"});
                 table2.AddRow(new string[] {
-                            "isAdmin",
+                            "Ivan",
+                            "Petrov",
+                            "ivan.petrov@test.com",
+                            "Bulgaria",
+                            "Sofia",
+                            "Mr.",
+                            "Password123!",
                             "false"});
 #line 13
-    await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table2, "Given ");
+ await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table2, "Given ");
 #line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "skillName",
@@ -193,17 +187,17 @@ namespace SeleniumTestFramework.Features
                 table3.AddRow(new string[] {
                             "Automated Testing",
                             "5"});
+#line 16
+ await testRunner.AndAsync("the user has the following skills:", ((string)(null)), table3, "And ");
+#line hidden
+#line 20
+ await testRunner.WhenAsync("I search for users with skill \"Java\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 21
+ await testRunner.ThenAsync("all results should contain skill \"Java\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
 #line 22
-    await testRunner.AndAsync("the user has the following skills:", ((string)(null)), table3, "And ");
-#line hidden
-#line 26
-    await testRunner.WhenAsync("I search for users with skill \"Java\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 27
-    await testRunner.ThenAsync("I should see \"Ivan Petrov\" in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 28
-    await testRunner.AndAsync("the skill \"Java\" should be displayed for \"Ivan Petrov\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I should see the created user in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

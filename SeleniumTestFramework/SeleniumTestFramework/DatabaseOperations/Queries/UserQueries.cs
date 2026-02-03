@@ -8,8 +8,8 @@
         ";
 
         public const string InsertUser = @" 
-            INSERT INTO users (first_name, sir_name, title, country, city, email, password) 
-            VALUES (@FirstName, @Surname, @Title, @Country, @City, @Email, @Password); 
+            INSERT INTO users (first_name, sir_name, title, country, city, email, password, is_admin) 
+            VALUES (@FirstName, @Surname, @Title, @Country, @City, @Email, @Password, @IsAdmin); 
             SELECT LAST_INSERT_ID(); 
         ";
 

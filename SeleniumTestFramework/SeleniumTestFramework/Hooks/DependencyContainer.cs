@@ -56,6 +56,8 @@ namespace SeleniumTestFramework.Hooks
                 var connectionString = settings.ConnectionString;
 
                 var dbConnection = new MySqlConnection(connectionString);
+                dbConnection.Open();
+
                 return dbConnection;
             });
 
@@ -63,6 +65,12 @@ namespace SeleniumTestFramework.Hooks
             {
                 var dbConnection = sp.GetRequiredService<IDbConnection>();
                 return new UserOperations(dbConnection);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var dbConnection = sp.GetRequiredService<IDbConnection>();
+                return new SkillOperations(dbConnection);
             });
         }
 
@@ -102,6 +110,12 @@ namespace SeleniumTestFramework.Hooks
             {
                 var driver = sp.GetRequiredService<IWebDriver>();
                 return new SearchPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new SearchResultPage(driver);
             });
 
             // Short syntax for registering page classes

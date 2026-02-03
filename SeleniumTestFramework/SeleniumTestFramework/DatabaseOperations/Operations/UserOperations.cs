@@ -1,6 +1,8 @@
 ﻿using SeleniumTestFramework.DatabaseOperations.Entities;
 using SeleniumTestFramework.DatabaseOperations.Queries;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SeleniumTestFramework.DatabaseOperations.Operations
 {
@@ -11,7 +13,6 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
         public UserOperations(IDbConnection connection)
         {
             this._connection = connection;
-            this._connection.Open();
         }
 
         public void DeleteUserWithEmail(string email)
@@ -29,14 +30,17 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
             using var command = this._connection.CreateCommand();
             command.CommandText = UserQueries.InsertUser;
 
+            var hashedPassword = HashPassword(user.Password); 
+            var isAdminValue = user.IsAdmin ? 1 : 0;
+
             AddParameter(command, "@FirstName", user.FirstName);
             AddParameter(command, "@Surname", user.Surname);
             AddParameter(command, "@Title", user.Title);
             AddParameter(command, "@Country", user.Country);
             AddParameter(command, "@City", user.City);
             AddParameter(command, "@Email", user.Email);
-            AddParameter(command, "@Password", user.Password);
-            AddParameter(command,"@IsAdmin", user.IsAdmin);
+            AddParameter(command, "@Password", hashedPassword);
+            AddParameter(command,"@IsAdmin", isAdminValue);
 
             var result = command.ExecuteScalar();
 
@@ -66,6 +70,11 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
             parameter.ParameterName = parameterName;
             parameter.Value = value;
             command.Parameters.Add(parameter);
+        }
+
+        private string HashPassword(string password)
+        {
+            return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(password))).ToLower();
         }
     }
 }

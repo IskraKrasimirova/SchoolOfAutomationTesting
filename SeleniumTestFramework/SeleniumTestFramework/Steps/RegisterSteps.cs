@@ -54,7 +54,7 @@ namespace SeleniumTestFramework.Steps
 
             var newUser = _userFactory.CreateDefault();
             _registerPage.RegisterNewUser(newUser);
-            _scenarioContext.Add(ContextConstants.RegisteredUser, newUser);
+            _scenarioContext.Add(ContextConstants.NewRegisteredUser, newUser);
 
             Retry.Until(() =>
             {
