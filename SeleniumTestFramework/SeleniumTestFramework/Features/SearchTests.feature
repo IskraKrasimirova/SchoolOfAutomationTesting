@@ -24,8 +24,8 @@ Scenario: User created directly in the database with skills appears in UI search
 @DB @Search @Ignore
 # The scenario is ignored because the country dropdown has fixed values and a new country cannot be added 
 Scenario: Country and city created directly in the database appear in the Search page
-	Given a country exists in the database with name "Egypt"
-	And a city exists in the database with name "Cairo" in country "Egypt"
+	Given A country exists in the database with name "Egypt"
+	And A city exists in the database with name "Cairo" in country "Egypt"
 	When I refresh the search page
 	And I open the country dropdown
 	Then I should see "Egypt" in the country dropdown
@@ -33,7 +33,7 @@ Scenario: Country and city created directly in the database appear in the Search
 	
 @DB @Search
 Scenario: City created directly in the database appears in the Search page
-	Given a city exists in the database with name "Lyon" in country "France"
+	Given A city exists in the database with name "Lyon" in country "France"
 	When I refresh the search page
 	And I open the country dropdown
 	And I select country "France"

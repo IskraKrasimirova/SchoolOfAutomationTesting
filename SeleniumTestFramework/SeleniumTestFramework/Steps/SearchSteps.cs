@@ -67,7 +67,7 @@ namespace SeleniumTestFramework.Steps
             }
         }
 
-        [Given("a country exists in the database with name {string}")]
+        [Given("A country exists in the database with name {string}")]
         public void GivenACountryExistsInTheDatabaseWithName(string countryName)
         {
             _locationOperations.DeleteCountry(countryName);
@@ -75,11 +75,14 @@ namespace SeleniumTestFramework.Steps
             _scenarioContext.Add(ContextConstants.InsertedCountry, countryName);
         }
 
-        [Given("a city exists in the database with name {string} in country {string}")]
+        [Given("A city exists in the database with name {string} in country {string}")]
         public void GivenACityExistsInTheDatabaseWithNameInCountry(string cityName, string countryName)
         {
             _locationOperations.DeleteCity(cityName, countryName);
             _locationOperations.InsertCityAndCountry(cityName, countryName);
+
+            _scenarioContext.Add(ContextConstants.InsertedCountry, countryName);
+            _scenarioContext.Add(ContextConstants.InsertedCity, cityName);
         }
 
         [When("I search for users with skill {string}")]

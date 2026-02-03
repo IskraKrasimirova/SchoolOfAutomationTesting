@@ -157,7 +157,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "firstName",
                             "surname",
                             "email",
@@ -166,7 +166,7 @@ await this.FeatureBackgroundAsync();
                             "title",
                             "password",
                             "isAdmin"});
-                table2.AddRow(new string[] {
+                table1.AddRow(new string[] {
                             "Ivan",
                             "Petrov",
                             "ivan.petrov@test.com",
@@ -176,19 +176,19 @@ await this.FeatureBackgroundAsync();
                             "Password123!",
                             "false"});
 #line 13
- await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table2, "Given ");
+ await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table1, "Given ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "skillName",
                             "competence"});
-                table3.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Java",
                             "3"});
-                table3.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Automated Testing",
                             "5"});
 #line 16
- await testRunner.AndAsync("the user has the following skills:", ((string)(null)), table3, "And ");
+ await testRunner.AndAsync("the user has the following skills:", ((string)(null)), table2, "And ");
 #line hidden
 #line 20
  await testRunner.WhenAsync("I search for users with skill \"Java\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -233,10 +233,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 await this.FeatureBackgroundAsync();
 #line hidden
 #line 27
- await testRunner.GivenAsync("a country exists in the database with name \"Egypt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("A country exists in the database with name \"Egypt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 28
- await testRunner.AndAsync("a city exists in the database with name \"Cairo\" in country \"Egypt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("A city exists in the database with name \"Cairo\" in country \"Egypt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 29
  await testRunner.WhenAsync("I refresh the search page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -282,7 +282,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 await this.FeatureBackgroundAsync();
 #line hidden
 #line 36
- await testRunner.GivenAsync("a city exists in the database with name \"Lyon\" in country \"France\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("A city exists in the database with name \"Lyon\" in country \"France\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 37
  await testRunner.WhenAsync("I refresh the search page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

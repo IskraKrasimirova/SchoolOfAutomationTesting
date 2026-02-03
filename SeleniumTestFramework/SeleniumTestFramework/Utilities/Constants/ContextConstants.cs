@@ -7,5 +7,6 @@
         public const string InsertedUser = "InsertedUser";
         public const string NewRegisteredUser = "NewRegisteredUser";
         public const string InsertedCountry = "InsertedCountry";
+        public const string InsertedCity = "InsertedCity";
     }
 }

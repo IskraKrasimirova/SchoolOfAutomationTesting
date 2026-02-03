@@ -12,14 +12,16 @@ namespace SeleniumTestFramework.Hooks
     public class Hooks
     {
         private readonly IWebDriver _driver;
-        private readonly UserOperations _userOperations;
         private readonly ScenarioContext _scenarioContext;
+        private readonly UserOperations _userOperations;
+        private readonly LocationOperations _locationOperations;
 
-        public Hooks(ScenarioContext scenarioContext, IWebDriver driver, UserOperations userOperations)
+        public Hooks(ScenarioContext scenarioContext, IWebDriver driver, UserOperations userOperations, LocationOperations locationOperations)
         {
             this._scenarioContext = scenarioContext;
             this._driver = driver;
             this._userOperations = userOperations;
+            this._locationOperations = locationOperations;
         }
 
         [AfterScenario(Order = 1)]
@@ -50,6 +52,16 @@ namespace SeleniumTestFramework.Hooks
             if (_scenarioContext.TryGetValue(ContextConstants.NewRegisteredUser, out UserModel user))
             {
                 _userOperations.DeleteUserWithEmail(user.Email);
+            }
+        }
+
+        [AfterScenario(Order = 3)]
+        public void CleanupInsertedCity()
+        {
+            if (_scenarioContext.TryGetValue(ContextConstants.InsertedCity, out string cityName) &&
+                _scenarioContext.TryGetValue(ContextConstants.InsertedCountry, out string countryName))
+            {
+                _locationOperations.DeleteCity(cityName, countryName);
             }
         }
 
