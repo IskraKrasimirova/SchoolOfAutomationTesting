@@ -72,6 +72,12 @@ namespace SeleniumTestFramework.Hooks
                 var dbConnection = sp.GetRequiredService<IDbConnection>();
                 return new SkillOperations(dbConnection);
             });
+
+            services.AddScoped(sp =>
+            {
+                var dbConnection = sp.GetRequiredService<IDbConnection>();
+                return new LocationOperations(dbConnection);
+            });
         }
 
         private static void RegisterPages(ServiceCollection services)

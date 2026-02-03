@@ -21,3 +21,20 @@ Scenario: User created directly in the database with skills appears in UI search
 	Then all results should contain skill "Java"
 	And I should see the created user in the search results
 
+@DB @Search @Ignore
+# The scenario is ignored because the country dropdown has fixed values and a new country cannot be added 
+Scenario: Country and city created directly in the database appear in the Search page
+	Given a country exists in the database with name "Egypt"
+	And a city exists in the database with name "Cairo" in country "Egypt"
+	When I refresh the search page
+	And I open the country dropdown
+	Then I should see "Egypt" in the country dropdown
+	And I should see "Cairo" in the city dropdown
+	
+@DB @Search
+Scenario: City created directly in the database appears in the Search page
+	Given a city exists in the database with name "Lyon" in country "France"
+	When I refresh the search page
+	And I open the country dropdown
+	And I select country "France"
+	Then I should see "Lyon" in the city dropdown

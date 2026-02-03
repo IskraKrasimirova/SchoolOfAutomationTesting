@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumTestFramework.Utilities;
 using SeleniumTestFramework.Utilities.Extensions;
 
@@ -10,7 +12,8 @@ namespace SeleniumTestFramework.Pages
         private IWebElement CityHeader => _driver.FindElement(By.XPath("//h2[contains(text(),'Cities')]"));
         private IWebElement SkillsHeader => _driver.FindElement(By.XPath("//h2[contains(text(),'Skills')]"));
         private IWebElement SearchButton => _driver.FindElement(By.XPath("//button[@id='search' and contains(text(),'Search')]"));
-
+        private IWebElement CountryDropdown => _driver.FindElement(By.XPath("//select[@id='availableCountries']"));
+        private IWebElement CityDropdown => _driver.FindElement(By.XPath("//select[@id='availableCities']"));
         private IWebElement? GetCheckboxBySkillName(string skillName) =>
             _driver.FindElements(By.XPath($"//input[@type='checkBox' and @name='skillsToSearch[]' and @value='{skillName}']"))
             .FirstOrDefault();
@@ -56,6 +59,24 @@ namespace SeleniumTestFramework.Pages
             _driver.ScrollToElementAndClick(SearchButton);
         }
 
+        public void OpenCountryDropdown()
+        {
+            CountryDropdown.Click();
+        }
+
+        public void SelectCountry(string countryName)
+        {
+            var select = new SelectElement(CountryDropdown);
+            select.SelectByText(countryName);
+
+            Retry.Until(() =>
+            {
+                var options = new SelectElement(CityDropdown).Options; 
+                if (options.Count == 0) 
+                    throw new Exception("City dropdown still empty");
+            });
+        }
+
         public void VerifyIsAtSearchPage()
         {
             _driver.WaitUntilUrlContains("/search");
@@ -71,7 +92,23 @@ namespace SeleniumTestFramework.Pages
                 Assert.That(CountryHeader.Displayed, "Country header is not visible.");
                 Assert.That(CityHeader.Displayed, "City header is not visible.");
                 Assert.That(SkillsHeader.Displayed, "Skills header is not visible.");
-            }); 
+            });
+        }
+
+        public void VerifyCountryExists(string countryName)
+        {
+            var countrySelect = new SelectElement(CountryDropdown);
+            var countries = countrySelect.Options.Select(o => o.Text.Trim()).ToList();
+
+            Assert.That(countries, Does.Contain(countryName));
+        }
+
+        public void VerifyCityExists(string cityName)
+        {
+            var countritySelect = new SelectElement(CityDropdown);
+            var cities = countritySelect.Options.Select(o => o.Text.Trim()).ToList();
+
+            Assert.That(cities, Does.Contain(cityName));
         }
     }
 }
