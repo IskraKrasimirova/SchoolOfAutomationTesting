@@ -15,7 +15,7 @@ namespace SeleniumTestFramework.Pages
            .FirstOrDefault();
 
         private ICollection<IWebElement> FindRowsBySkill(string skillName) =>
-            _driver.FindElements(By.XPath($"//td[contains(text(), '{skillName}')]/parent::tr"));
+            _driver.FindElements(By.XPath($"//td[text()='{skillName}']/parent::tr"));
 
         public SearchResultPage(IWebDriver driver) : base(driver)
         {
@@ -48,6 +48,8 @@ namespace SeleniumTestFramework.Pages
         {
             var skillCells = GetColumnCells("Skill");
 
+            Assert.That(skillCells, Is.Not.Empty, $"No rows found for skill '{skillName}'.");
+
             foreach (var cell in skillCells) 
             { 
                 Assert.That(cell.Text.Trim(), Is.EqualTo(skillName), $"Expected skill '{skillName}', but found '{cell.Text.Trim()}'."); 
@@ -57,10 +59,6 @@ namespace SeleniumTestFramework.Pages
         private int GetColumnIndex(string columnName)
         {
             var headers = _driver.FindElements(By.XPath("//table//thead//th"));
-            foreach (var h in headers) 
-            { 
-                Console.WriteLine($"HEADER: '{h.Text}'"); 
-            }
 
             for (int i = 0; i < headers.Count; i++)
             {

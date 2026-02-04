@@ -59,11 +59,11 @@ namespace SeleniumTestFramework.Steps
             foreach (var row in dataTable.Rows)
             {
                 var skillName = row["skillName"];
-                var skillCompetene = int.Parse(row["competence"]);
+                var skillCompetence = int.Parse(row["competence"]);
 
                 var skillId = _skillOperations.GetSkillIdByName(skillName);
 
-                _skillOperations.AddSkillToUser(user.Id, skillId, skillCompetene);
+                _skillOperations.AddSkillToUser(user.Id, skillId, skillCompetence);
             }
         }
 

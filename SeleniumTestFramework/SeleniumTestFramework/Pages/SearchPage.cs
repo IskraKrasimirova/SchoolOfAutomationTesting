@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumTestFramework.Utilities;
 using SeleniumTestFramework.Utilities.Extensions;
@@ -105,8 +104,8 @@ namespace SeleniumTestFramework.Pages
 
         public void VerifyCityExists(string cityName)
         {
-            var countritySelect = new SelectElement(CityDropdown);
-            var cities = countritySelect.Options.Select(o => o.Text.Trim()).ToList();
+            var citySelect = new SelectElement(CityDropdown);
+            var cities = citySelect.Options.Select(o => o.Text.Trim()).ToList();
 
             Assert.That(cities, Does.Contain(cityName));
         }

@@ -157,7 +157,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "firstName",
                             "surname",
                             "email",
@@ -166,7 +166,7 @@ await this.FeatureBackgroundAsync();
                             "title",
                             "password",
                             "isAdmin"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Ivan",
                             "Petrov",
                             "ivan.petrov@test.com",
@@ -176,19 +176,19 @@ await this.FeatureBackgroundAsync();
                             "Password123!",
                             "false"});
 #line 13
- await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table1, "Given ");
+ await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table2, "Given ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "skillName",
                             "competence"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Java",
                             "3"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Automated Testing",
                             "5"});
 #line 16
- await testRunner.AndAsync("the user has the following skills:", ((string)(null)), table2, "And ");
+ await testRunner.AndAsync("the user has the following skills:", ((string)(null)), table3, "And ");
 #line hidden
 #line 20
  await testRunner.WhenAsync("I search for users with skill \"Java\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
