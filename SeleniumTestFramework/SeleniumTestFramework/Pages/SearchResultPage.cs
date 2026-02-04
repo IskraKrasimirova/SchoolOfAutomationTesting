@@ -56,6 +56,37 @@ namespace SeleniumTestFramework.Pages
             }
         }
 
+        public void VerifyAllRowsHaveCountry(string countryName)
+        {
+            var countryCells = GetColumnCells("Country");
+
+            Assert.That(countryCells, Is.Not.Empty, $"No rows found for country '{countryName}'.");
+
+            foreach (var cell in countryCells)
+            {
+                Assert.That(cell.Text.Trim(), Is.EqualTo(countryName), $"Expected country '{countryName}', but found '{cell.Text.Trim()}'.");
+            }
+        }
+
+        public void VerifyRowsContainOnlyCities(List<string> expectedCities)
+        {
+            var cityCells = GetColumnCells("City"); 
+
+            Assert.That(cityCells, Is.Not.Empty, "No rows found in the City column."); 
+
+            var actualCities = cityCells
+                .Select(c => c.Text.Trim())
+                .ToList();
+
+            var unexpectedCities = actualCities.Except(expectedCities).ToList(); 
+            
+            Assert.That(unexpectedCities, Is.Empty, $"Unexpected cities found: {string.Join(", ", unexpectedCities)}");
+
+            var missingCities = expectedCities.Except(actualCities).ToList(); 
+            
+            Assert.That(missingCities, Is.Empty, $"Expected cities not found: {string.Join(", ", missingCities)}");
+        }
+
         private int GetColumnIndex(string columnName)
         {
             var headers = _driver.FindElements(By.XPath("//table//thead//th"));

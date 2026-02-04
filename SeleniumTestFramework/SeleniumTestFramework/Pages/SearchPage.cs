@@ -13,6 +13,15 @@ namespace SeleniumTestFramework.Pages
         private IWebElement SearchButton => _driver.FindElement(By.XPath("//button[@id='search' and contains(text(),'Search')]"));
         private IWebElement CountryDropdown => _driver.FindElement(By.XPath("//select[@id='availableCountries']"));
         private IWebElement CityDropdown => _driver.FindElement(By.XPath("//select[@id='availableCities']"));
+
+        private IWebElement AddCountryButton => _driver.FindElement(By.XPath("//button[@id='addCountryToSearch']"));
+        private IReadOnlyCollection<IWebElement> SearchCountryCheckboxes =>
+             _driver.FindElements(By.XPath("//ul[@id='searchedCountries']//input[@type='checkbox']"));
+
+        private IWebElement AddCityButton => _driver.FindElement(By.XPath("//button[@id='addCitiesToSearch']"));
+        private IReadOnlyCollection<IWebElement> SearchCityCheckboxes =>
+             _driver.FindElements(By.XPath("//ul[@id='searchedCities']//input[@type='checkbox']"));
+
         private IWebElement? GetCheckboxBySkillName(string skillName) =>
             _driver.FindElements(By.XPath($"//input[@type='checkBox' and @name='skillsToSearch[]' and @value='{skillName}']"))
             .FirstOrDefault();
@@ -70,10 +79,36 @@ namespace SeleniumTestFramework.Pages
 
             Retry.Until(() =>
             {
-                var options = new SelectElement(CityDropdown).Options; 
-                if (options.Count == 0) 
+                var options = new SelectElement(CityDropdown).Options;
+                if (options.Count == 0)
                     throw new Exception("City dropdown still empty");
             });
+        }
+
+        public void SelectCountryForSearch(string countryName)
+        {
+            SelectCountry(countryName);
+            AddCountryButton.Click();
+
+            var checkbox = SearchCountryCheckboxes
+                .First(cb => cb.GetAttribute("value") == countryName);
+
+            if (!checkbox.Selected)
+                checkbox.Click();
+        }
+
+        public void SelectCityForSearch(string cityName)
+        {
+            var select = new SelectElement(CityDropdown);
+            select.SelectByText(cityName);
+
+            AddCityButton.Click();
+
+            var checkbox = SearchCityCheckboxes
+                .First(cb => cb.GetAttribute("value") == cityName);
+
+            if (!checkbox.Selected)
+                checkbox.Click();
         }
 
         public void VerifyIsAtSearchPage()
@@ -108,6 +143,40 @@ namespace SeleniumTestFramework.Pages
             var cities = citySelect.Options.Select(o => o.Text.Trim()).ToList();
 
             Assert.That(cities, Does.Contain(cityName));
+        }
+
+        public void VerifyCountryIsActiveForSearch(string countryName)
+        {
+            var selectedCountries = GetActiveCountriesForSearch();
+
+            Assert.That(selectedCountries, Does.Contain(countryName), $"Country '{countryName}' is not active for search.");
+        }
+
+        public void VerifyCityIsActiveForSearch(string cityName)
+        {
+            var selectedCities = GetActiveCitiesForSearch();
+
+            Assert.That(selectedCities, Does.Contain(cityName), $"City '{cityName}' is not active for search.");
+        }
+
+        private List<string> GetActiveCountriesForSearch()
+        {
+            var selectedCountries = SearchCountryCheckboxes
+                .Where(c => c.Selected)
+                .Select(c => c.GetAttribute("value"))
+                .ToList();
+
+            return selectedCountries;
+        }
+
+        private List<string> GetActiveCitiesForSearch()
+        {
+            var selectedCities = SearchCityCheckboxes
+                .Where(c => c.Selected)
+                .Select(c => c.GetAttribute("value"))
+                .ToList();
+
+            return selectedCities;
         }
     }
 }

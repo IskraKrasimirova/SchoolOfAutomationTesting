@@ -1,14 +1,8 @@
 ﻿using OpenQA.Selenium;
 using Reqnroll;
 using SeleniumTestFramework.DatabaseOperations.Entities;
-using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -40,6 +34,23 @@ namespace SeleniumTestFramework.Steps
         {
             var user = _scenarioContext.Get<UserEntity>(ContextConstants.InsertedUser);
             _searchResultPage.VerifyUserExists(user.Email);
+        }
+
+        [Then("all results should contain country {string}")]
+        public void ThenAllResultsShouldContainCountry(string countryName)
+        {
+            _searchResultPage.VerifyIsAtSearchResultPage();
+            _searchResultPage.VerifyAllRowsHaveCountry(countryName);
+        }
+
+        [Then("all results should contain only cities:")]
+        public void ThenAllResultsShouldContainOnlyCities(DataTable dataTable)
+        {
+            var expectedCities = dataTable.Rows.
+                Select(r => r["City"].Trim())
+                .ToList();
+
+            _searchResultPage.VerifyRowsContainOnlyCities(expectedCities);
         }
     }
 }

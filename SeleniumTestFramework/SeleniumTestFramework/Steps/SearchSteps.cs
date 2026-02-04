@@ -113,6 +113,31 @@ namespace SeleniumTestFramework.Steps
             _searchPage.SelectCountry(countryName);
         }
 
+        [When("I select country {string} for search")]
+        public void WhenISelectCountryForSearch(string countryName)
+        {
+            _searchPage.VerifyIsAtSearchPage();
+            _searchPage.OpenCountryDropdown();
+            _searchPage.VerifyCountryExists(countryName);
+            _searchPage.SelectCountryForSearch(countryName);
+            _searchPage.VerifyCountryIsActiveForSearch(countryName);
+            _searchPage.ClickSearch();
+        }
+
+        [When("I select city {string} for search")]
+        public void WhenISelectCityForSearch(string cityName)
+        {
+            _searchPage.VerifyCityExists(cityName);
+            _searchPage.SelectCityForSearch(cityName);
+            _searchPage.VerifyCityIsActiveForSearch(cityName);
+        }
+
+        [When("I perform the search")]
+        public void WhenIPerformTheSearch()
+        {
+            _searchPage.ClickSearch();
+        }
+
         [Then("I should see {string} in the country dropdown")]
         public void ThenIShouldSeeInTheCountryDropdown(string countryName)
         {
