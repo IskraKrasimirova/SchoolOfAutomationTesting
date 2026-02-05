@@ -4,7 +4,6 @@ using SeleniumTestFramework.DatabaseOperations.Entities;
 using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities.Constants;
-using System.Diagnostics.Metrics;
 
 namespace SeleniumTestFramework.Steps
 {

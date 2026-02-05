@@ -6,7 +6,7 @@ Background:
 	Given I navigate to the main page
 	And I verify that the login form is displayed
 
-@ignore
+@Ignore
 @E2E
 @Users
 # Scenario with a multiple When–Then structure is not considered as a best practice. 
@@ -47,7 +47,7 @@ Scenario: Verify a registered user can be deleted by an admin user and the user 
 	And I should see an error message with the following text "Invalid email or password"
 
 
-@users
+@Users
 Scenario: Verify admin user can add a new user and the new user can login successfully
 	Given I login with admin credentials
 	And I navigate to the users page

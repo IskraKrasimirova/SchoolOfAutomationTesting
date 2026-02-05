@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SeleniumTestFramework.DatabaseOperations.Operations
 {
-    public class UserOperations:IDisposable
+    public class UserOperations : IDisposable
     {
         private readonly IDbConnection _connection;
 
@@ -30,7 +30,7 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
             using var command = this._connection.CreateCommand();
             command.CommandText = UserQueries.InsertUser;
 
-            var hashedPassword = HashPassword(user.Password); 
+            var hashedPassword = HashPassword(user.Password);
             var isAdminValue = user.IsAdmin ? 1 : 0;
 
             AddParameter(command, "@FirstName", user.FirstName);
@@ -40,7 +40,7 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
             AddParameter(command, "@City", user.City);
             AddParameter(command, "@Email", user.Email);
             AddParameter(command, "@Password", hashedPassword);
-            AddParameter(command,"@IsAdmin", isAdminValue);
+            AddParameter(command, "@IsAdmin", isAdminValue);
 
             var result = command.ExecuteScalar();
 
@@ -63,6 +63,31 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
             var result = command.ExecuteScalar();
 
             return Convert.ToInt32(result);
+        }
+
+        public List<UserSkillDto> GetAllUserSkillRecords()
+        {
+            var command = this._connection.CreateCommand();
+            command.CommandText = UserQueries.GetAllUserSkills();
+
+            var result = new List<UserSkillDto>();
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                result.Add(new UserSkillDto
+                {
+                    FirstName = reader.GetString(0),
+                    Surname = reader.GetString(1),
+                    Email = reader.GetString(2),
+                    Country = reader.GetString(3),
+                    City = reader.GetString(4),
+                    Skill = reader.GetString(5),
+                    SkillCategory = reader.GetString(6)
+                });
+            }
+
+            return result;
         }
 
         public void Dispose()

@@ -106,8 +106,17 @@ Scenario: Uncheck one of the selected cities for search returns only users from 
 		| Varna  |
 		| Burgas |
 
-@Search @DB
+@Users @DB @Search
 Scenario: Search with no criteria shows one row per skill for each user
 	Given there are users in the system who have skills
 	When I perform the search
 	Then the results should show every skill for every user
+
+@Users @DB @Search
+# In this case we search with no criteria
+Scenario: Users without skills should not appear in search results
+	Given a user exists in the database with:
+		| firstName | surname | email                | country  | city  | title | password     | isAdmin |
+		| Ivan      | Petrov  | ivan.petrov@test.com | Bulgaria | Sofia | Mr.   | Password123! | false   |
+	When I perform the search
+	Then the results should not contain this user

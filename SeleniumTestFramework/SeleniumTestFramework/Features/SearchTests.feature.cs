@@ -126,7 +126,7 @@ namespace SeleniumTestFramework.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SearchTests.feature.ndjson", 13);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SearchTests.feature.ndjson", 14);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -642,13 +642,15 @@ await this.FeatureBackgroundAsync();
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Search with no criteria shows one row per skill for each user")]
-        [global::NUnit.Framework.CategoryAttribute("Search")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
         [global::NUnit.Framework.CategoryAttribute("DB")]
+        [global::NUnit.Framework.CategoryAttribute("Search")]
         public async global::System.Threading.Tasks.Task SearchWithNoCriteriaShowsOneRowPerSkillForEachUser()
         {
             string[] tagsOfScenario = new string[] {
-                    "Search",
-                    "DB"};
+                    "Users",
+                    "DB",
+                    "Search"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "10";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search with no criteria shows one row per skill for each user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
@@ -675,6 +677,66 @@ await this.FeatureBackgroundAsync();
 #line hidden
 #line 113
  await testRunner.ThenAsync("the results should show every skill for every user", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Users without skills should not appear in search results")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
+        [global::NUnit.Framework.CategoryAttribute("DB")]
+        [global::NUnit.Framework.CategoryAttribute("Search")]
+        public async global::System.Threading.Tasks.Task UsersWithoutSkillsShouldNotAppearInSearchResults()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Users",
+                    "DB",
+                    "Search"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "11";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Users without skills should not appear in search results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 117
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                            "firstName",
+                            "surname",
+                            "email",
+                            "country",
+                            "city",
+                            "title",
+                            "password",
+                            "isAdmin"});
+                table8.AddRow(new string[] {
+                            "Ivan",
+                            "Petrov",
+                            "ivan.petrov@test.com",
+                            "Bulgaria",
+                            "Sofia",
+                            "Mr.",
+                            "Password123!",
+                            "false"});
+#line 118
+ await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table8, "Given ");
+#line hidden
+#line 121
+ await testRunner.WhenAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 122
+ await testRunner.ThenAsync("the results should not contain this user", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using Reqnroll;
 using SeleniumTestFramework.DatabaseOperations.Entities;
+using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities.Constants;
 
@@ -13,13 +14,15 @@ namespace SeleniumTestFramework.Steps
         private readonly ScenarioContext _scenarioContext;
         private readonly SearchPage _searchPage;
         private readonly SearchResultPage _searchResultPage;
+        private readonly UserOperations _userOperations;
 
-        public SearchResultSteps(IWebDriver driver, ScenarioContext scenarioContext, SearchPage searchPage, SearchResultPage searchResultPage)
+        public SearchResultSteps(IWebDriver driver, ScenarioContext scenarioContext, SearchPage searchPage, SearchResultPage searchResultPage, UserOperations userOperations)
         {
             this._driver = driver;
             this._scenarioContext = scenarioContext;
             this._searchPage = searchPage;
             this._searchResultPage = searchResultPage;
+            this._userOperations = userOperations;
         }
 
         [Then("all results should contain skill {string}")]
@@ -82,10 +85,34 @@ namespace SeleniumTestFramework.Steps
         [Then("the results should show every skill for every user")]
         public void ThenTheResultsShouldShowEverySkillForEveryUser()
         {
-            var actualTableRowsCount = _searchResultPage.GetAllRowsInResultTable();
+            var actualTableRowsCount = _searchResultPage.GetCountOfRowsInResultTable();
             var expectedRowsCount = _scenarioContext.Get<int>(ContextConstants.UserSkillsCount);
 
             Assert.That(actualTableRowsCount, Is.EqualTo(expectedRowsCount));
+
+            var uiRows = _searchResultPage.GetAllRowsOfResultsTable();
+            var dbRows = _userOperations.GetAllUserSkillRecords();
+
+            foreach (var uiRow in uiRows)
+            {
+                bool existsInDb = dbRows.Any(db =>
+                db.FirstName == uiRow.FirstName &&
+                db.Surname == uiRow.Surname &&
+                db.Email == uiRow.Email &&
+                db.Country == uiRow.Country &&
+                db.City == uiRow.City &&
+                db.Skill == uiRow.Skill &&
+                db.SkillCategory == uiRow.SkillCategory);
+
+                Assert.That(existsInDb, $"UI row does not exist in DB: {uiRow.Email} - {uiRow.Skill}");
+            }
+        }
+
+        [Then("the results should not contain this user")]
+        public void ThenTheResultsShouldNotContainThisUser()
+        {
+            var user = _scenarioContext.Get<UserEntity>(ContextConstants.InsertedUser);
+            _searchResultPage.VerifyUserDoesNotExist(user.Email);
         }
     }
 }

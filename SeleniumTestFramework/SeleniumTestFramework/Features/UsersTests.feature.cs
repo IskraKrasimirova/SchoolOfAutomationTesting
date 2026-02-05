@@ -131,7 +131,7 @@ namespace SeleniumTestFramework.Features
         public async global::System.Threading.Tasks.Task AUserCanRegisterANewAccountSuccessfullyAndTheAdministratorCanSeeTheNewUserInTheUsersListAndDeleteIt()
         {
             string[] tagsOfScenario = new string[] {
-                    "ignore",
+                    "Ignore",
                     "E2E",
                     "Users"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
@@ -263,11 +263,11 @@ await this.FeatureBackgroundAsync();
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Verify admin user can add a new user and the new user can login successfully")]
-        [global::NUnit.Framework.CategoryAttribute("users")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
         public async global::System.Threading.Tasks.Task VerifyAdminUserCanAddANewUserAndTheNewUserCanLoginSuccessfully()
         {
             string[] tagsOfScenario = new string[] {
-                    "users"};
+                    "Users"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify admin user can add a new user and the new user can login successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);

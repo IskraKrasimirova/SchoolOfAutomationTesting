@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using SeleniumTestFramework.DatabaseOperations.Entities;
 using SeleniumTestFramework.Utilities;
 using SeleniumTestFramework.Utilities.Extensions;
 
@@ -22,10 +23,34 @@ namespace SeleniumTestFramework.Pages
         {
         }
 
-        public int GetAllRowsInResultTable()
+        public int GetCountOfRowsInResultTable()
         {
             var tableRows = ResultsTable.FindElements(By.XPath(".//tbody/tr"));
             return tableRows.Count;
+        }
+
+        public List<UserSkillDto> GetAllRowsOfResultsTable()
+        {
+            var rows = ResultsTable.FindElements(By.XPath(".//tbody/tr"));
+            var result = new List<UserSkillDto>();
+
+            foreach (var row in rows)
+            {
+                var cells = row.FindElements(By.TagName("td"));
+
+                result.Add(new UserSkillDto
+                {
+                    FirstName = cells[0].Text.Trim(),
+                    Surname = cells[1].Text.Trim(),
+                    Email = cells[2].Text.Trim(),
+                    Country = cells[3].Text.Trim(),
+                    City = cells[4].Text.Trim(),
+                    Skill = cells[5].Text.Trim(),
+                    SkillCategory = cells[6].Text.Trim()
+                });
+            }
+
+            return result;
         }
 
         public void VerifyIsAtSearchResultPage()
@@ -45,6 +70,12 @@ namespace SeleniumTestFramework.Pages
         {
             IWebElement? userRow = FindUserRowByEmail(email);
             Assert.That(userRow, Is.Not.Null, $"User with email {email} was not found.");
+        }
+
+        public void VerifyUserDoesNotExist(string email) 
+        { 
+            var userRow = FindUserRowByEmail(email); 
+            Assert.That(userRow, Is.Null, $"User with email {email} should NOT appear in the results."); 
         }
 
         public void VerifyAllRowsHaveSkill(string skillName)
