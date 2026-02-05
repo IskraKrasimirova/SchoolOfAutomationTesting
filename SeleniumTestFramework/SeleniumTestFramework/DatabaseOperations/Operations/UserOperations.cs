@@ -56,6 +56,15 @@ namespace SeleniumTestFramework.DatabaseOperations.Operations
             return result != null && Convert.ToInt32(result) == 1;
         }
 
+        public int GetAllUserSkillsCount()
+        {
+            var command = this._connection.CreateCommand();
+            command.CommandText = UserQueries.GetAllUserSkillsCount();
+            var result = command.ExecuteScalar();
+
+            return Convert.ToInt32(result);
+        }
+
         public void Dispose()
         {
             this._connection.Close();

@@ -6,10 +6,11 @@ namespace SeleniumTestFramework.Pages
 {
     public class SearchResultPage : BasePage
     {
+        private readonly By ResultsTableLocator = By.XPath("//table[contains(@class, 'table')]");
         private IWebElement ResultsHeader => _driver.FindElement(By.XPath("//h3[contains(text(),'Search Results')]"));
-        private IWebElement ResultsTable => _driver.FindElement(By.XPath("//table[contains(@class, 'table')]"));
+        private IWebElement ResultsTable => _driver.FindElement(ResultsTableLocator);
         private IWebElement NewSearchButton => _driver.FindElement(By.XPath("//a[@href='search.php' and contains(@class, 'btn')]"));
-
+        private IWebElement MessageElement => _driver.FindElement(By.XPath("//div[contains(@class, 'alert-info')]"));
         private IWebElement? FindUserRowByEmail(string email) =>
             _driver.FindElements(By.XPath($"//td[contains(text(), '{email}')]/parent::tr"))
            .FirstOrDefault();
@@ -19,6 +20,12 @@ namespace SeleniumTestFramework.Pages
 
         public SearchResultPage(IWebDriver driver) : base(driver)
         {
+        }
+
+        public int GetAllRowsInResultTable()
+        {
+            var tableRows = ResultsTable.FindElements(By.XPath(".//tbody/tr"));
+            return tableRows.Count;
         }
 
         public void VerifyIsAtSearchResultPage()
@@ -31,11 +38,7 @@ namespace SeleniumTestFramework.Pages
                     throw new RetryException("Search Results page not loaded yet.");
             });
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(ResultsTable.Displayed, "Results Table is not visible.");
-                Assert.That(NewSearchButton.Displayed, "Button for New Search is not visible.");
-            });
+            Assert.That(NewSearchButton.Displayed, "Button for New Search is not visible.");
         }
 
         public void VerifyUserExists(string email)
@@ -68,6 +71,25 @@ namespace SeleniumTestFramework.Pages
             }
         }
 
+        public void VerifyRowsContainOnlyCountries(List<string> expectedCountries)
+        {
+            var countryCells = GetColumnCells("Country");
+
+            Assert.That(countryCells, Is.Not.Empty, "No rows found in the Country column.");
+
+            var actualCountries = countryCells
+                .Select(c => c.Text.Trim())
+                .ToList();
+
+            var unexpectedCountries = actualCountries.Except(expectedCountries).ToList();
+
+            Assert.That(unexpectedCountries, Is.Empty, $"Unexpected countries found: {string.Join(", ", unexpectedCountries)}");
+
+            var missingCountries = expectedCountries.Except(actualCountries).ToList();
+
+            Assert.That(missingCountries, Is.Empty, $"Expected cities not found: {string.Join(", ", missingCountries)}");
+        }
+
         public void VerifyRowsContainOnlyCities(List<string> expectedCities)
         {
             var cityCells = GetColumnCells("City"); 
@@ -85,6 +107,22 @@ namespace SeleniumTestFramework.Pages
             var missingCities = expectedCities.Except(actualCities).ToList(); 
             
             Assert.That(missingCities, Is.Empty, $"Expected cities not found: {string.Join(", ", missingCities)}");
+        }
+
+        public void VerifyNoUsersFound()
+        {
+            VerifyResultsTableIsNotVisible();
+        }
+
+        public void VerifyResultsTableIsVisible()
+        {
+            Assert.That(ResultsTable.Displayed, Is.True, "Results table should be visible.");
+        }
+
+        public void VerifyInfoMessage(string expectedMessage)
+        {
+            var actualMessage = MessageElement.Text.Trim();
+            Assert.That(actualMessage, Is.EqualTo(expectedMessage));
         }
 
         private int GetColumnIndex(string columnName)
@@ -106,6 +144,13 @@ namespace SeleniumTestFramework.Pages
             var cellsByColomn = _driver.FindElements(By.XPath($"//table//tbody//tr/td[{columnIndex}]"));
 
             return cellsByColomn;
+        }
+
+        // For negative scenarios
+        private void VerifyResultsTableIsNotVisible()
+        {
+            var resultTables = _driver.FindElements(ResultsTableLocator);
+            Assert.That(resultTables, Has.Count.EqualTo(0), "Results table should not be visible when no results by given criteria are found.");
         }
     }
 }

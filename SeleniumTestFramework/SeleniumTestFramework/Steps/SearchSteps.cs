@@ -4,6 +4,7 @@ using SeleniumTestFramework.DatabaseOperations.Entities;
 using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Pages;
 using SeleniumTestFramework.Utilities.Constants;
+using System.Diagnostics.Metrics;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -85,12 +86,18 @@ namespace SeleniumTestFramework.Steps
             _scenarioContext.Add(ContextConstants.InsertedCity, cityName);
         }
 
+        [Given("there are users in the system who have skills")]
+        public void GivenThereAreUsersInTheSystemWhoHaveSkills()
+        {
+            var expectedCount = _userOperations.GetAllUserSkillsCount();
+            _scenarioContext.Add(ContextConstants.UserSkillsCount, expectedCount);
+        }
+
         [When("I search for users with skill {string}")]
         public void WhenISearchForUsersWithSkill(string skillName)
         {
             _searchPage.VerifyIsAtSearchPage();
             _searchPage.SelectSkill(skillName);
-            _searchPage.ClickSearch();
         }
 
         [When("I refresh the search page")]
@@ -121,7 +128,6 @@ namespace SeleniumTestFramework.Steps
             _searchPage.VerifyCountryExists(countryName);
             _searchPage.SelectCountryForSearch(countryName);
             _searchPage.VerifyCountryIsActiveForSearch(countryName);
-            _searchPage.ClickSearch();
         }
 
         [When("I select city {string} for search")]
@@ -136,6 +142,18 @@ namespace SeleniumTestFramework.Steps
         public void WhenIPerformTheSearch()
         {
             _searchPage.ClickSearch();
+        }
+
+        [When("I uncheck country {string} from search list")]
+        public void WhenIUncheckCountryFromSearchList(string countryName)
+        {
+            _searchPage.UncheckCountryForSearch(countryName);
+        }
+
+        [When("I uncheck city {string} from search list")]
+        public void WhenIUncheckCityFromSearchList(string cityName)
+        {
+            _searchPage.UncheckCityForSearch(cityName);
         }
 
         [Then("I should see {string} in the country dropdown")]

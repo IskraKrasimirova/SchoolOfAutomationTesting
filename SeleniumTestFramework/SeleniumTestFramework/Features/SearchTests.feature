@@ -1,6 +1,6 @@
 ﻿Feature: SearchTests
 
-Validates that a user can search by country/city. The search results should only include users matching the search criteria and should display their skills. Validates that database‑created users with skills appear correctly in UI search.
+Validates that a user can search by country, city and skill. The search results should only include users matching the search criteria and should display their skills. Validates that database‑created users with skills appear correctly in UI search.
 
 Background:
 	Given I navigate to the main page
@@ -18,6 +18,7 @@ Scenario: User created directly in the database with skills appears in UI search
 		| Java              |          3 |
 		| Automated Testing |          5 |
 	When I search for users with skill "Java"
+	And I perform the search
 	Then all results should contain skill "Java"
 	And I should see the created user in the search results
 
@@ -42,7 +43,18 @@ Scenario: City created directly in the database appears in the Search page
 @Search
 Scenario: Search by avilable country shows only users from that country
 	When I select country "Bulgaria" for search
+	And I perform the search
 	Then all results should contain country "Bulgaria"
+
+@Search
+Scenario: Search by multiple countries returns only users from those countries
+	When I select country "Spain" for search
+	And I select country "Italy" for search
+	And I perform the search
+	Then all results should contain only countries:
+		| Country |
+		| Spain   |
+		| Italy   |
 
 @Search
 Scenario: Search by multiple cities returns only users from those cities
@@ -50,9 +62,52 @@ Scenario: Search by multiple cities returns only users from those cities
 	And I select city "Varna" for search
 	And I select city "Plovdiv" for search
 	And I perform the search
-	Then all results should contain only cities: 
-	| City    |
-	| Varna   |
-	| Plovdiv |
+	Then all results should contain only cities:
+		| City    |
+		| Varna   |
+		| Plovdiv |
 
+@Search @Negative
+Scenario: Search by country with no registered users returns empty results
+	When I select country "Germany" for search
+	And I perform the search
+	Then no users should be found
+	And I should see a message with the following text "No users found matching your search criteria."
 
+@Search @Negative
+Scenario: Search by skill with no registered users returns empty results
+	When I search for users with skill "Performance Testing"
+	And I perform the search
+	Then no users should be found
+	And I should see a message with the following text "No users found matching your search criteria."
+
+@Search
+Scenario: Uncheck one of the selected countries for search returns only users from still selected countries
+	When I select country "Japan" for search
+	And I select country "Canada" for search
+	And I select country "Brazil" for search
+	And I uncheck country "Canada" from search list
+	And I perform the search
+	Then all results should contain only countries:
+		| Country |
+		| Japan   |
+		| Brazil  |
+
+@Search
+Scenario: Uncheck one of the selected cities for search returns only users from still selected cities
+	When I select country "Bulgaria" for search
+	And I select city "Varna" for search
+	And I select city "Plovdiv" for search
+	And I select city "Burgas" for search
+	And I uncheck city "Plovdiv" from search list
+	And I perform the search
+	Then all results should contain only cities:
+		| City   |
+		| Varna  |
+		| Burgas |
+
+@Search @DB
+Scenario: Search with no criteria shows one row per skill for each user
+	Given there are users in the system who have skills
+	When I perform the search
+	Then the results should show every skill for every user

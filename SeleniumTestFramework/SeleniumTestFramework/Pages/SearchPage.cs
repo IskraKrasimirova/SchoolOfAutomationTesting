@@ -111,6 +111,24 @@ namespace SeleniumTestFramework.Pages
                 checkbox.Click();
         }
 
+        public void UncheckCountryForSearch(string countryName)
+        {
+            var checkbox = SearchCountryCheckboxes
+                .First(cb => cb.GetAttribute("value") == countryName);
+
+            if (checkbox.Selected)
+                checkbox.Click();
+        }
+
+        public void UncheckCityForSearch(string cityName)
+        {
+            var checkbox = SearchCityCheckboxes
+                .First(cb => cb.GetAttribute("value") == cityName);
+
+            if (checkbox.Selected)
+                checkbox.Click();
+        }
+
         public void VerifyIsAtSearchPage()
         {
             _driver.WaitUntilUrlContains("/search");

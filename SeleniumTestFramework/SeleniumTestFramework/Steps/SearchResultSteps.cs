@@ -26,6 +26,7 @@ namespace SeleniumTestFramework.Steps
         public void ThenAllResultsShouldContainSkill(string skillName)
         {
             _searchResultPage.VerifyIsAtSearchResultPage();
+            _searchResultPage.VerifyResultsTableIsVisible();
             _searchResultPage.VerifyAllRowsHaveSkill(skillName);
         }
 
@@ -40,8 +41,20 @@ namespace SeleniumTestFramework.Steps
         public void ThenAllResultsShouldContainCountry(string countryName)
         {
             _searchResultPage.VerifyIsAtSearchResultPage();
+            _searchResultPage.VerifyResultsTableIsVisible();
             _searchResultPage.VerifyAllRowsHaveCountry(countryName);
         }
+
+        [Then("all results should contain only countries:")]
+        public void ThenAllResultsShouldContainOnlyCountries(DataTable dataTable)
+        {
+            var expectedCountries = dataTable.Rows.
+                Select(r => r["Country"].Trim())
+                .ToList();
+
+            _searchResultPage.VerifyRowsContainOnlyCountries(expectedCountries);
+        }
+
 
         [Then("all results should contain only cities:")]
         public void ThenAllResultsShouldContainOnlyCities(DataTable dataTable)
@@ -51,6 +64,28 @@ namespace SeleniumTestFramework.Steps
                 .ToList();
 
             _searchResultPage.VerifyRowsContainOnlyCities(expectedCities);
+        }
+
+        [Then("no users should be found")]
+        public void ThenNoUsersShouldBeFound()
+        {
+            _searchResultPage.VerifyIsAtSearchResultPage();
+            _searchResultPage.VerifyNoUsersFound();
+        }
+
+        [Then("I should see a message with the following text {string}")]
+        public void ThenIShouldSeeAMessageWithTheFollowingText(string expectedMessage)
+        {
+            _searchResultPage.VerifyInfoMessage(expectedMessage);
+        }
+
+        [Then("the results should show every skill for every user")]
+        public void ThenTheResultsShouldShowEverySkillForEveryUser()
+        {
+            var actualTableRowsCount = _searchResultPage.GetAllRowsInResultTable();
+            var expectedRowsCount = _scenarioContext.Get<int>(ContextConstants.UserSkillsCount);
+
+            Assert.That(actualTableRowsCount, Is.EqualTo(expectedRowsCount));
         }
     }
 }

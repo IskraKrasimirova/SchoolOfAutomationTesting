@@ -1,4 +1,6 @@
-﻿namespace SeleniumTestFramework.DatabaseOperations.Queries
+﻿using NUnit.Framework.Internal;
+
+namespace SeleniumTestFramework.DatabaseOperations.Queries
 {
     public static class UserQueries
     {
@@ -18,6 +20,14 @@
             return $@"
                 SELECT 1 FROM users
                 WHERE email = '{email}';
+            ";
+        }
+
+        public static string GetAllUserSkillsCount()
+        {
+            return $@"
+                SELECT COUNT(*)
+                FROM user_skills;
             ";
         }
     }
