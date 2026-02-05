@@ -75,6 +75,14 @@ Scenario: Search by country with no registered users returns empty results
 	And I should see a message with the following text "No users found matching your search criteria."
 
 @Search @Negative
+Scenario: Search by city with no registered users returns empty results
+	When I select country "USA" for search
+	And I select city "Los Angeles" for search
+	And I perform the search
+	Then no users should be found
+	And I should see a message with the following text "No users found matching your search criteria."
+
+@Search @Negative
 Scenario: Search by skill with no registered users returns empty results
 	When I search for users with skill "Performance Testing"
 	And I perform the search

@@ -126,7 +126,7 @@ namespace SeleniumTestFramework.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SearchTests.feature.ndjson", 14);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/SearchTests.feature.ndjson", 15);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -484,17 +484,17 @@ await this.FeatureBackgroundAsync();
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Search by skill with no registered users returns empty results")]
+        [global::NUnit.Framework.DescriptionAttribute("Search by city with no registered users returns empty results")]
         [global::NUnit.Framework.CategoryAttribute("Search")]
         [global::NUnit.Framework.CategoryAttribute("Negative")]
-        public async global::System.Threading.Tasks.Task SearchBySkillWithNoRegisteredUsersReturnsEmptyResults()
+        public async global::System.Threading.Tasks.Task SearchByCityWithNoRegisteredUsersReturnsEmptyResults()
         {
             string[] tagsOfScenario = new string[] {
                     "Search",
                     "Negative"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "7";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search by skill with no registered users returns empty results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search by city with no registered users returns empty results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 78
@@ -511,15 +511,62 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 await this.FeatureBackgroundAsync();
 #line hidden
 #line 79
- await testRunner.WhenAsync("I search for users with skill \"Performance Testing\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("I select country \"USA\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 80
- await testRunner.AndAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("I select city \"Los Angeles\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 81
- await testRunner.ThenAsync("no users should be found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.AndAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 82
+ await testRunner.ThenAsync("no users should be found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 83
+ await testRunner.AndAsync("I should see a message with the following text \"No users found matching your sear" +
+                        "ch criteria.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Search by skill with no registered users returns empty results")]
+        [global::NUnit.Framework.CategoryAttribute("Search")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        public async global::System.Threading.Tasks.Task SearchBySkillWithNoRegisteredUsersReturnsEmptyResults()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Search",
+                    "Negative"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "8";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search by skill with no registered users returns empty results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 86
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 87
+ await testRunner.WhenAsync("I search for users with skill \"Performance Testing\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 88
+ await testRunner.AndAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 89
+ await testRunner.ThenAsync("no users should be found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 90
  await testRunner.AndAsync("I should see a message with the following text \"No users found matching your sear" +
                         "ch criteria.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -536,12 +583,12 @@ await this.FeatureBackgroundAsync();
             string[] tagsOfScenario = new string[] {
                     "Search"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "8";
+            string pickleIndex = "9";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Uncheck one of the selected countries for search returns only users from still se" +
                     "lected countries", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 85
+#line 93
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -554,19 +601,19 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 86
+#line 94
  await testRunner.WhenAsync("I select country \"Japan\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 87
+#line 95
  await testRunner.AndAsync("I select country \"Canada\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 88
+#line 96
  await testRunner.AndAsync("I select country \"Brazil\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 89
+#line 97
  await testRunner.AndAsync("I uncheck country \"Canada\" from search list", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 90
+#line 98
  await testRunner.AndAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
@@ -575,7 +622,7 @@ await this.FeatureBackgroundAsync();
                             "Japan"});
                 table6.AddRow(new string[] {
                             "Brazil"});
-#line 91
+#line 99
  await testRunner.ThenAsync("all results should contain only countries:", ((string)(null)), table6, "Then ");
 #line hidden
             }
@@ -591,12 +638,12 @@ await this.FeatureBackgroundAsync();
             string[] tagsOfScenario = new string[] {
                     "Search"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "9";
+            string pickleIndex = "10";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Uncheck one of the selected cities for search returns only users from still selec" +
                     "ted cities", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 97
+#line 105
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -609,22 +656,22 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 98
+#line 106
  await testRunner.WhenAsync("I select country \"Bulgaria\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 99
+#line 107
  await testRunner.AndAsync("I select city \"Varna\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 100
+#line 108
  await testRunner.AndAsync("I select city \"Plovdiv\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 101
+#line 109
  await testRunner.AndAsync("I select city \"Burgas\" for search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 102
+#line 110
  await testRunner.AndAsync("I uncheck city \"Plovdiv\" from search list", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 103
+#line 111
  await testRunner.AndAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
@@ -633,7 +680,7 @@ await this.FeatureBackgroundAsync();
                             "Varna"});
                 table7.AddRow(new string[] {
                             "Burgas"});
-#line 104
+#line 112
  await testRunner.ThenAsync("all results should contain only cities:", ((string)(null)), table7, "Then ");
 #line hidden
             }
@@ -652,11 +699,11 @@ await this.FeatureBackgroundAsync();
                     "DB",
                     "Search"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "10";
+            string pickleIndex = "11";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search with no criteria shows one row per skill for each user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 110
+#line 118
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -669,13 +716,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 111
+#line 119
  await testRunner.GivenAsync("there are users in the system who have skills", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 112
+#line 120
  await testRunner.WhenAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 113
+#line 121
  await testRunner.ThenAsync("the results should show every skill for every user", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -694,11 +741,11 @@ await this.FeatureBackgroundAsync();
                     "DB",
                     "Search"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "11";
+            string pickleIndex = "12";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Users without skills should not appear in search results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 117
+#line 125
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -729,13 +776,13 @@ await this.FeatureBackgroundAsync();
                             "Mr.",
                             "Password123!",
                             "false"});
-#line 118
+#line 126
  await testRunner.GivenAsync("a user exists in the database with:", ((string)(null)), table8, "Given ");
 #line hidden
-#line 121
+#line 129
  await testRunner.WhenAsync("I perform the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 122
+#line 130
  await testRunner.ThenAsync("the results should not contain this user", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
