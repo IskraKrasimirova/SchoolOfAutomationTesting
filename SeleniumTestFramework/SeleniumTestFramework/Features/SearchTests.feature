@@ -33,7 +33,7 @@ Scenario: Country and city created directly in the database appear in the Search
 	And I should see "Cairo" in the city dropdown
 	
 @DB @Search
-Scenario: City created directly in the database appears in the Search page
+Scenario: City created directly in the database appears in the Search page for country existing in the country dropdown
 	Given A city exists in the database with name "Lyon" in country "France"
 	When I refresh the search page
 	And I open the country dropdown

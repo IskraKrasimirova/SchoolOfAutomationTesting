@@ -33,5 +33,27 @@ namespace SeleniumTestFramework.Models.Factories
 
             return user;
         }
+
+        public UserModel CreateCustom(
+            string? title = null,
+            string? firstName = null,
+            string? surname = null,
+            string? email = null,
+            string? password = null,
+            string? country = null,
+            string? city = null)
+        {
+            var user = CreateDefault();
+
+            if (title != null) user.Title = title;
+            if (firstName != null) user.FirstName = firstName;
+            if (surname != null) user.Surname = surname;
+            if (email != null) user.Email = email;
+            if (password != null) user.Password = password;
+            if (country != null) user.Country = country;
+            if (city != null) user.City = city;
+
+            return user;
+        }
     }
 }

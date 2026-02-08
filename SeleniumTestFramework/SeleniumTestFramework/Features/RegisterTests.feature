@@ -1,6 +1,6 @@
 ﻿Feature: RegisterTests
 
-As a user i would like to be able to register when visiting the page for the first time and to be able to 
+As a user I would like to be able to register when visiting the page for the first time and to be able to 
 login with the created credentials.
 
 @Register @DeleteRegisteredUser

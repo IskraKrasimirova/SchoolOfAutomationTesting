@@ -1,6 +1,4 @@
-﻿using NUnit.Framework.Internal;
-
-namespace SeleniumTestFramework.DatabaseOperations.Queries
+﻿namespace SeleniumTestFramework.DatabaseOperations.Queries
 {
     public static class UserQueries
     {
