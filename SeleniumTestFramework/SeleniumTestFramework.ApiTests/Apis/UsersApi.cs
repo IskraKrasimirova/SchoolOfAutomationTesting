@@ -1,0 +1,24 @@
+﻿using RestSharp;
+using SeleniumTestFramework.ApiTests.Models.Dtos;
+
+namespace SeleniumTestFramework.ApiTests.Apis
+{
+    public class UsersApi
+    {
+        private readonly RestClient _restClient;
+        private readonly string _uri;
+
+        public UsersApi(RestClient restClient)
+        {
+            _restClient = restClient;
+            _uri = "/users";
+        }
+
+        public RestResponse<UserDto> GetUserById(int id)
+        {
+            var request = new RestRequest($"{_uri}/{id}", Method.Get);
+            var response = _restClient.Execute<UserDto>(request);
+            return response;
+        }
+    }
+}

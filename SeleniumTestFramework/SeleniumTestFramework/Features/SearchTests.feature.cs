@@ -11,7 +11,7 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace SeleniumTestFramework.Features
+namespace SeleniumTestFramework.UiTests.Features
 {
     
     
@@ -259,17 +259,19 @@ await this.FeatureBackgroundAsync();
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("City created directly in the database appears in the Search page")]
+        [global::NUnit.Framework.DescriptionAttribute("City created directly in the database appears in the Search page for country exis" +
+            "ting in the country dropdown")]
         [global::NUnit.Framework.CategoryAttribute("DB")]
         [global::NUnit.Framework.CategoryAttribute("Search")]
-        public async global::System.Threading.Tasks.Task CityCreatedDirectlyInTheDatabaseAppearsInTheSearchPage()
+        public async global::System.Threading.Tasks.Task CityCreatedDirectlyInTheDatabaseAppearsInTheSearchPageForCountryExistingInTheCountryDropdown()
         {
             string[] tagsOfScenario = new string[] {
                     "DB",
                     "Search"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("City created directly in the database appears in the Search page", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("City created directly in the database appears in the Search page for country exis" +
+                    "ting in the country dropdown", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 36

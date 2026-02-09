@@ -11,26 +11,25 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace SeleniumTestFramework.UiTests.Features
+namespace SeleniumTestFramework.ApiTests.Features
 {
     
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::NUnit.Framework.TestFixtureAttribute()]
-    [global::NUnit.Framework.DescriptionAttribute("RegisterTests")]
+    [global::NUnit.Framework.DescriptionAttribute("UsersApiTest")]
     [global::NUnit.Framework.FixtureLifeCycleAttribute(global::NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class RegisterTestsFeature
+    public partial class UsersApiTestFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "RegisterTests", "As a user I would like to be able to register when visiting the page for the firs" +
-                "t time and to be able to \r\nlogin with the created credentials.", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "UsersApiTest", "CRUD operations for users endpoints", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
-#line 1 "RegisterTests.feature"
+#line 1 "UsersApiTests.feature"
 #line hidden
         
         [global::NUnit.Framework.OneTimeSetUpAttribute()]
@@ -106,24 +105,24 @@ namespace SeleniumTestFramework.UiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/RegisterTests.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 3);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Verify user is able to register successfully")]
-        [global::NUnit.Framework.CategoryAttribute("Register")]
-        [global::NUnit.Framework.CategoryAttribute("DeleteRegisteredUser")]
-        public async global::System.Threading.Tasks.Task VerifyUserIsAbleToRegisterSuccessfully()
+        [global::NUnit.Framework.DescriptionAttribute("Get users by id retuns the corrrect user")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
+        [global::NUnit.Framework.CategoryAttribute("Api")]
+        public async global::System.Threading.Tasks.Task GetUsersByIdRetunsTheCorrrectUser()
         {
             string[] tagsOfScenario = new string[] {
-                    "Register",
-                    "DeleteRegisteredUser"};
+                    "Users",
+                    "Api"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify user is able to register successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id retuns the corrrect user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 7
+#line 6
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -133,17 +132,22 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 7
+ await testRunner.GivenAsync("I make a get request to users endpoint with id 1", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 8
- await testRunner.GivenAsync("I navigate to the main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                            "Id",
+                            "FirstName",
+                            "Password"});
+                table1.AddRow(new string[] {
+                            "1",
+                            "Admin",
+                            "pass123"});
 #line 9
- await testRunner.AndAsync("I register new user with valid details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 10
- await testRunner.ThenAsync("I should see the created user is logged successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 11
- await testRunner.AndAsync("I should be able to logout successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("users response should contain the following data:", ((string)(null)), table1, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
