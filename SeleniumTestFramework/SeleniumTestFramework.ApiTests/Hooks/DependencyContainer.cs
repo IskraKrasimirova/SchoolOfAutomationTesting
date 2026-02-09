@@ -2,6 +2,7 @@
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using RestSharp;
 using SeleniumTestFramework.ApiTests.Apis;
+using SeleniumTestFramework.ApiTests.Models.Factories;
 
 namespace SeleniumTestFramework.ApiTests.Hooks
 {
@@ -19,6 +20,8 @@ namespace SeleniumTestFramework.ApiTests.Hooks
                 client.AddDefaultHeader("Accept", "application/json");
                 return client;
             });
+
+            services.AddSingleton<IUserFactory, UserFactory>();
 
             services.AddScoped(sp =>
             {

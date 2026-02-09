@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Execution;
 using Reqnroll;
 using SeleniumTestFramework.ApiTests.Apis;
 using SeleniumTestFramework.ApiTests.Models.Dtos;
+using SeleniumTestFramework.ApiTests.Models.Factories;
 using SeleniumTestFramework.ApiTests.Utils;
 using StringUtils = SeleniumTestFramework.ApiTests.Utils.Types.StringUtils;
 
@@ -13,11 +15,13 @@ namespace SeleniumTestFramework.ApiTests.Steps
     {
         private readonly UsersApi _usersApi;
         private readonly ScenarioContext _scenarioContext;
+        private readonly IUserFactory _userFactory;
 
-        public UsersApiSteps(UsersApi usersApi, ScenarioContext scenarioContext)
+        public UsersApiSteps(ScenarioContext scenarioContext, UsersApi usersApi, IUserFactory userFactory)
         {
-            _usersApi = usersApi;
             _scenarioContext = scenarioContext;
+            _usersApi = usersApi;
+            _userFactory = userFactory;
         }
 
         [Given("I make a get request to users endpoint with id {int}")]
@@ -53,6 +57,31 @@ namespace SeleniumTestFramework.ApiTests.Steps
             _scenarioContext.Add(ContextConstants.UsersResponse, responseBody);
         }
 
+        [Given("I create a new user via the API")]
+        public void GivenICreateANewUserViaTheAPI()
+        {
+            var newUser = _userFactory.CreateDefault();
+            var createUserResponse = _usersApi.CreateUser(newUser);
+
+            using (new AssertionScope())
+            {
+                createUserResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK); createUserResponse.Data.Should().NotBeNull();
+                createUserResponse.Data.Id.Should().BeGreaterThan(0);
+            }
+
+            _scenarioContext.Add(ContextConstants.CreatedUserId, createUserResponse.Data.Id);
+        }
+
+        [When("I delete that user")]
+        public void WhenIDeleteThatUser()
+        {
+            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId);
+            var deleteResponse = _usersApi.DeleteUserById(id);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)deleteResponse.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = deleteResponse.Content;
+        }
+
 
         [Then("users response should contain the following data:")]
         public void ThenUsersResponseShouldContainTheFollowingData(DataTable dataTable)
@@ -79,6 +108,21 @@ namespace SeleniumTestFramework.ApiTests.Steps
                 .Excluding(u => u.Password)
                 .Excluding(u => u.Email)
             );
+        }
+
+        [Then("I make a get request to users endpoint with that id")]
+        public void ThenIMakeAGetRequestToUsersEndpointWithThatId()
+        {
+            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId); 
+            var getResponse = _usersApi.GetUserById(id);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)getResponse.StatusCode; 
+            _scenarioContext[ContextConstants.RawResponse] = getResponse.Content;
+
+            if (getResponse.IsSuccessful && getResponse.Data is not null) 
+            {
+                _scenarioContext[ContextConstants.UsersResponse]= getResponse.Data;
+            }
         }
     }
 }

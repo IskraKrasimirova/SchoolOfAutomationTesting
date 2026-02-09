@@ -28,5 +28,11 @@ namespace SeleniumTestFramework.ApiTests.Apis
             var response = _restClient.Execute<UserDto>(request);
             return response;
         }
+
+        public RestResponse DeleteUserById(int id)
+        {
+            var request = new RestRequest($"{_uri}/{id}", Method.Delete);
+            return _restClient.Execute(request);
+        }
     }
 }

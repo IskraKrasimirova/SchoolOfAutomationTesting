@@ -29,5 +29,12 @@ namespace SeleniumTestFramework.ApiTests.Steps
             response.Should().Contain(errorMessage);
         }
 
+        [Then("the response should contain the following message {string}")]
+        public void ThenTheResponseShouldContainTheFollowingMessage(string expectedMessage)
+        {
+            var response = _scenarioContext.Get<string>(ContextConstants.RawResponse);
+
+            response.Should().Contain(expectedMessage);
+        }
     }
 }

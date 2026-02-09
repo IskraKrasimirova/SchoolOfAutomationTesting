@@ -37,3 +37,13 @@ Scenario: Create user with valid data returns the created user
 		| Country   | Bulgaria |
 		| City      | Sofia    |
 		| IsAdmin   |        0 |
+
+@Users @Api
+Scenario: Delete user by id removes the user successfully
+	Given I create a new user via the API
+	When I delete that user
+	Then the response status code should be 200
+	And the response should contain the following message "User deleted successfully"
+	And I make a get request to users endpoint with that id
+	And the response status code should be 404
+	And the response should contain the following error message "User not found"
