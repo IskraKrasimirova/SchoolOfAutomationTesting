@@ -1,4 +1,5 @@
-﻿using Reqnroll;
+﻿using FluentAssertions;
+using Reqnroll;
 using SeleniumTestFramework.ApiTests.Utils;
 
 namespace SeleniumTestFramework.ApiTests.Steps
@@ -19,5 +20,14 @@ namespace SeleniumTestFramework.ApiTests.Steps
             var statusCode = _scenarioContext.Get<int>(ContextConstants.StatusCode); 
             Assert.That(statusCode, Is.EqualTo(expectedStatusCode));
         }
+
+        [Then("the response should contain the following error message {string}")]
+        public void ThenTheResponseShouldContainTheFollowingErrorMessage(string errorMessage)
+        {
+            var response = _scenarioContext.Get<string>(ContextConstants.RawResponse);
+
+            response.Should().Contain(errorMessage);
+        }
+
     }
 }

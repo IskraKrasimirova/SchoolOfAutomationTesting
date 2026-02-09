@@ -18,16 +18,16 @@ namespace SeleniumTestFramework.ApiTests.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::NUnit.Framework.TestFixtureAttribute()]
-    [global::NUnit.Framework.DescriptionAttribute("UsersApiTest")]
+    [global::NUnit.Framework.DescriptionAttribute("UsersApiTests")]
     [global::NUnit.Framework.FixtureLifeCycleAttribute(global::NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class UsersApiTestFeature
+    public partial class UsersApiTestsFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "UsersApiTest", "CRUD operations for users endpoints", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "UsersApiTests", "CRUD operations for users endpoints", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "UsersApiTests.feature"
 #line hidden
@@ -105,7 +105,7 @@ namespace SeleniumTestFramework.ApiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 5);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -148,6 +148,128 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "pass123"});
 #line 9
  await testRunner.AndAsync("users response should contain the following data:", ((string)(null)), table1, "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Get users by id retuns the corrrect error for invalid user ID")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
+        [global::NUnit.Framework.CategoryAttribute("Api")]
+        public async global::System.Threading.Tasks.Task GetUsersByIdRetunsTheCorrrectErrorForInvalidUserID()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Users",
+                    "Api"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id retuns the corrrect error for invalid user ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 14
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 15
+ await testRunner.GivenAsync("I make a get request to users endpoint with id 0", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 16
+ await testRunner.ThenAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 17
+ await testRunner.AndAsync("the response should contain the following error message \"User not found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Create user with valid data returns the created user")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
+        [global::NUnit.Framework.CategoryAttribute("Api")]
+        public async global::System.Threading.Tasks.Task CreateUserWithValidDataReturnsTheCreatedUser()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Users",
+                    "Api"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user with valid data returns the created user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 20
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table2.AddRow(new string[] {
+                            "Title",
+                            "Mr."});
+                table2.AddRow(new string[] {
+                            "FirstName",
+                            "Ivan"});
+                table2.AddRow(new string[] {
+                            "SirName",
+                            "Ivanov"});
+                table2.AddRow(new string[] {
+                            "Country",
+                            "Bulgaria"});
+                table2.AddRow(new string[] {
+                            "City",
+                            "Sofia"});
+                table2.AddRow(new string[] {
+                            "Email",
+                            "ivan@automation.com"});
+                table2.AddRow(new string[] {
+                            "Password",
+                            "pass123"});
+                table2.AddRow(new string[] {
+                            "IsAdmin",
+                            "0"});
+#line 21
+ await testRunner.GivenAsync("I make a post request to users endpoint with the following data:", ((string)(null)), table2, "Given ");
+#line hidden
+#line 31
+ await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table3.AddRow(new string[] {
+                            "Title",
+                            "Mr."});
+                table3.AddRow(new string[] {
+                            "FirstName",
+                            "Ivan"});
+                table3.AddRow(new string[] {
+                            "SirName",
+                            "Ivanov"});
+                table3.AddRow(new string[] {
+                            "Country",
+                            "Bulgaria"});
+                table3.AddRow(new string[] {
+                            "City",
+                            "Sofia"});
+                table3.AddRow(new string[] {
+                            "IsAdmin",
+                            "0"});
+#line 32
+ await testRunner.AndAsync("create users response should contain the following data:", ((string)(null)), table3, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

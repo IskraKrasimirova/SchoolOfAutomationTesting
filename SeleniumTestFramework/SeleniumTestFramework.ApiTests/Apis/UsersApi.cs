@@ -20,5 +20,13 @@ namespace SeleniumTestFramework.ApiTests.Apis
             var response = _restClient.Execute<UserDto>(request);
             return response;
         }
+
+        public RestResponse<UserDto> CreateUser(UserDto expectedUser)
+        {
+            var request = new RestRequest(_uri , Method.Post);
+            request.AddJsonBody(expectedUser);
+            var response = _restClient.Execute<UserDto>(request);
+            return response;
+        }
     }
 }

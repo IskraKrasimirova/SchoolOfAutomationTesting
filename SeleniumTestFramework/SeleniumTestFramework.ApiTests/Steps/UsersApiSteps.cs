@@ -1,4 +1,5 @@
-﻿using Reqnroll;
+﻿using FluentAssertions;
+using Reqnroll;
 using SeleniumTestFramework.ApiTests.Apis;
 using SeleniumTestFramework.ApiTests.Models.Dtos;
 using SeleniumTestFramework.ApiTests.Utils;
@@ -24,7 +25,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         {
             var response = _usersApi.GetUserById(id);
             var responseStatusCode = (int)response.StatusCode;
-            
+
             _scenarioContext.Add(ContextConstants.StatusCode, responseStatusCode);
 
             if (response.IsSuccessful)
@@ -36,6 +37,23 @@ namespace SeleniumTestFramework.ApiTests.Steps
             _scenarioContext.Add(ContextConstants.RawResponse, response.Content);
         }
 
+        [Given("I make a post request to users endpoint with the following data:")]
+        public void GivenIMakeAPostRequestToUsersEndpointWithTheFollowingData(DataTable dataTable)
+        {
+            var expectedUser = dataTable.CreateInstance<UserDto>();
+            var timespan = DateTime.Now.ToFileTime();
+            expectedUser.Email = expectedUser.Email.Replace("@", $"{timespan}@");
+
+            var createUserResponse = _usersApi.CreateUser(expectedUser);
+
+            var responseStatusCode = (int)createUserResponse.StatusCode;
+            _scenarioContext.Add(ContextConstants.StatusCode, responseStatusCode);
+
+            var responseBody = createUserResponse.Data;
+            _scenarioContext.Add(ContextConstants.UsersResponse, responseBody);
+        }
+
+
         [Then("users response should contain the following data:")]
         public void ThenUsersResponseShouldContainTheFollowingData(DataTable dataTable)
         {
@@ -46,6 +64,21 @@ namespace SeleniumTestFramework.ApiTests.Steps
 
             Assert.That(usersResponse.Id, Is.EqualTo(expectedUser.Id));
             Assert.That(usersResponse.FirstName, Is.EqualTo(expectedUser.FirstName));
+        }
+
+        [Then("create users response should contain the following data:")]
+        public void ThenCreateUsersResponseShouldContainTheFollowingData(DataTable dataTable)
+        {
+            var expectedUser = dataTable.CreateInstance<UserDto>();
+            var actualUser = _scenarioContext.Get<UserDto>(ContextConstants.UsersResponse);
+
+            actualUser.Should().BeEquivalentTo(
+            expectedUser,
+            options => options
+                .Excluding(u => u.Id)
+                .Excluding(u => u.Password)
+                .Excluding(u => u.Email)
+            );
         }
     }
 }
