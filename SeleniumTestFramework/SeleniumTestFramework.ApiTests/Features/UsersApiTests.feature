@@ -3,7 +3,7 @@ Feature: UsersApiTests
 
 CRUD operations for users endpoints
 
-Scenario: Get users by id retuns the corrrect user
+Scenario: Get users by id returns the corrrect user
 	Given I make a get request to users endpoint with id 1
 	Then the response status code should be 200
 	And users response should contain the following data:
@@ -12,7 +12,7 @@ Scenario: Get users by id retuns the corrrect user
 
 
 @Negative
-Scenario: Get users by id retuns the corrrect error for invalid user ID
+Scenario: Get users by id returns the corrrect error for invalid user ID
 	Given I make a get request to users endpoint with id 0
 	Then the response status code should be 404
 	And the response should contain the following error message "User not found"
@@ -40,6 +40,76 @@ Scenario: Create user with valid data returns the created user
 		| IsAdmin   |        0 |
 
 
+@Negative
+Scenario Outline: Create user with invalid data returns validation error
+	Given I make a post request to users endpoint with invalid data "<field>" "<value>"
+	Then the response status code should be 400
+	And the response should contain the following error message "<ErrorMessage>"
+
+Examples:
+	| field     | value        | ErrorMessage                                 |
+	| Title     |              | Title is required                            |
+	| FirstName |              | First Name is required                       |
+	| SirName   |              | Sir Name is required                         |
+	| Country   |              | Country is required                          |
+	| Email     |              | Email is required                            |
+	| FirstName | Ana-Maria    | First name cannot contain special characters |
+	| SirName   | O'Conner     | Sir name cannot contain special characters   |
+	| Email     | test.com     | Invalid email format                         |
+	| Email     | @test.com    | Invalid email format                         |
+	| Email     | test@test    | Invalid email format                         |
+	| Email     | test@@abv.bg | Invalid email format                         |
+	| Email     | .@test.com   | Invalid email format                         | @Issue # Actual: 200 OK on first run even email is not valid, and afterthat 409 CONFLICT (duplicate email)
+	
+	
+@Negative
+Scenario: Create user with existing email returns conflict
+	Given I create a new user via the API
+	When I try to create another user with the same email
+	Then the response status code should be 409
+	And the response should contain the following error message "User with such email already exists"
+
+
+@Negative @Issue
+# Actual: 500 INTERNAL SERVER ERROR
+Scenario Outline: Create user with invalid title returns validation error
+	Given I make a post request to users endpoint with Title "<value>"
+	Then the response status code should be 400
+	And the response should contain the following error message "Title is not valid"
+
+Examples:
+	| value |
+	| Mr    |
+	| Mrs   |
+	| Miss  |
+
+
+@Negative
+Scenario Outline: Create user with city not belonging to the specified country returns validation error
+	Given I make a post request to users endpoint with Country "<country>" and City "<city>"
+	Then the response status code should be 400
+	And the response should contain the following error message "City does not belong to the specified country"
+
+Examples:
+	| country  | city              |
+	| Bulgaria | London            |
+	| Bulgaria | Ruse              | # The city does not exist in database
+	| Bulgaria | Gorna Oryahovitsa | # The city does not exist in database
+	| Germany  | Paris             |
+
+
+Scenario: Create user without city succeeds
+	Given I make a post request to users endpoint with Country "Italy" and City ""
+	Then the response status code should be 200
+
+
+@Negative @Issue
+Scenario: Create user with unknown country for the Api returns validation error with not proper message
+	Given I make a post request to users endpoint with Country "Netherlands" and City "Amsterdam"
+	Then the response status code should be 400
+	And the response should contain the following error message "City does not belong to the specified country"
+
+
 Scenario: Delete user by id removes the user successfully
 	Given I create a new user via the API
 	When I delete that user
@@ -51,7 +121,7 @@ Scenario: Delete user by id removes the user successfully
 
 
 @Negative
-Scenario Outline: Delete users by id retuns the corrrect error for non-existing user ID
+Scenario Outline: Delete users by id returns the corrrect error for non-existing user ID
 	When I make a Delete request to users endpoint with id <id>
 	Then the response status code should be 404
 	And the response should contain the following error message "User not found"
@@ -61,17 +131,20 @@ Examples:
 	|         0 |
 	| 123456789 |
 
+
 @Negative
-Scenario: Delete users by id with negative value retuns error
+Scenario: Delete users by id with negative value returns error
 	When I make a Delete request to users endpoint with id -1
 	Then the response status code should be 404
 	And the response should contain the following error message "Not Found"
 
-Scenario: Update user by id updates the user successfully
+
+Scenario: Update user by id with valid data returns the updated user
 	Given I create a new user via the API
 	When I update that user with valid data
 	Then the response status code should be 200
 	And the updated user should have the new data
+
 
 @Negative
 Scenario Outline: Update user with invalid data returns validation error
@@ -86,7 +159,6 @@ Examples:
 	| Title     |                | Title is required                             |
 	| FirstName |                | First Name is required                        |
 	| SirName   |                | Sir Name is required                          |
-	| City      |                | City is required                              | # 200 OK
 	| Country   |                | Country is required                           |
 	| FirstName | Ana-Maria      | First name cannot contain special characters  |
 	| SirName   | O'Conner       | Sir name cannot contain special characters    |
@@ -97,8 +169,9 @@ Examples:
 	| Email     | test.com       | Invalid email format                          |
 	| Email     | test@test      | Invalid email format                          |
 	| Email     | test@@test.com | Invalid email format                          |
-	| Email     | .@test.com     | Invalid email format                          | # 200 OK, 409 CONFLICT
-	| City      | Ruse           | This is a valid case!                         | # City does not belong to the specified country - the city does not exist in database
+	| Email     | .@test.com     | Invalid email format                          | @Issue # 200 OK on first run even email is not valid, and afterthat 409 CONFLICT (duplicate email)
+	| City      | Ruse           | City does not belong to the specified country | # Ruse does not exist in database
+
 
 @Negative
 Scenario: Update user with existing email returns validation error
@@ -106,3 +179,10 @@ Scenario: Update user with existing email returns validation error
 	When I update that user with existing email "admin@automation.com"
 	Then the response status code should be 409
 	And the response should contain the following error message "Email already in use"
+
+
+Scenario: Get all users returns a non-empty list of valid users
+	Given I make a get request to users endpoint
+	Then the response status code should be 200
+	And users response should contain non-empty list of users
+	And each user in the list should have valid data

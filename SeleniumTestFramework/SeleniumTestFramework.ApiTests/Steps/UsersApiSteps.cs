@@ -47,6 +47,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
             var expectedUser = dataTable.CreateInstance<UserDto>();
             var timespan = DateTime.Now.ToFileTime();
             expectedUser.Email = expectedUser.Email.Replace("@", $"{timespan}@");
+            expectedUser.Password = StringUtils.Sha256(expectedUser.Password);
 
             var createUserResponse = _usersApi.CreateUser(expectedUser);
 
@@ -55,6 +56,38 @@ namespace SeleniumTestFramework.ApiTests.Steps
 
             var responseBody = createUserResponse.Data;
             _scenarioContext.Add(ContextConstants.UsersResponse, responseBody);
+        }
+
+        [Given("I make a post request to users endpoint with invalid data {string} {string}")]
+        public void GivenIMakeAPostRequestToUsersEndpointWithInvalidData(string field, string value)
+        {
+            var newUser = _userFactory.CreateDefault();
+
+            switch (field)
+            {
+                case "Title":
+                    newUser.Title = value;
+                    break;
+                case "FirstName":
+                    newUser.FirstName = value;
+                    break;
+                case "SirName":
+                    newUser.SirName = value;
+                    break;
+                case "Country":
+                    newUser.Country = value;
+                    break;
+                case "Email":
+                    newUser.Email = value;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            var createUserResponse = _usersApi.CreateUser(newUser);
+
+            _scenarioContext.Add(ContextConstants.StatusCode, (int)createUserResponse.StatusCode);
+            _scenarioContext.Add(ContextConstants.RawResponse, createUserResponse.Content);
         }
 
         [Given("I create a new user via the API")]
@@ -70,8 +103,37 @@ namespace SeleniumTestFramework.ApiTests.Steps
             }
 
             _scenarioContext.Add(ContextConstants.CreatedUserId, createUserResponse.Data.Id);
-            // For Update only
+            // For Update, Create user with existing email
             _scenarioContext.Add(ContextConstants.CreatedUserData, createUserResponse.Data);
+        }
+
+        [Given("I make a get request to users endpoint")]
+        public void GivenIMakeAGetRequestToUsersEndpoint()
+        {
+            var response = _usersApi.GetAllUsers();
+
+            _scenarioContext.Add(ContextConstants.StatusCode, (int)response.StatusCode);
+            _scenarioContext.Add(ContextConstants.UsersResponse, response.Data);
+        }
+
+        [Given("I make a post request to users endpoint with Title {string}")]
+        public void GivenIMakeAPostRequestToUsersEndpointWithTitle(string title)
+        {
+            var newUser = _userFactory.CreateCustom(title: title);
+            var createUserResponse = _usersApi.CreateUser(newUser);
+
+            _scenarioContext.Add(ContextConstants.StatusCode, (int)createUserResponse.StatusCode);
+            _scenarioContext.Add(ContextConstants.RawResponse, createUserResponse.Content);
+        }
+
+        [Given("I make a post request to users endpoint with Country {string} and City {string}")]
+        public void GivenIMakeAPostRequestToUsersEndpointWithCountryAndCity(string countryName, string cityName)
+        {
+            var newUser = _userFactory.CreateCustom(country: countryName, city: cityName);
+            var createUserResponse = _usersApi.CreateUser(newUser);
+
+            _scenarioContext.Add(ContextConstants.StatusCode, (int)createUserResponse.StatusCode);
+            _scenarioContext.Add(ContextConstants.RawResponse, createUserResponse.Content);
         }
 
         [When("I delete that user")]
@@ -174,6 +236,19 @@ namespace SeleniumTestFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.RawResponse] = updateResponse.Content;
         }
 
+        [When("I try to create another user with the same email")]
+        public void WhenITryToCreateAnotherUserWithTheSameEmail()
+        {
+            var existingUser = _scenarioContext.Get<UserDto>(ContextConstants.CreatedUserData);
+
+            var newUser = _userFactory.CreateCustom(email: existingUser.Email);
+            var createUserResponse = _usersApi.CreateUser(newUser);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)createUserResponse.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = createUserResponse.Content;
+        }
+
+
         [Then("users response should contain the following data:")]
         public void ThenUsersResponseShouldContainTheFollowingData(DataTable dataTable)
         {
@@ -199,6 +274,13 @@ namespace SeleniumTestFramework.ApiTests.Steps
                 .Excluding(u => u.Password)
                 .Excluding(u => u.Email)
             );
+
+            using (new AssertionScope())
+            {
+                actualUser.Email.Should().EndWith("@automation.com");
+                actualUser.Password.Should().NotBe("pass123");
+                actualUser.Password.Should().HaveLength(64); // SHA256 hex
+            }    
         }
 
         [Then("I make a get request to users endpoint with that id")]
@@ -241,6 +323,34 @@ namespace SeleniumTestFramework.ApiTests.Steps
                 .Excluding(u => u.Id)
                 .Excluding(u => u.Password)
                 );
+        }
+
+        [Then("users response should contain non-empty list of users")]
+        public void ThenUsersResponseShouldContainNon_EmptyListOfUsers()
+        {
+            var usersList = _scenarioContext.Get<List<UserDto>>(ContextConstants.UsersResponse);
+
+            usersList.Should().NotBeNullOrEmpty();
+        }
+
+        [Then("each user in the list should have valid data")]
+        public void ThenEachUserInTheListShouldHaveValidData()
+        {
+            var users = _scenarioContext.Get<List<UserDto>>(ContextConstants.UsersResponse);
+
+            foreach (var user in users)
+            {
+                using (new AssertionScope())
+                {
+                    user.Id.Should().BeGreaterThan(0);
+                    user.Title.Should().BeOneOf(["Mr.", "Mrs."]);
+                    user.FirstName.Should().NotBeNullOrWhiteSpace();
+                    user.SirName.Should().NotBeNullOrWhiteSpace();
+                    user.Country.Should().NotBeNullOrWhiteSpace();
+                    user.Email.Should().NotBeNullOrWhiteSpace();
+                    user.Password.Should().NotBeNullOrWhiteSpace();
+                }    
+            }
         }
     }
 }

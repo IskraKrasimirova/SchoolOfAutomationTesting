@@ -23,7 +23,7 @@ namespace SeleniumTestFramework.ApiTests.Apis
 
         public RestResponse<UserDto> CreateUser(UserDto expectedUser)
         {
-            var request = new RestRequest(_uri , Method.Post);
+            var request = new RestRequest(_uri, Method.Post);
             request.AddJsonBody(expectedUser);
             var response = _restClient.Execute<UserDto>(request);
             return response;
@@ -40,6 +40,12 @@ namespace SeleniumTestFramework.ApiTests.Apis
             var request = new RestRequest($"{_uri}/{id}", Method.Put);
             request.AddJsonBody(updatedData);
             return _restClient.Execute<UserDto>(request);
+        }
+
+        public RestResponse<List<UserDto>> GetAllUsers()
+        {
+            var request = new RestRequest(_uri, Method.Get);
+            return _restClient.Execute<List<UserDto>>(request);
         }
     }
 }

@@ -107,17 +107,17 @@ namespace SeleniumTestFramework.ApiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 28);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 50);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Get users by id retuns the corrrect user")]
-        public async global::System.Threading.Tasks.Task GetUsersByIdRetunsTheCorrrectUser()
+        [global::NUnit.Framework.DescriptionAttribute("Get users by id returns the corrrect user")]
+        public async global::System.Threading.Tasks.Task GetUsersByIdReturnsTheCorrrectUser()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id retuns the corrrect user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id returns the corrrect user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 6
@@ -152,15 +152,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Get users by id retuns the corrrect error for invalid user ID")]
+        [global::NUnit.Framework.DescriptionAttribute("Get users by id returns the corrrect error for invalid user ID")]
         [global::NUnit.Framework.CategoryAttribute("Negative")]
-        public async global::System.Threading.Tasks.Task GetUsersByIdRetunsTheCorrrectErrorForInvalidUserID()
+        public async global::System.Threading.Tasks.Task GetUsersByIdReturnsTheCorrrectErrorForInvalidUserID()
         {
             string[] tagsOfScenario = new string[] {
                     "Negative"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id retuns the corrrect error for invalid user ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id returns the corrrect error for invalid user ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 15
@@ -268,16 +268,38 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Delete user by id removes the user successfully")]
-        public async global::System.Threading.Tasks.Task DeleteUserByIdRemovesTheUserSuccessfully()
+        [global::NUnit.Framework.DescriptionAttribute("Create user with invalid data returns validation error")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        [global::NUnit.Framework.TestCaseAttribute("Title", "", "Title is required", "3", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "", "First Name is required", "4", null)]
+        [global::NUnit.Framework.TestCaseAttribute("SirName", "", "Sir Name is required", "5", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Country", "", "Country is required", "6", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "", "Email is required", "7", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "Ana-Maria", "First name cannot contain special characters", "8", null)]
+        [global::NUnit.Framework.TestCaseAttribute("SirName", "O\'Conner", "Sir name cannot contain special characters", "9", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test.com", "Invalid email format", "10", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "@test.com", "Invalid email format", "11", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test@test", "Invalid email format", "12", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test@@abv.bg", "Invalid email format", "13", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", ".@test.com", "Invalid email format", "14", null)]
+        public async global::System.Threading.Tasks.Task CreateUserWithInvalidDataReturnsValidationError(string field, string value, string errorMessage, string @__pickleIndex, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] @__tags = new string[] {
+                    "Negative"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete user by id removes the user successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            argumentsOfScenario.Add("field", field);
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("ErrorMessage", errorMessage);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user with invalid data returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 43
+#line 44
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -287,25 +309,263 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 44
- await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 45
- await testRunner.WhenAsync("I delete that user", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.GivenAsync(string.Format("I make a post request to users endpoint with invalid data \"{0}\" \"{1}\"", field, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 46
- await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 47
+ await testRunner.AndAsync(string.Format("the response should contain the following error message \"{0}\"", errorMessage), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Create user with existing email returns conflict")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        public async global::System.Threading.Tasks.Task CreateUserWithExistingEmailReturnsConflict()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Negative"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "15";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user with existing email returns conflict", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 66
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 67
+ await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 68
+ await testRunner.WhenAsync("I try to create another user with the same email", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 69
+ await testRunner.ThenAsync("the response status code should be 409", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 70
+ await testRunner.AndAsync("the response should contain the following error message \"User with such email alr" +
+                        "eady exists\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Create user with invalid title returns validation error")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        [global::NUnit.Framework.CategoryAttribute("Issue")]
+        [global::NUnit.Framework.TestCaseAttribute("Mr", "16", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Mrs", "17", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Miss", "18", null)]
+        public async global::System.Threading.Tasks.Task CreateUserWithInvalidTitleReturnsValidationError(string value, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Negative",
+                    "Issue"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("value", value);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user with invalid title returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 75
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 76
+ await testRunner.GivenAsync(string.Format("I make a post request to users endpoint with Title \"{0}\"", value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 77
+ await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 78
+ await testRunner.AndAsync("the response should contain the following error message \"Title is not valid\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Create user with city not belonging to the specified country returns validation e" +
+            "rror")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        [global::NUnit.Framework.TestCaseAttribute("Bulgaria", "London", "19", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Bulgaria", "Ruse", "20", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Bulgaria", "Gorna Oryahovitsa", "21", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Germany", "Paris", "22", null)]
+        public async global::System.Threading.Tasks.Task CreateUserWithCityNotBelongingToTheSpecifiedCountryReturnsValidationError(string country, string city, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Negative"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("country", country);
+            argumentsOfScenario.Add("city", city);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user with city not belonging to the specified country returns validation e" +
+                    "rror", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 88
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 89
+ await testRunner.GivenAsync(string.Format("I make a post request to users endpoint with Country \"{0}\" and City \"{1}\"", country, city), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 90
+ await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 91
+ await testRunner.AndAsync("the response should contain the following error message \"City does not belong to " +
+                        "the specified country\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Create user without city succeeds")]
+        public async global::System.Threading.Tasks.Task CreateUserWithoutCitySucceeds()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "23";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user without city succeeds", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 101
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 102
+ await testRunner.GivenAsync("I make a post request to users endpoint with Country \"Italy\" and City \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 103
+ await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Create user with unknown country for the Api returns validation error with not pr" +
+            "oper message")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        [global::NUnit.Framework.CategoryAttribute("Issue")]
+        public async global::System.Threading.Tasks.Task CreateUserWithUnknownCountryForTheApiReturnsValidationErrorWithNotProperMessage()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Negative",
+                    "Issue"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "24";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user with unknown country for the Api returns validation error with not pr" +
+                    "oper message", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 107
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 108
+ await testRunner.GivenAsync("I make a post request to users endpoint with Country \"Netherlands\" and City \"Amst" +
+                        "erdam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 109
+ await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 110
+ await testRunner.AndAsync("the response should contain the following error message \"City does not belong to " +
+                        "the specified country\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Delete user by id removes the user successfully")]
+        public async global::System.Threading.Tasks.Task DeleteUserByIdRemovesTheUserSuccessfully()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "25";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete user by id removes the user successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 113
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 114
+ await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 115
+ await testRunner.WhenAsync("I delete that user", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 116
+ await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 117
  await testRunner.AndAsync("the response should contain the following message \"User deleted successfully\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 48
+#line 118
  await testRunner.AndAsync("I make a get request to users endpoint with that id", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 49
+#line 119
  await testRunner.AndAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 50
+#line 120
  await testRunner.AndAsync("the response should contain the following error message \"User not found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -313,11 +573,11 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Delete users by id retuns the corrrect error for non-existing user ID")]
+        [global::NUnit.Framework.DescriptionAttribute("Delete users by id returns the corrrect error for non-existing user ID")]
         [global::NUnit.Framework.CategoryAttribute("Negative")]
-        [global::NUnit.Framework.TestCaseAttribute("0", "4", null)]
-        [global::NUnit.Framework.TestCaseAttribute("123456789", "5", null)]
-        public async global::System.Threading.Tasks.Task DeleteUsersByIdRetunsTheCorrrectErrorForNon_ExistingUserID(string id, string @__pickleIndex, string[] exampleTags)
+        [global::NUnit.Framework.TestCaseAttribute("0", "26", null)]
+        [global::NUnit.Framework.TestCaseAttribute("123456789", "27", null)]
+        public async global::System.Threading.Tasks.Task DeleteUsersByIdReturnsTheCorrrectErrorForNon_ExistingUserID(string id, string @__pickleIndex, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "Negative"};
@@ -329,10 +589,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("id", id);
             string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete users by id retuns the corrrect error for non-existing user ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete users by id returns the corrrect error for non-existing user ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 54
+#line 124
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -342,13 +602,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 55
+#line 125
  await testRunner.WhenAsync(string.Format("I make a Delete request to users endpoint with id {0}", id), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 56
+#line 126
  await testRunner.ThenAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 57
+#line 127
  await testRunner.AndAsync("the response should contain the following error message \"User not found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -356,18 +616,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Delete users by id with negative value retuns error")]
+        [global::NUnit.Framework.DescriptionAttribute("Delete users by id with negative value returns error")]
         [global::NUnit.Framework.CategoryAttribute("Negative")]
-        public async global::System.Threading.Tasks.Task DeleteUsersByIdWithNegativeValueRetunsError()
+        public async global::System.Threading.Tasks.Task DeleteUsersByIdWithNegativeValueReturnsError()
         {
             string[] tagsOfScenario = new string[] {
                     "Negative"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete users by id with negative value retuns error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "28";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete users by id with negative value returns error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 65
+#line 136
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -377,13 +637,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 66
+#line 137
  await testRunner.WhenAsync("I make a Delete request to users endpoint with id -1", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 67
+#line 138
  await testRunner.ThenAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 68
+#line 139
  await testRunner.AndAsync("the response should contain the following error message \"Not Found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -391,16 +651,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Update user by id updates the user successfully")]
-        public async global::System.Threading.Tasks.Task UpdateUserByIdUpdatesTheUserSuccessfully()
+        [global::NUnit.Framework.DescriptionAttribute("Update user by id with valid data returns the updated user")]
+        public async global::System.Threading.Tasks.Task UpdateUserByIdWithValidDataReturnsTheUpdatedUser()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "7";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Update user by id updates the user successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "29";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Update user by id with valid data returns the updated user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 71
+#line 142
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -410,16 +670,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 72
+#line 143
  await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 73
+#line 144
  await testRunner.WhenAsync("I update that user with valid data", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 74
+#line 145
  await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 75
+#line 146
  await testRunner.AndAsync("the updated user should have the new data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -428,26 +688,32 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Update user with invalid data returns validation error")]
-        [global::NUnit.Framework.TestCaseAttribute("Email", "", "Email is required", "8", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Title", "", "Title is required", "9", null)]
-        [global::NUnit.Framework.TestCaseAttribute("FirstName", "", "First Name is required", "10", null)]
-        [global::NUnit.Framework.TestCaseAttribute("SirName", "", "Sir Name is required", "11", null)]
-        [global::NUnit.Framework.TestCaseAttribute("City", "", "City is required", "12", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Country", "", "Country is required", "13", null)]
-        [global::NUnit.Framework.TestCaseAttribute("FirstName", "Ana-Maria", "First name cannot contain special characters", "14", null)]
-        [global::NUnit.Framework.TestCaseAttribute("SirName", "O\'Conner", "Sir name cannot contain special characters", "15", null)]
-        [global::NUnit.Framework.TestCaseAttribute("City", "London", "City does not belong to the specified country", "16", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Country", "France", "City does not belong to the specified country", "17", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Title", "Mr", "Title is not valid", "18", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Email", "@test.com", "Invalid email format", "19", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Email", "test.com", "Invalid email format", "20", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Email", "test@test", "Invalid email format", "21", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Email", "test@@test.com", "Invalid email format", "22", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Email", ".@test.com", "Invalid email format", "23", null)]
-        [global::NUnit.Framework.TestCaseAttribute("City", "Ruse", "This is a valid case!", "24", null)]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "", "Email is required", "30", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Title", "", "Title is required", "31", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "", "First Name is required", "32", null)]
+        [global::NUnit.Framework.TestCaseAttribute("SirName", "", "Sir Name is required", "33", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Country", "", "Country is required", "34", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "Ana-Maria", "First name cannot contain special characters", "35", null)]
+        [global::NUnit.Framework.TestCaseAttribute("SirName", "O\'Conner", "Sir name cannot contain special characters", "36", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "London", "City does not belong to the specified country", "37", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Country", "France", "City does not belong to the specified country", "38", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Title", "Mr", "Title is not valid", "39", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "@test.com", "Invalid email format", "40", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test.com", "Invalid email format", "41", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test@test", "Invalid email format", "42", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test@@test.com", "Invalid email format", "43", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", ".@test.com", "Invalid email format", "44", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "Ruse", "City does not belong to the specified country", "45", null)]
         public async global::System.Threading.Tasks.Task UpdateUserWithInvalidDataReturnsValidationError(string field, string value, string errorMessage, string @__pickleIndex, string[] exampleTags)
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] @__tags = new string[] {
+                    "Negative"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("field", field);
             argumentsOfScenario.Add("value", value);
@@ -456,7 +722,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Update user with invalid data returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 77
+#line 150
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -466,16 +732,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 78
+#line 151
  await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 79
+#line 152
  await testRunner.WhenAsync(string.Format("I update that user with invalid data \"{0}\" \"{1}\"", field, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 80
+#line 153
  await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 81
+#line 154
  await testRunner.AndAsync(string.Format("the response should contain the following error message \"{0}\"", errorMessage), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -484,16 +750,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Update user with existing email returns validation error")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
         public async global::System.Threading.Tasks.Task UpdateUserWithExistingEmailReturnsValidationError()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "Negative"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "25";
+            string pickleIndex = "46";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Update user with existing email returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 104
- this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line 177
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -502,17 +770,53 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 105
+#line 178
  await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 106
+#line 179
  await testRunner.WhenAsync("I update that user with existing email \"admin@automation.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 107
+#line 180
  await testRunner.ThenAsync("the response status code should be 409", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 108
+#line 181
  await testRunner.AndAsync("the response should contain the following error message \"Email already in use\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Get all users returns a non-empty list of valid users")]
+        public async global::System.Threading.Tasks.Task GetAllUsersReturnsANon_EmptyListOfValidUsers()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "47";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get all users returns a non-empty list of valid users", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 184
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 185
+ await testRunner.GivenAsync("I make a get request to users endpoint", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 186
+ await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 187
+ await testRunner.AndAsync("users response should contain non-empty list of users", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 188
+ await testRunner.AndAsync("each user in the list should have valid data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
