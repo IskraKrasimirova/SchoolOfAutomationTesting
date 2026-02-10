@@ -34,5 +34,12 @@ namespace SeleniumTestFramework.ApiTests.Apis
             var request = new RestRequest($"{_uri}/{id}", Method.Delete);
             return _restClient.Execute(request);
         }
+
+        public RestResponse<UserDto> UpdateUser(int id, UserDto updatedData)
+        {
+            var request = new RestRequest($"{_uri}/{id}", Method.Put);
+            request.AddJsonBody(updatedData);
+            return _restClient.Execute<UserDto>(request);
+        }
     }
 }

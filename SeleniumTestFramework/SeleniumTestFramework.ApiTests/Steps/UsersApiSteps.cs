@@ -70,6 +70,8 @@ namespace SeleniumTestFramework.ApiTests.Steps
             }
 
             _scenarioContext.Add(ContextConstants.CreatedUserId, createUserResponse.Data.Id);
+            // For Update only
+            _scenarioContext.Add(ContextConstants.CreatedUserData, createUserResponse.Data);
         }
 
         [When("I delete that user")]
@@ -89,6 +91,28 @@ namespace SeleniumTestFramework.ApiTests.Steps
 
             _scenarioContext.Add(ContextConstants.StatusCode, (int)deleteResponse.StatusCode);
             _scenarioContext.Add(ContextConstants.RawResponse, deleteResponse.Content);
+        }
+
+        [When("I update that user with valid data")]
+        public void WhenIUpdateThatUserWithValidData()
+        {
+            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId);
+            var originalUser = _scenarioContext.Get<UserDto>(ContextConstants.CreatedUserData);
+
+            var updatedData = _userFactory.CreateCustom(
+                title: "Mrs.",
+                firstName: "AnaMaria",
+                surname: originalUser.SirName,
+                country: "Italy",
+                city: "Rome",
+                email: originalUser.Email
+                );
+
+            var updateResponse = _usersApi.UpdateUser(id, updatedData);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)updateResponse.StatusCode;
+            _scenarioContext[ContextConstants.UsersResponse] = updateResponse.Data;
+            _scenarioContext[ContextConstants.UpdatedUserData] = updatedData;
         }
 
         [Then("users response should contain the following data:")]
@@ -121,16 +145,43 @@ namespace SeleniumTestFramework.ApiTests.Steps
         [Then("I make a get request to users endpoint with that id")]
         public void ThenIMakeAGetRequestToUsersEndpointWithThatId()
         {
-            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId); 
+            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId);
             var getResponse = _usersApi.GetUserById(id);
 
-            _scenarioContext[ContextConstants.StatusCode] = (int)getResponse.StatusCode; 
+            _scenarioContext[ContextConstants.StatusCode] = (int)getResponse.StatusCode;
             _scenarioContext[ContextConstants.RawResponse] = getResponse.Content;
 
-            if (getResponse.IsSuccessful && getResponse.Data is not null) 
+            if (getResponse.IsSuccessful && getResponse.Data is not null)
             {
-                _scenarioContext[ContextConstants.UsersResponse]= getResponse.Data;
+                _scenarioContext[ContextConstants.UsersResponse] = getResponse.Data;
             }
+        }
+
+        [Then("the updated user should have the new data")]
+        public void ThenTheUpdatedUserShouldHaveTheNewData()
+        {
+            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId);
+            var actualUser = _scenarioContext.Get<UserDto>(ContextConstants.UsersResponse);
+
+            actualUser.Id.Should().Be(id);
+
+            var expectedUser = _scenarioContext.Get<UserDto>(ContextConstants.UpdatedUserData);
+
+            //using (new AssertionScope())
+            //{
+            //    actualUser.Title.Should().Be(expectedUser.Title);
+            //    actualUser.FirstName.Should().Be(expectedUser.FirstName);
+            //    actualUser.SirName.Should().Be(expectedUser.SirName);
+            //    actualUser.Country.Should().Be(expectedUser.Country);
+            //    actualUser.City.Should().Be(expectedUser.City);
+            //    actualUser.Email.Should().Be(expectedUser.Email);
+            //}
+
+            actualUser.Should().BeEquivalentTo(expectedUser,
+                options => options
+                .Excluding(u => u.Id)
+                .Excluding(u => u.Password)
+                );
         }
     }
 }

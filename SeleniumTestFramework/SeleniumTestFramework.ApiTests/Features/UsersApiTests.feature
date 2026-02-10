@@ -66,3 +66,10 @@ Scenario: Delete users by id with negative value retuns error
 	When I make a Delete request to users endpoint with id -1
 	Then the response status code should be 404
 	And the response should contain the following error message "Not Found"
+
+
+Scenario: Update user by id updates the user successfully
+    Given I create a new user via the API
+    When I update that user with valid data
+    Then the response status code should be 200
+    And the updated user should have the new data
