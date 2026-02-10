@@ -115,6 +115,65 @@ namespace SeleniumTestFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.UpdatedUserData] = updatedData;
         }
 
+        [When("I update that user with invalid data {string} {string}")]
+        public void WhenIUpdateThatUserWithInvalidData(string field, string value)
+        {
+            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId);
+            var originalUser = _scenarioContext.Get<UserDto>(ContextConstants.CreatedUserData);
+
+            var updatedData = _userFactory.CreateCustom(
+                title: originalUser.Title,
+                firstName: originalUser.FirstName,
+                surname: originalUser.SirName,
+                country: originalUser.Country,
+                city: originalUser.City,
+                email: originalUser.Email
+                );
+
+            switch (field)
+            {
+                case "Title": 
+                    updatedData.Title = value; 
+                    break;
+                case "FirstName":
+                    updatedData.FirstName = value;
+                    break;
+                case "SirName":
+                    updatedData.SirName = value;
+                    break;
+                case "Country":
+                    updatedData.Country = value;
+                    break;
+                case "City":
+                    updatedData.City = value;
+                    break;
+                case "Email":
+                    updatedData.Email = value;
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown field: {field}");
+            }
+
+            var updateResponse = _usersApi.UpdateUser(id, updatedData);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)updateResponse.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = updateResponse.Content;
+        }
+
+        [When("I update that user with existing email {string}")]
+        public void WhenIUpdateThatUserWithExistingEmail(string email)
+        {
+            var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId);
+            var originalUser = _scenarioContext.Get<UserDto>(ContextConstants.CreatedUserData);
+
+            var updatedData = _userFactory.CreateCustom(email: email);
+
+            var updateResponse = _usersApi.UpdateUser(id, updatedData);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)updateResponse.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = updateResponse.Content;
+        }
+
         [Then("users response should contain the following data:")]
         public void ThenUsersResponseShouldContainTheFollowingData(DataTable dataTable)
         {

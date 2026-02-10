@@ -107,7 +107,7 @@ namespace SeleniumTestFramework.ApiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 10);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 28);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -411,16 +411,108 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 72
-    await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 73
-    await testRunner.WhenAsync("I update that user with valid data", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("I update that user with valid data", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 74
-    await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 75
-    await testRunner.AndAsync("the updated user should have the new data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("the updated user should have the new data", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Update user with invalid data returns validation error")]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "", "Email is required", "8", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Title", "", "Title is required", "9", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "", "First Name is required", "10", null)]
+        [global::NUnit.Framework.TestCaseAttribute("SirName", "", "Sir Name is required", "11", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "", "City is required", "12", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Country", "", "Country is required", "13", null)]
+        [global::NUnit.Framework.TestCaseAttribute("FirstName", "Ana-Maria", "First name cannot contain special characters", "14", null)]
+        [global::NUnit.Framework.TestCaseAttribute("SirName", "O\'Conner", "Sir name cannot contain special characters", "15", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "London", "City does not belong to the specified country", "16", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Country", "France", "City does not belong to the specified country", "17", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Title", "Mr", "Title is not valid", "18", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "@test.com", "Invalid email format", "19", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test.com", "Invalid email format", "20", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test@test", "Invalid email format", "21", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", "test@@test.com", "Invalid email format", "22", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Email", ".@test.com", "Invalid email format", "23", null)]
+        [global::NUnit.Framework.TestCaseAttribute("City", "Ruse", "This is a valid case!", "24", null)]
+        public async global::System.Threading.Tasks.Task UpdateUserWithInvalidDataReturnsValidationError(string field, string value, string errorMessage, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("field", field);
+            argumentsOfScenario.Add("value", value);
+            argumentsOfScenario.Add("ErrorMessage", errorMessage);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Update user with invalid data returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 77
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 78
+ await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 79
+ await testRunner.WhenAsync(string.Format("I update that user with invalid data \"{0}\" \"{1}\"", field, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 80
+ await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 81
+ await testRunner.AndAsync(string.Format("the response should contain the following error message \"{0}\"", errorMessage), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Update user with existing email returns validation error")]
+        public async global::System.Threading.Tasks.Task UpdateUserWithExistingEmailReturnsValidationError()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "25";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Update user with existing email returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 104
+ this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 105
+ await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 106
+ await testRunner.WhenAsync("I update that user with existing email \"admin@automation.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 107
+ await testRunner.ThenAsync("the response status code should be 409", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 108
+ await testRunner.AndAsync("the response should contain the following error message \"Email already in use\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
