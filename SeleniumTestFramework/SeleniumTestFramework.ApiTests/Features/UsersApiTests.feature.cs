@@ -20,12 +20,14 @@ namespace SeleniumTestFramework.ApiTests.Features
     [global::NUnit.Framework.TestFixtureAttribute()]
     [global::NUnit.Framework.DescriptionAttribute("UsersApiTests")]
     [global::NUnit.Framework.FixtureLifeCycleAttribute(global::NUnit.Framework.LifeCycle.InstancePerTestCase)]
+    [global::NUnit.Framework.CategoryAttribute("UsersApi")]
     public partial class UsersApiTestsFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "UsersApi"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "UsersApiTests", "CRUD operations for users endpoints", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
@@ -105,18 +107,14 @@ namespace SeleniumTestFramework.ApiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 6);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersApiTests.feature.ndjson", 9);
         }
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Get users by id retuns the corrrect user")]
-        [global::NUnit.Framework.CategoryAttribute("Users")]
-        [global::NUnit.Framework.CategoryAttribute("Api")]
         public async global::System.Threading.Tasks.Task GetUsersByIdRetunsTheCorrrectUser()
         {
-            string[] tagsOfScenario = new string[] {
-                    "Users",
-                    "Api"};
+            string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id retuns the corrrect user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
@@ -155,19 +153,17 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Get users by id retuns the corrrect error for invalid user ID")]
-        [global::NUnit.Framework.CategoryAttribute("Users")]
-        [global::NUnit.Framework.CategoryAttribute("Api")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
         public async global::System.Threading.Tasks.Task GetUsersByIdRetunsTheCorrrectErrorForInvalidUserID()
         {
             string[] tagsOfScenario = new string[] {
-                    "Users",
-                    "Api"};
+                    "Negative"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get users by id retuns the corrrect error for invalid user ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 14
+#line 15
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -177,13 +173,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 15
+#line 16
  await testRunner.GivenAsync("I make a get request to users endpoint with id 0", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 16
+#line 17
  await testRunner.ThenAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 17
+#line 18
  await testRunner.AndAsync("the response should contain the following error message \"User not found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -192,19 +188,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Create user with valid data returns the created user")]
-        [global::NUnit.Framework.CategoryAttribute("Users")]
-        [global::NUnit.Framework.CategoryAttribute("Api")]
         public async global::System.Threading.Tasks.Task CreateUserWithValidDataReturnsTheCreatedUser()
         {
-            string[] tagsOfScenario = new string[] {
-                    "Users",
-                    "Api"};
+            string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create user with valid data returns the created user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 20
+#line 21
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -241,10 +233,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                 table2.AddRow(new string[] {
                             "IsAdmin",
                             "0"});
-#line 21
+#line 22
  await testRunner.GivenAsync("I make a post request to users endpoint with the following data:", ((string)(null)), table2, "Given ");
 #line hidden
-#line 31
+#line 32
  await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
@@ -268,7 +260,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                 table3.AddRow(new string[] {
                             "IsAdmin",
                             "0"});
-#line 32
+#line 33
  await testRunner.AndAsync("create users response should contain the following data:", ((string)(null)), table3, "And ");
 #line hidden
             }
@@ -277,19 +269,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         
         [global::NUnit.Framework.TestAttribute()]
         [global::NUnit.Framework.DescriptionAttribute("Delete user by id removes the user successfully")]
-        [global::NUnit.Framework.CategoryAttribute("Users")]
-        [global::NUnit.Framework.CategoryAttribute("Api")]
         public async global::System.Threading.Tasks.Task DeleteUserByIdRemovesTheUserSuccessfully()
         {
-            string[] tagsOfScenario = new string[] {
-                    "Users",
-                    "Api"};
+            string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete user by id removes the user successfully", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 42
+#line 43
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -299,26 +287,104 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 43
+#line 44
  await testRunner.GivenAsync("I create a new user via the API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 44
+#line 45
  await testRunner.WhenAsync("I delete that user", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 45
+#line 46
  await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 46
+#line 47
  await testRunner.AndAsync("the response should contain the following message \"User deleted successfully\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 47
+#line 48
  await testRunner.AndAsync("I make a get request to users endpoint with that id", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 48
+#line 49
  await testRunner.AndAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 49
+#line 50
  await testRunner.AndAsync("the response should contain the following error message \"User not found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Delete users by id retuns the corrrect error for non-existing user ID")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        [global::NUnit.Framework.TestCaseAttribute("0", "4", null)]
+        [global::NUnit.Framework.TestCaseAttribute("123456789", "5", null)]
+        public async global::System.Threading.Tasks.Task DeleteUsersByIdRetunsTheCorrrectErrorForNon_ExistingUserID(string id, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Negative"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("id", id);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete users by id retuns the corrrect error for non-existing user ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 54
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 55
+ await testRunner.WhenAsync(string.Format("I make a Delete request to users endpoint with id {0}", id), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 56
+ await testRunner.ThenAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 57
+ await testRunner.AndAsync("the response should contain the following error message \"User not found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Delete users by id with negative value retuns error")]
+        [global::NUnit.Framework.CategoryAttribute("Negative")]
+        public async global::System.Threading.Tasks.Task DeleteUsersByIdWithNegativeValueRetunsError()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Negative"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "6";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete users by id with negative value retuns error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 65
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 66
+ await testRunner.WhenAsync("I make a Delete request to users endpoint with id -1", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 67
+ await testRunner.ThenAsync("the response status code should be 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 68
+ await testRunner.AndAsync("the response should contain the following error message \"Not Found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

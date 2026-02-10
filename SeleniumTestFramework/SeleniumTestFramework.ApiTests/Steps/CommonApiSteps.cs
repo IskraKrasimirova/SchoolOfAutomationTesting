@@ -18,7 +18,8 @@ namespace SeleniumTestFramework.ApiTests.Steps
         public void ThenTheResponseStatusCodeShouldBe(int expectedStatusCode)
         {
             var statusCode = _scenarioContext.Get<int>(ContextConstants.StatusCode); 
-            Assert.That(statusCode, Is.EqualTo(expectedStatusCode));
+
+            statusCode.Should().Be(expectedStatusCode);
         }
 
         [Then("the response should contain the following error message {string}")]
@@ -26,7 +27,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         {
             var response = _scenarioContext.Get<string>(ContextConstants.RawResponse);
 
-            response.Should().Contain(errorMessage);
+            response.Should().Contain(errorMessage, $"Expected the response to contain error message '{errorMessage}'");
         }
 
         [Then("the response should contain the following message {string}")]
@@ -34,7 +35,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         {
             var response = _scenarioContext.Get<string>(ContextConstants.RawResponse);
 
-            response.Should().Contain(expectedMessage);
+            response.Should().Contain(expectedMessage, $"Expected the response to contain error message '{expectedMessage}'");
         }
     }
 }

@@ -82,6 +82,14 @@ namespace SeleniumTestFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.RawResponse] = deleteResponse.Content;
         }
 
+        [When("I make a Delete request to users endpoint with id {int}")]
+        public void WhenIMakeADeleteRequestToUsersEndpointWithId(int id)
+        {
+            var deleteResponse = _usersApi.DeleteUserById(id);
+
+            _scenarioContext.Add(ContextConstants.StatusCode, (int)deleteResponse.StatusCode);
+            _scenarioContext.Add(ContextConstants.RawResponse, deleteResponse.Content);
+        }
 
         [Then("users response should contain the following data:")]
         public void ThenUsersResponseShouldContainTheFollowingData(DataTable dataTable)
