@@ -35,7 +35,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         {
             var response = _scenarioContext.Get<string>(ContextConstants.RawResponse);
 
-            response.Should().Contain(expectedMessage, $"Expected the response to contain error message '{expectedMessage}'");
+            response.Should().Contain(expectedMessage, $"Expected the response to contain message '{expectedMessage}'");
         }
     }
 }

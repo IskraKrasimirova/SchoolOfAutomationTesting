@@ -34,8 +34,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
 
             if (response.IsSuccessful)
             {
-                var responseBody = response.Data;
-                _scenarioContext.Add(ContextConstants.UsersResponse, responseBody);
+                _scenarioContext.Add(ContextConstants.UsersResponse, response.Data);
             }
 
             _scenarioContext.Add(ContextConstants.RawResponse, response.Content);
@@ -98,7 +97,8 @@ namespace SeleniumTestFramework.ApiTests.Steps
 
             using (new AssertionScope())
             {
-                createUserResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK); createUserResponse.Data.Should().NotBeNull();
+                createUserResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+                createUserResponse.Data.Should().NotBeNull();
                 createUserResponse.Data.Id.Should().BeGreaterThan(0);
             }
 
@@ -163,7 +163,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
 
             var updatedData = _userFactory.CreateCustom(
                 title: "Mrs.",
-                firstName: "AnaMaria",
+                firstName: "Francesca",
                 surname: originalUser.SirName,
                 country: "Italy",
                 city: "Rome",
@@ -194,8 +194,8 @@ namespace SeleniumTestFramework.ApiTests.Steps
 
             switch (field)
             {
-                case "Title": 
-                    updatedData.Title = value; 
+                case "Title":
+                    updatedData.Title = value;
                     break;
                 case "FirstName":
                     updatedData.FirstName = value;
@@ -228,7 +228,14 @@ namespace SeleniumTestFramework.ApiTests.Steps
             var id = _scenarioContext.Get<int>(ContextConstants.CreatedUserId);
             var originalUser = _scenarioContext.Get<UserDto>(ContextConstants.CreatedUserData);
 
-            var updatedData = _userFactory.CreateCustom(email: email);
+            var updatedData = _userFactory.CreateCustom(
+                title: originalUser.Title,
+                firstName: originalUser.FirstName,
+                surname: originalUser.SirName,
+                country: originalUser.Country,
+                city: originalUser.City,
+                email: email
+            );
 
             var updateResponse = _usersApi.UpdateUser(id, updatedData);
 
@@ -248,6 +255,16 @@ namespace SeleniumTestFramework.ApiTests.Steps
             _scenarioContext[ContextConstants.RawResponse] = createUserResponse.Content;
         }
 
+        [When("I make an Update request to users endpoint with id {int}")]
+        public void WhenIMakeAnUpdateRequestToUsersEndpointWithId(int id)
+        {
+            var updatedData = _userFactory.CreateDefault();
+
+            var updateResponse = _usersApi.UpdateUser(id, updatedData);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)updateResponse.StatusCode;
+            _scenarioContext[ContextConstants.RawResponse] = updateResponse.Content;
+        }
 
         [Then("users response should contain the following data:")]
         public void ThenUsersResponseShouldContainTheFollowingData(DataTable dataTable)
@@ -255,10 +272,21 @@ namespace SeleniumTestFramework.ApiTests.Steps
             var expectedUser = dataTable.CreateInstance<UserDto>();
             expectedUser.Password = StringUtils.Sha256(expectedUser.Password);
 
-            var usersResponse = _scenarioContext.Get<UserDto>(ContextConstants.UsersResponse);
+            var actualUser = _scenarioContext.Get<UserDto>(ContextConstants.UsersResponse);
 
-            Assert.That(usersResponse.Id, Is.EqualTo(expectedUser.Id));
-            Assert.That(usersResponse.FirstName, Is.EqualTo(expectedUser.FirstName));
+            actualUser.Id.Should().Be(expectedUser.Id, "User ID does not match the expected user");
+
+            using (new AssertionScope())
+            {
+                actualUser.FirstName.Should().Be(expectedUser.FirstName);
+                actualUser.SirName.Should().Be(expectedUser.SirName);
+                actualUser.Title.Should().Be(expectedUser.Title);
+                actualUser.Email.Should().Be(expectedUser.Email);
+                actualUser.Password.Should().Be(expectedUser.Password);
+                actualUser.IsAdmin.Should().Be(expectedUser.IsAdmin);
+                actualUser.Country.Should().Be(expectedUser.Country);
+                actualUser.City.Should().Be(expectedUser.City);
+            }    
         }
 
         [Then("create users response should contain the following data:")]
@@ -280,7 +308,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
                 actualUser.Email.Should().EndWith("@automation.com");
                 actualUser.Password.Should().NotBe("pass123");
                 actualUser.Password.Should().HaveLength(64); // SHA256 hex
-            }    
+            }
         }
 
         [Then("I make a get request to users endpoint with that id")]
@@ -328,7 +356,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         [Then("users response should contain non-empty list of users")]
         public void ThenUsersResponseShouldContainNon_EmptyListOfUsers()
         {
-            var usersList = _scenarioContext.Get<List<UserDto>>(ContextConstants.UsersResponse);
+            var usersList = _scenarioContext.Get<IReadOnlyCollection<UserDto>>(ContextConstants.UsersResponse);
 
             usersList.Should().NotBeNullOrEmpty();
         }
@@ -336,7 +364,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         [Then("each user in the list should have valid data")]
         public void ThenEachUserInTheListShouldHaveValidData()
         {
-            var users = _scenarioContext.Get<List<UserDto>>(ContextConstants.UsersResponse);
+            var users = _scenarioContext.Get<IReadOnlyCollection<UserDto>>(ContextConstants.UsersResponse);
 
             foreach (var user in users)
             {
@@ -349,7 +377,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
                     user.Country.Should().NotBeNullOrWhiteSpace();
                     user.Email.Should().NotBeNullOrWhiteSpace();
                     user.Password.Should().NotBeNullOrWhiteSpace();
-                }    
+                }
             }
         }
     }

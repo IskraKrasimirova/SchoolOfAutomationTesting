@@ -17,8 +17,8 @@ namespace SeleniumTestFramework.ApiTests.Models.Factories
             var user = new UserDto
             {
                 Title = Faker.PickRandom(Titles),
-                FirstName = Faker.Name.FirstName(),
-                SirName = Faker.Name.LastName(),
+                FirstName = Faker.Name.FirstName().Replace("'", ""),
+                SirName = Faker.Name.LastName().Replace("'", ""),
                 Email = Faker.Internet.Email(),
                 Password = StringUtils.Sha256(plainPassword),
                 Country = "Bulgaria",

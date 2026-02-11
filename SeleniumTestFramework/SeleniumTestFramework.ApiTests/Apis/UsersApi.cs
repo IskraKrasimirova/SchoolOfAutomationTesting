@@ -42,10 +42,10 @@ namespace SeleniumTestFramework.ApiTests.Apis
             return _restClient.Execute<UserDto>(request);
         }
 
-        public RestResponse<List<UserDto>> GetAllUsers()
+        public RestResponse<IReadOnlyCollection<UserDto>> GetAllUsers()
         {
             var request = new RestRequest(_uri, Method.Get);
-            return _restClient.Execute<List<UserDto>>(request);
+            return _restClient.Execute<IReadOnlyCollection<UserDto>>(request);
         }
     }
 }

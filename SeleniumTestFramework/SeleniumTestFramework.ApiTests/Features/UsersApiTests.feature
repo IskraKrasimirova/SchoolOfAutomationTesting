@@ -3,21 +3,38 @@ Feature: UsersApiTests
 
 CRUD operations for users endpoints
 
-Scenario: Get users by id returns the corrrect user
+@FromSession
+Scenario: Get users by id returns the correct user
 	Given I make a get request to users endpoint with id 1
 	Then the response status code should be 200
 	And users response should contain the following data:
-		| Id | FirstName | Password |
-		|  1 | Admin     | pass123  |
+		| Id | FirstName | SirName    | Title | Email                | Password | Country  | City  | IsAdmin |
+		|  1 | Admin     | Automation | Mr.   | admin@automation.com | pass123  | Bulgaria | Sofia |       1 |
 
 
-@Negative
-Scenario: Get users by id returns the corrrect error for invalid user ID
+@Negative @FromSession
+Scenario: Get users by id returns the correct error for invalid user ID
 	Given I make a get request to users endpoint with id 0
 	Then the response status code should be 404
 	And the response should contain the following error message "User not found"
 
 
+@Negative
+# Actual: API returns an HTML 404 page instead of a JSON error response
+Scenario: Get users by id with negative ID value returns error
+	Given I make a get request to users endpoint with id -1
+	Then the response status code should be 404
+	And the response should contain the following error message "Not Found"
+
+
+Scenario: Get all users returns a non-empty list of valid users
+	Given I make a get request to users endpoint
+	Then the response status code should be 200
+	And users response should contain non-empty list of users
+	And each user in the list should have valid data
+
+
+@FromSession
 Scenario: Create user with valid data returns the created user
 	Given I make a post request to users endpoint with the following data:
 		| Field     | Value               |
@@ -71,7 +88,7 @@ Scenario: Create user with existing email returns conflict
 
 
 @Negative @Issue
-# Actual: 500 INTERNAL SERVER ERROR
+# API returns 500 Internal Server Error, but invalid title should produce a client-side validation error (400 Bad Request) with an appropriate message
 Scenario Outline: Create user with invalid title returns validation error
 	Given I make a post request to users endpoint with Title "<value>"
 	Then the response status code should be 400
@@ -97,7 +114,8 @@ Examples:
 	| Bulgaria | Gorna Oryahovitsa | # The city does not exist in database
 	| Germany  | Paris             |
 
-
+	
+# City is optional when creating a user via the Api - it is not a required field
 Scenario: Create user without city succeeds
 	Given I make a post request to users endpoint with Country "Italy" and City ""
 	Then the response status code should be 200
@@ -110,7 +128,7 @@ Scenario: Create user with unknown country for the Api returns validation error 
 	And the response should contain the following error message "City does not belong to the specified country"
 
 
-Scenario: Delete user by id removes the user successfully
+Scenario: Delete user by id removes the user successfully and the user cannot be found afterwards
 	Given I create a new user via the API
 	When I delete that user
 	Then the response status code should be 200
@@ -121,7 +139,7 @@ Scenario: Delete user by id removes the user successfully
 
 
 @Negative
-Scenario Outline: Delete users by id returns the corrrect error for non-existing user ID
+Scenario Outline: Delete users by id returns the correct error for non-existing user ID
 	When I make a Delete request to users endpoint with id <id>
 	Then the response status code should be 404
 	And the response should contain the following error message "User not found"
@@ -133,7 +151,8 @@ Examples:
 
 
 @Negative
-Scenario: Delete users by id with negative value returns error
+# Actual: API returns an HTML 404 page instead of a JSON error response
+Scenario: Delete users by id with negative ID value returns error
 	When I make a Delete request to users endpoint with id -1
 	Then the response status code should be 404
 	And the response should contain the following error message "Not Found"
@@ -181,8 +200,22 @@ Scenario: Update user with existing email returns validation error
 	And the response should contain the following error message "Email already in use"
 
 
-Scenario: Get all users returns a non-empty list of valid users
-	Given I make a get request to users endpoint
-	Then the response status code should be 200
-	And users response should contain non-empty list of users
-	And each user in the list should have valid data
+@Negative @Issue
+# Actual: API returns 200 OK with a null response body instead of the expected 404 Not Found for a non-existing user ID
+Scenario Outline: Update users by id returns the correct error for non-existing user ID
+	When I make an Update request to users endpoint with id <id>
+	Then the response status code should be 404
+	And the response should contain the following error message "User not found"
+
+Examples:
+	| id        |
+	|         0 |
+	| 123456789 |
+
+
+@Negative
+# Actual: API returns an HTML 404 page instead of a JSON error response
+Scenario: Update users by id with negative ID value returns error
+	When I make an Update request to users endpoint with id -1
+	Then the response status code should be 404
+	And the response should contain the following error message "Not Found"
