@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using SeleniumTestFramework.UiTests.Models;
 using SeleniumTestFramework.UiTests.Utilities;
 using SeleniumTestFramework.UiTests.Utilities.Extensions;
 
@@ -45,6 +46,25 @@ namespace SeleniumTestFramework.UiTests.Pages
             return addUserButtons.Count > 0 && addUserButtons[0].Displayed;
         }
 
+        public UserModel? GetUserRowbyEmail(string email)
+        {
+            var row = FindUserRowByEmail(email);
+
+            if (row == null) return null;
+
+            var cells = row.FindElements(By.XPath("./td"));
+
+            return new UserModel
+            {
+                Title = cells[0].Text.Trim(),
+                FirstName = cells[1].Text.Trim(),
+                Surname = cells[2].Text.Trim(),
+                Country = cells[3].Text.Trim(),
+                City = cells[4].Text.Trim(),    
+                Email = cells[5].Text.Trim()
+            };
+        }
+
         public void VerifyIsAtUsersPage(bool isAdmin)
         {
             _driver.WaitUntilUrlContains("/users");
@@ -82,6 +102,23 @@ namespace SeleniumTestFramework.UiTests.Pages
                 var userRow = FindUserRowByEmail(email);
                 if (userRow != null)
                     throw new RetryException($"User with email {email} is still present.");
+            });
+        }
+
+        public void VerifyUserRowMatches(UserModel expectedUser)
+        {
+            var actualUser = GetUserRowbyEmail(expectedUser.Email);
+
+            Assert.That(actualUser, Is.Not.Null, $"User with email {expectedUser.Email} was not found.");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(actualUser.Title, Is.EqualTo(expectedUser.Title), "Title mismatch");
+                Assert.That(actualUser.FirstName, Is.EqualTo(expectedUser.FirstName), "First name mismatch");
+                Assert.That(actualUser.Surname, Is.EqualTo(expectedUser.Surname), "Surname mismatch");
+                Assert.That(actualUser.Country, Is.EqualTo(expectedUser.Country), "Country mismatch");
+                Assert.That(actualUser.City, Is.EqualTo(expectedUser.City), "City mismatch");
+                Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email), "Email mismatch");
             });
         }
     }

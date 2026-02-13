@@ -74,8 +74,8 @@ namespace SeleniumTestFramework.UiTests.Steps
         public void ThenIShouldSeeTheCreatedUserInTheUsersList()
         {
             _usersPage.VerifyIsAtUsersPage(true);
-            var newuser = _scenarioContext.Get<UserModel>(ContextConstants.NewRegisteredUser);
-            _usersPage.VerifyUserExists(newuser.Email);
+            var expectedUser = _scenarioContext.Get<UserModel>(ContextConstants.NewRegisteredUser);
+            _usersPage.VerifyUserRowMatches(expectedUser);
         }
     }
 }

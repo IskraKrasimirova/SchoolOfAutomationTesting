@@ -92,7 +92,6 @@ namespace SeleniumTestFramework.Steps
             _scenarioContext[ContextConstants.NewRegisteredUser] = registeredUser;
         }
 
-
         [When("I verify that the registration form is displayed")]
         public void WhenIVerifyThatTheRegistrationFormIsDisplayed()
         {
