@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
+using RestSharp;
+using SeleniumTestFramework.ApiTests.Apis;
 using SeleniumTestFramework.DatabaseOperations.Operations;
 using SeleniumTestFramework.Models;
 using SeleniumTestFramework.Models.Builders;
@@ -13,6 +16,9 @@ using System.Data;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager.Helpers;
+using ConfigurationManager = SeleniumTestFramework.Utilities.ConfigurationManager;
+using SeleniumTestFramework.ApiTests.Utils;
+
 
 namespace SeleniumTestFramework.Hooks
 {
@@ -44,6 +50,8 @@ namespace SeleniumTestFramework.Hooks
 
             RegisterPages(services);
             RegisterDatabaseOperations(services);
+
+            services.AddApiClient(ConfigurationManager.Instance.SettingsModel.ApiBaseUrl);
 
             return services;
         }

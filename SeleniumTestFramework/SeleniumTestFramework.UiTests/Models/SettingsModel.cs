@@ -7,5 +7,6 @@
         public string Password { get; init; }
         public string Username { get; init; }
         public string ConnectionString { get; init; }
+        public string ApiBaseUrl { get; init; }
     }
 }

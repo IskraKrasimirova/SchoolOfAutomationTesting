@@ -7,8 +7,7 @@ Background:
 	And I verify that the login form is displayed
 
 @Ignore
-@E2E
-@Users
+@Users @E2E
 # Scenario with a multiple When–Then structure is not considered as a best practice. 
 # I'll leave it because it shows the usage of ignore tag.
 Scenario: A user can register a new account successfully and the administrator can see the new user in the users list and delete it
@@ -31,8 +30,8 @@ Scenario: A user can register a new account successfully and the administrator c
 	Then I should still be on the login page
 	And I should see an error message with the following text "Invalid email or password"
 
-@E2E
-@Users 
+
+@Users  @E2E
 # Scenario with a single When–Then structure final version
 Scenario: Verify a registered user can be deleted by an admin user and the user cannot login afterwards
 	Given I register a new user
