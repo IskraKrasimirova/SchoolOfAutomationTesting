@@ -21,12 +21,19 @@ namespace SeleniumTestFramework.ApiTests.Apis
             return response;
         }
 
-        public RestResponse<UserDto> CreateUser(UserDto expectedUser)
+        //public RestResponse<UserDto> CreateUser(UserDto expectedUser)
+        //{
+        //    var request = new RestRequest(_uri, Method.Post);
+        //    request.AddJsonBody(expectedUser);
+        //    var response = _restClient.Execute<UserDto>(request);
+        //    return response;
+        //}
+
+        public RestResponse<T> CreateUser<T>(object expectedUser) where T : notnull
         {
             var request = new RestRequest(_uri, Method.Post);
             request.AddJsonBody(expectedUser);
-            var response = _restClient.Execute<UserDto>(request);
-            return response;
+            return _restClient.Execute<T>(request);
         }
 
         public RestResponse DeleteUserById(int id)

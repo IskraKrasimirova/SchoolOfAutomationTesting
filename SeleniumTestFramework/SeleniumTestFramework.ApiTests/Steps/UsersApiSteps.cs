@@ -48,7 +48,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
             expectedUser.Email = expectedUser.Email.Replace("@", $"{timespan}@");
             expectedUser.Password = StringUtils.Sha256(expectedUser.Password);
 
-            var createUserResponse = _usersApi.CreateUser(expectedUser);
+            var createUserResponse = _usersApi.CreateUser<UserDto>(expectedUser);
 
             var responseStatusCode = (int)createUserResponse.StatusCode;
             _scenarioContext.Add(ContextConstants.StatusCode, responseStatusCode);
@@ -83,7 +83,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
                     throw new ArgumentException($"Unknown field: {field}");
             }
 
-            var createUserResponse = _usersApi.CreateUser(newUser);
+            var createUserResponse = _usersApi.CreateUser<UserDto>(newUser);
 
             _scenarioContext.Add(ContextConstants.StatusCode, (int)createUserResponse.StatusCode);
             _scenarioContext.Add(ContextConstants.RawResponse, createUserResponse.Content);
@@ -93,7 +93,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         public void GivenICreateANewUserViaTheAPI()
         {
             var newUser = _userFactory.CreateDefault();
-            var createUserResponse = _usersApi.CreateUser(newUser);
+            var createUserResponse = _usersApi.CreateUser<UserDto>(newUser);
 
             using (new AssertionScope())
             {
@@ -120,7 +120,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
         public void GivenIMakeAPostRequestToUsersEndpointWithTitle(string title)
         {
             var newUser = _userFactory.CreateCustom(title: title);
-            var createUserResponse = _usersApi.CreateUser(newUser);
+            var createUserResponse = _usersApi.CreateUser<UserDto>(newUser);
 
             _scenarioContext.Add(ContextConstants.StatusCode, (int)createUserResponse.StatusCode);
             _scenarioContext.Add(ContextConstants.RawResponse, createUserResponse.Content);
@@ -130,10 +130,29 @@ namespace SeleniumTestFramework.ApiTests.Steps
         public void GivenIMakeAPostRequestToUsersEndpointWithCountryAndCity(string countryName, string cityName)
         {
             var newUser = _userFactory.CreateCustom(country: countryName, city: cityName);
-            var createUserResponse = _usersApi.CreateUser(newUser);
+            var createUserResponse = _usersApi.CreateUser<UserDto>(newUser);
 
             _scenarioContext.Add(ContextConstants.StatusCode, (int)createUserResponse.StatusCode);
             _scenarioContext.Add(ContextConstants.RawResponse, createUserResponse.Content);
+        }
+
+        [Given("I make a post request to users endpoint with empty mandatory fields")]
+        public void GivenIMakeAPostRequestToUsersEndpointWithEmptyMandatoryFields()
+        {
+            var newUser = new UserDto
+            {
+                Title = "",
+                FirstName = "",
+                SirName = "",
+                Email = "",
+                Password = "",
+                Country = ""
+            };
+
+            var createUserResponse = _usersApi.CreateUser<MessageDto>(newUser);
+
+            _scenarioContext[ContextConstants.StatusCode] = (int)createUserResponse.StatusCode;
+            _scenarioContext[ContextConstants.UsersResponse] = createUserResponse.Data;
         }
 
         [When("I delete that user")]
@@ -249,7 +268,7 @@ namespace SeleniumTestFramework.ApiTests.Steps
             var existingUser = _scenarioContext.Get<UserDto>(ContextConstants.CreatedUserData);
 
             var newUser = _userFactory.CreateCustom(email: existingUser.Email);
-            var createUserResponse = _usersApi.CreateUser(newUser);
+            var createUserResponse = _usersApi.CreateUser<UserDto>(newUser);
 
             _scenarioContext[ContextConstants.StatusCode] = (int)createUserResponse.StatusCode;
             _scenarioContext[ContextConstants.RawResponse] = createUserResponse.Content;

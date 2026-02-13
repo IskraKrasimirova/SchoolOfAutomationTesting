@@ -79,6 +79,19 @@ Examples:
 	| Email     | .@test.com   | Invalid email format                         | @Issue # Actual: 200 OK on first run even email is not valid, and afterthat 409 CONFLICT (duplicate email)
 	
 	
+@Negative @FromSession
+Scenario: Create user with empty data returns correct errors for missing mandatory fields
+	Given I make a post request to users endpoint with empty mandatory fields
+	Then the response status code should be 400
+	And response should contain error messages:
+	| ErrorMessage                                 |
+	| Title is required                            |
+	| First Name is required                       |
+	| Sir Name is required                         |
+	| Country is required                          |
+	| Email is required                            |
+
+
 @Negative
 Scenario: Create user with existing email returns conflict
 	Given I create a new user via the API

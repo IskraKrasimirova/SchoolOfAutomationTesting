@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Reqnroll;
+using SeleniumTestFramework.ApiTests.Models.Dtos;
 using SeleniumTestFramework.ApiTests.Utils;
 
 namespace SeleniumTestFramework.ApiTests.Steps
@@ -36,6 +37,15 @@ namespace SeleniumTestFramework.ApiTests.Steps
             var response = _scenarioContext.Get<string>(ContextConstants.RawResponse);
 
             response.Should().Contain(expectedMessage, $"Expected the response to contain message '{expectedMessage}'");
+        }
+
+        [Then("response should contain error messages:")]
+        public void ThenResponseShouldContainErrorMessages(DataTable dataTable)
+        {
+            var expectedErrorMessages = dataTable.Rows.Select(row => row["ErrorMessage"]);
+            var actualErrorsResponse = _scenarioContext.Get<MessageDto>(ContextConstants.UsersResponse);
+
+            actualErrorsResponse.Message.Should().Contain(expectedErrorMessages);
         }
     }
 }
