@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTestFramework.Utilities.Extensions;
+using SeleniumTestFramework.UiTests.Utilities.Extensions;
 
-namespace SeleniumTestFramework.Pages
+namespace SeleniumTestFramework.UiTests.Pages
 {
     public class DashboardPage: BasePage
     {
@@ -65,14 +65,14 @@ namespace SeleniumTestFramework.Pages
         // Validations
         public void VerifyLoggedUserEmailIs(string expectedUserEmail)
         {
-            string actualUserEmail = this.LoggedUserAnchor.Text.Trim();
+            string actualUserEmail = LoggedUserAnchor.Text.Trim();
 
             Assert.That(actualUserEmail, Is.EqualTo(expectedUserEmail));
         }
 
         public void VerifyUsernameIs(string username)
         {
-            string headerText = this.UsernameHeader.Text.Trim();
+            string headerText = UsernameHeader.Text.Trim();
             Assert.That(headerText.Contains(username), Is.True);
         }
 

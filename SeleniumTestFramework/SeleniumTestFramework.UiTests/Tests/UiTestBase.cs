@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OpenQA.Selenium;
-using SeleniumTestFramework.Hooks;
-using SeleniumTestFramework.Models;
+using SeleniumTestFramework.UiTests.Hooks;
+using SeleniumTestFramework.UiTests.Models;
 
 namespace SeleniumTestFramework.Tests
 {

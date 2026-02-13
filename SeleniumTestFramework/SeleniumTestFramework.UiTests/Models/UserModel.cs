@@ -1,4 +1,4 @@
-﻿namespace SeleniumTestFramework.Models
+﻿namespace SeleniumTestFramework.UiTests.Models
 {
     public class UserModel
     {

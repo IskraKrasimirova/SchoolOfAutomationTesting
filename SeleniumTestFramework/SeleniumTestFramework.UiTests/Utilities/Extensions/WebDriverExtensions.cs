@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-namespace SeleniumTestFramework.Utilities.Extensions
+namespace SeleniumTestFramework.UiTests.Utilities.Extensions
 {
     public static class WebDriverExtensions
     {

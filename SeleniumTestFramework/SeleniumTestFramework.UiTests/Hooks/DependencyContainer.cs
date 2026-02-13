@@ -1,26 +1,22 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using RestSharp;
 using SeleniumTestFramework.ApiTests.Apis;
-using SeleniumTestFramework.DatabaseOperations.Operations;
-using SeleniumTestFramework.Models;
-using SeleniumTestFramework.Models.Builders;
-using SeleniumTestFramework.Models.Factories;
-using SeleniumTestFramework.Pages;
-using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.UiTests.Pages;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Operations;
+using SeleniumTestFramework.UiTests.Models;
+using SeleniumTestFramework.UiTests.Models.Builders;
+using SeleniumTestFramework.UiTests.Models.Factories;
 using System.Data;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager.Helpers;
-using ConfigurationManager = SeleniumTestFramework.Utilities.ConfigurationManager;
-using SeleniumTestFramework.ApiTests.Utils;
+using ConfigurationManager = SeleniumTestFramework.UiTests.Utilities.ConfigurationManager;
 
-
-namespace SeleniumTestFramework.Hooks
+namespace SeleniumTestFramework.UiTests.Hooks
 {
     public class DependencyContainer
     {
@@ -29,7 +25,7 @@ namespace SeleniumTestFramework.Hooks
         {
             var services = new ServiceCollection();
             
-            services.AddSingleton<SettingsModel>(sp =>
+            services.AddSingleton(sp =>
             {
                 return ConfigurationManager.Instance.SettingsModel;
             });
@@ -50,8 +46,7 @@ namespace SeleniumTestFramework.Hooks
 
             RegisterPages(services);
             RegisterDatabaseOperations(services);
-
-            services.AddApiClient(ConfigurationManager.Instance.SettingsModel.ApiBaseUrl);
+            RegisterApiIntegration(services);
 
             return services;
         }
@@ -137,6 +132,22 @@ namespace SeleniumTestFramework.Hooks
             //services.AddScoped<DashboardPage>();
             //services.AddScoped<RegisterPage>();
             //services.AddScoped<UsersPage>();
+        }
+
+        private static void RegisterApiIntegration(IServiceCollection services)
+        {
+            services.AddSingleton(sp =>
+            {
+                var options = new RestClientOptions(ConfigurationManager.Instance.SettingsModel.ApiBaseUrl);
+                var client = new RestClient(options);
+                client.AddDefaultHeader("Accept", "application/json");
+                return client;
+            });
+
+            services.AddScoped<UsersApi>();
+
+            // API UserFactory
+            services.AddSingleton<ApiTests.Models.Factories.IUserFactory, ApiTests.Models.Factories.UserFactory>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SeleniumTestFramework.DatabaseOperations.Entities
+﻿namespace SeleniumTestFramework.UiTests.DatabaseOperations.Entities
 {
     public class UserSkillDto
     {

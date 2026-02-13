@@ -1,12 +1,12 @@
 ﻿using OpenQA.Selenium;
 using Reqnroll;
-using SeleniumTestFramework.DatabaseOperations.Entities;
-using SeleniumTestFramework.DatabaseOperations.Operations;
-using SeleniumTestFramework.Models;
-using SeleniumTestFramework.Models.UserModels;
-using SeleniumTestFramework.Utilities.Constants;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Entities;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Operations;
+using SeleniumTestFramework.UiTests.Models;
+using SeleniumTestFramework.UiTests.Models.UserModels;
+using SeleniumTestFramework.UiTests.Utilities.Constants;
 
-namespace SeleniumTestFramework.Hooks
+namespace SeleniumTestFramework.UiTests.Hooks
 {
     [Binding]
     public class Hooks
@@ -18,10 +18,10 @@ namespace SeleniumTestFramework.Hooks
 
         public Hooks(ScenarioContext scenarioContext, IWebDriver driver, UserOperations userOperations, LocationOperations locationOperations)
         {
-            this._scenarioContext = scenarioContext;
-            this._driver = driver;
-            this._userOperations = userOperations;
-            this._locationOperations = locationOperations;
+            _scenarioContext = scenarioContext;
+            _driver = driver;
+            _userOperations = userOperations;
+            _locationOperations = locationOperations;
         }
 
         [AfterScenario(Order = 1)]
@@ -68,7 +68,7 @@ namespace SeleniumTestFramework.Hooks
         [AfterScenario("DeleteRegisteredUser", Order = 9999)]
         public void DeleteCurrentUser()
         {
-            var registeredUser = this._scenarioContext.Get<UserModel>(ContextConstants.NewRegisteredUser);
+            var registeredUser = _scenarioContext.Get<UserModel>(ContextConstants.NewRegisteredUser);
             _userOperations.DeleteUserWithEmail(registeredUser.Email);
         }
     }

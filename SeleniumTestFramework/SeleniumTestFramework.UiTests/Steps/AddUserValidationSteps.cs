@@ -1,8 +1,8 @@
 ﻿using Reqnroll;
-using SeleniumTestFramework.Models;
-using SeleniumTestFramework.Models.UserModels;
-using SeleniumTestFramework.Pages;
-using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.UiTests.Models;
+using SeleniumTestFramework.UiTests.Models.UserModels;
+using SeleniumTestFramework.UiTests.Pages;
+using SeleniumTestFramework.UiTests.Utilities;
 using System.Diagnostics.Metrics;
 
 namespace SeleniumTestFramework.Steps

@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using SeleniumTestFramework.Utilities;
-using SeleniumTestFramework.Utilities.Extensions;
+using SeleniumTestFramework.UiTests.Utilities;
+using SeleniumTestFramework.UiTests.Utilities.Extensions;
 
-namespace SeleniumTestFramework.Pages
+namespace SeleniumTestFramework.UiTests.Pages
 {
     public class UsersPage: BasePage
     {

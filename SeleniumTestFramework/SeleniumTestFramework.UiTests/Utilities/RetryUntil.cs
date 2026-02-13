@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace SeleniumTestFramework.Utilities
+namespace SeleniumTestFramework.UiTests.Utilities
 {
     public static class Retry
     {

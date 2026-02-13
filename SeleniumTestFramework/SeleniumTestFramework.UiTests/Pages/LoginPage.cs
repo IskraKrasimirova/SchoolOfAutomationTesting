@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTestFramework.Utilities.Extensions;
+using SeleniumTestFramework.UiTests.Utilities.Extensions;
 
-namespace SeleniumTestFramework.Pages
+namespace SeleniumTestFramework.UiTests.Pages
 {
     public class LoginPage: BasePage
     {

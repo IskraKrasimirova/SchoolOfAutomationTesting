@@ -119,7 +119,7 @@ namespace SeleniumTestFramework.UiTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersTests.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/UsersTests.feature.ndjson", 6);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -306,6 +306,51 @@ await this.FeatureBackgroundAsync();
 #line hidden
 #line 57
  await testRunner.AndAsync("I should be able to logout successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Verify newly created users are displayed in the users list")]
+        [global::NUnit.Framework.CategoryAttribute("Users")]
+        [global::NUnit.Framework.CategoryAttribute("UsersApi")]
+        [global::NUnit.Framework.CategoryAttribute("FromSession")]
+        public async global::System.Threading.Tasks.Task VerifyNewlyCreatedUsersAreDisplayedInTheUsersList()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Users",
+                    "UsersApi",
+                    "FromSession"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify newly created users are displayed in the users list", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 61
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 62
+ await testRunner.GivenAsync("I create a user successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 63
+ await testRunner.WhenAsync("I login with valid credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 64
+ await testRunner.AndAsync("I navigate to the users page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 65
+ await testRunner.ThenAsync("I should see the created user in the users list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

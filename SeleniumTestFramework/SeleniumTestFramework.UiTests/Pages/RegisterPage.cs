@@ -1,10 +1,10 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using SeleniumTestFramework.Models;
-using SeleniumTestFramework.Models.UserModels;
-using SeleniumTestFramework.Utilities.Extensions;
+using SeleniumTestFramework.UiTests.Models;
+using SeleniumTestFramework.UiTests.Models.UserModels;
+using SeleniumTestFramework.UiTests.Utilities.Extensions;
 
-namespace SeleniumTestFramework.Pages
+namespace SeleniumTestFramework.UiTests.Pages
 {
     public class RegisterPage : BasePage
     {

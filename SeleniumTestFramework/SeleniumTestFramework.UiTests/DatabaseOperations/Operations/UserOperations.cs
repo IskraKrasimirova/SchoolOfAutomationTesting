@@ -1,10 +1,10 @@
-﻿using SeleniumTestFramework.DatabaseOperations.Entities;
-using SeleniumTestFramework.DatabaseOperations.Queries;
+﻿using SeleniumTestFramework.UiTests.DatabaseOperations.Entities;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Queries;
 using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SeleniumTestFramework.DatabaseOperations.Operations
+namespace SeleniumTestFramework.UiTests.DatabaseOperations.Operations
 {
     public class UserOperations : IDisposable
     {

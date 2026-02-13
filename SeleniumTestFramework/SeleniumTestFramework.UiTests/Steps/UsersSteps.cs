@@ -1,10 +1,11 @@
 ﻿using Reqnroll;
-using SeleniumTestFramework.Models.UserModels;
-using SeleniumTestFramework.Pages;
-using SeleniumTestFramework.Utilities;
-using SeleniumTestFramework.Utilities.Constants;
+using SeleniumTestFramework.UiTests.Models;
+using SeleniumTestFramework.UiTests.Models.UserModels;
+using SeleniumTestFramework.UiTests.Pages;
+using SeleniumTestFramework.UiTests.Utilities;
+using SeleniumTestFramework.UiTests.Utilities.Constants;
 
-namespace SeleniumTestFramework.Steps
+namespace SeleniumTestFramework.UiTests.Steps
 {
     [Binding]
     public class UsersSteps
@@ -67,6 +68,14 @@ namespace SeleniumTestFramework.Steps
             //var newUser = (RegisterModel)_scenarioContext["RegisteredUser"];
             var newUser = _scenarioContext.Get<RegisterModel>(ContextConstants.RegisteredUser);
             _usersPage.VerifyUserDoesNotExist(newUser.Email);
+        }
+
+        [Then("I should see the created user in the users list")]
+        public void ThenIShouldSeeTheCreatedUserInTheUsersList()
+        {
+            _usersPage.VerifyIsAtUsersPage(true);
+            var newuser = _scenarioContext.Get<UserModel>(ContextConstants.NewRegisteredUser);
+            _usersPage.VerifyUserExists(newuser.Email);
         }
     }
 }

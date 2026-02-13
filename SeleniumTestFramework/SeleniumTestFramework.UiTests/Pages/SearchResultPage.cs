@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTestFramework.DatabaseOperations.Entities;
-using SeleniumTestFramework.Utilities;
-using SeleniumTestFramework.Utilities.Extensions;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Entities;
+using SeleniumTestFramework.UiTests.Utilities;
+using SeleniumTestFramework.UiTests.Utilities.Extensions;
 
-namespace SeleniumTestFramework.Pages
+namespace SeleniumTestFramework.UiTests.Pages
 {
     public class SearchResultPage : BasePage
     {

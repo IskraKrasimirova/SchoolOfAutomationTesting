@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using SeleniumTestFramework.Models;
+using SeleniumTestFramework.UiTests.Models;
 
-namespace SeleniumTestFramework.Utilities
+namespace SeleniumTestFramework.UiTests.Utilities
 {
     public class ConfigurationManager
     {

@@ -1,4 +1,4 @@
-﻿namespace SeleniumTestFramework.Models.UserModels
+﻿namespace SeleniumTestFramework.UiTests.Models.UserModels
 {
     public class RegisterModel: UserBaseModel
     {

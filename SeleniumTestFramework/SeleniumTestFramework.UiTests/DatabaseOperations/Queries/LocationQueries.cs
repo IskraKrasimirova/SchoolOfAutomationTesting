@@ -1,4 +1,4 @@
-﻿namespace SeleniumTestFramework.DatabaseOperations.Queries
+﻿namespace SeleniumTestFramework.UiTests.DatabaseOperations.Queries
 {
     public class LocationQueries
     {

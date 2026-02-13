@@ -1,4 +1,4 @@
-﻿namespace SeleniumTestFramework.Models.Factories
+﻿namespace SeleniumTestFramework.UiTests.Models.Factories
 {
     public interface IUserFactory
     {

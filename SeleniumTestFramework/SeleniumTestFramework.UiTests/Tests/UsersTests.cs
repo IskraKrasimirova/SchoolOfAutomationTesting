@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SeleniumTestFramework.Pages;
-using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.UiTests.Pages;
+using SeleniumTestFramework.UiTests.Utilities;
 
 namespace SeleniumTestFramework.Tests
 {

@@ -1,7 +1,7 @@
-﻿using SeleniumTestFramework.DatabaseOperations.Queries;
+﻿using SeleniumTestFramework.UiTests.DatabaseOperations.Queries;
 using System.Data;
 
-namespace SeleniumTestFramework.DatabaseOperations.Operations
+namespace SeleniumTestFramework.UiTests.DatabaseOperations.Operations
 {
     public class LocationOperations : IDisposable
     {

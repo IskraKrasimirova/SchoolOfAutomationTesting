@@ -1,4 +1,4 @@
-﻿namespace SeleniumTestFramework.Utilities.Constants
+﻿namespace SeleniumTestFramework.UiTests.Utilities.Constants
 {
     public class ContextConstants
     {

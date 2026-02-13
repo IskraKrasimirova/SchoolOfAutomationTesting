@@ -31,7 +31,7 @@ Scenario: A user can register a new account successfully and the administrator c
 	And I should see an error message with the following text "Invalid email or password"
 
 
-@Users  @E2E
+@Users @E2E
 # Scenario with a single When–Then structure final version
 Scenario: Verify a registered user can be deleted by an admin user and the user cannot login afterwards
 	Given I register a new user
@@ -53,5 +53,13 @@ Scenario: Verify admin user can add a new user and the new user can login succes
 	When I add a new user with valid details
 	And I log out successefuly
 	Then I login with the new user's credentials
-	And I should see the dashboard of the added user 
+	And I should see the dashboard of the added user
 	And I should be able to logout successfully
+
+
+@Users @UsersApi @FromSession
+Scenario: Verify newly created users are displayed in the users list
+	Given I create a user successfully
+	When I login with valid credentials
+	And I navigate to the users page
+	Then I should see the created user in the users list

@@ -1,9 +1,11 @@
 ﻿using Reqnroll;
-using SeleniumTestFramework.DatabaseOperations.Operations;
-using SeleniumTestFramework.Models.Factories;
-using SeleniumTestFramework.Pages;
-using SeleniumTestFramework.Utilities;
-using SeleniumTestFramework.Utilities.Constants;
+using SeleniumTestFramework.ApiTests.Apis;
+using SeleniumTestFramework.ApiTests.Models.Dtos;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Operations;
+using SeleniumTestFramework.UiTests.Models.Factories;
+using SeleniumTestFramework.UiTests.Pages;
+using SeleniumTestFramework.UiTests.Utilities;
+using SeleniumTestFramework.UiTests.Utilities.Constants;
 
 namespace SeleniumTestFramework.Steps
 {
@@ -16,9 +18,10 @@ namespace SeleniumTestFramework.Steps
         private readonly LoginPage _loginPage;
         private readonly UserOperations _userOperations;
         private readonly IUserFactory _userFactory;
+        private readonly UsersApi _usersApi;
+        private readonly ApiTests.Models.Factories.IUserFactory _apiUserFactory;
 
-
-        public RegisterSteps(IUserFactory userFactory, ScenarioContext scenarioContext, RegisterPage _registerPage, DashboardPage dashboardPage, LoginPage loginPage, UserOperations userOperations)
+        public RegisterSteps(IUserFactory userFactory, ScenarioContext scenarioContext, RegisterPage _registerPage, DashboardPage dashboardPage, LoginPage loginPage, UserOperations userOperations, UsersApi usersApi, ApiTests.Models.Factories.IUserFactory apiUserFactory)
         {
             this._userFactory = userFactory;
             this._scenarioContext = scenarioContext;
@@ -26,6 +29,8 @@ namespace SeleniumTestFramework.Steps
             this._dashboardPage = dashboardPage;
             this._loginPage = loginPage;
             this._userOperations = userOperations;
+            this._usersApi = usersApi;
+            this._apiUserFactory = apiUserFactory;
         }
 
         [Given("I register a new user")]
@@ -63,6 +68,30 @@ namespace SeleniumTestFramework.Steps
                     throw new RetryException("Registerd User is not found in the database.");
             });
         }
+
+        [Given("I create a user successfully")]
+        public void GivenICreateAUserSuccessfully()
+        {
+            var newUser = _apiUserFactory.CreateDefault();
+            var userResponse = _usersApi.CreateUser<UserDto>(newUser);
+
+            Assert.That(userResponse.Data, Is.Not.Null);
+
+            var user = userResponse.Data;
+
+            var registeredUser = _userFactory.CreateCustom(
+                title: user.Title,
+                firstName: user.FirstName,
+                surname: user.SirName,
+                country: user.Country,
+                city: user.City,
+                email: user.Email,
+                password: user.Password
+            );
+
+            _scenarioContext[ContextConstants.NewRegisteredUser] = registeredUser;
+        }
+
 
         [When("I verify that the registration form is displayed")]
         public void WhenIVerifyThatTheRegistrationFormIsDisplayed()

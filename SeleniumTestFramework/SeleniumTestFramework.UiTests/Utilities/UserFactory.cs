@@ -1,8 +1,8 @@
 ﻿using Bogus;
 using Bogus.Extensions;
-using SeleniumTestFramework.Models.UserModels;
+using SeleniumTestFramework.UiTests.Models.UserModels;
 
-namespace SeleniumTestFramework.Utilities
+namespace SeleniumTestFramework.UiTests.Utilities
 {
     public static class UserFactory
     {

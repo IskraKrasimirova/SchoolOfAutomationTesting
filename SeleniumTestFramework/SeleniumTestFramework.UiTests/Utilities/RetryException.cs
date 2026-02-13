@@ -1,4 +1,4 @@
-﻿namespace SeleniumTestFramework.Utilities
+﻿namespace SeleniumTestFramework.UiTests.Utilities
 {
     public class RetryException: Exception
     {

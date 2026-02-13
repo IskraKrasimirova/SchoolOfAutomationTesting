@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SeleniumTestFramework.Models.UserModels;
-using SeleniumTestFramework.Pages;
-using SeleniumTestFramework.Utilities;
+using SeleniumTestFramework.UiTests.Models.UserModels;
+using SeleniumTestFramework.UiTests.Pages;
+using SeleniumTestFramework.UiTests.Utilities;
 
 namespace SeleniumTestFramework.Tests
 {

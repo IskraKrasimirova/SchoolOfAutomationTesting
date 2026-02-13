@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
 using Reqnroll;
-using SeleniumTestFramework.DatabaseOperations.Entities;
-using SeleniumTestFramework.DatabaseOperations.Operations;
-using SeleniumTestFramework.Pages;
-using SeleniumTestFramework.Utilities.Constants;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Entities;
+using SeleniumTestFramework.UiTests.DatabaseOperations.Operations;
+using SeleniumTestFramework.UiTests.Pages;
+using SeleniumTestFramework.UiTests.Utilities.Constants;
 
 namespace SeleniumTestFramework.Steps
 {

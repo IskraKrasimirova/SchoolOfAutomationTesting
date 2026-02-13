@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace SeleniumTestFramework.Pages
+namespace SeleniumTestFramework.UiTests.Pages
 {
     public abstract class BasePage
     {
@@ -10,7 +10,7 @@ namespace SeleniumTestFramework.Pages
 
         protected BasePage(IWebDriver driver)
         {
-            this._driver = driver;
+            _driver = driver;
         }
 
         public void VerifyPageIsLoaded()
