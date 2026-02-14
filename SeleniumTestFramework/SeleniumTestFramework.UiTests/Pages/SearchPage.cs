@@ -44,7 +44,7 @@ namespace SeleniumTestFramework.UiTests.Pages
                 {
                     if (!checkbox.Selected)
                     {
-                        _driver.ScrollAndJsClick(checkbox);
+                        _driver.ScrollAndClickJs(checkbox);
                     }
                     return;
                 }

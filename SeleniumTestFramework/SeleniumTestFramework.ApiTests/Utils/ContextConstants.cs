@@ -8,5 +8,6 @@
         public const string CreatedUserId = "CreatedUserId";
         public const string CreatedUserData = "CreatedUserData";
         public const string UpdatedUserData = "UpdatedUserData";
+        public const string LoginResponse = "LoginResponse";
     }
 }

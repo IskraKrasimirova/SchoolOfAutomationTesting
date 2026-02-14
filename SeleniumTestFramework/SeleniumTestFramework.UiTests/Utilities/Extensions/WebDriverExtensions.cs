@@ -54,7 +54,7 @@ namespace SeleniumTestFramework.UiTests.Utilities.Extensions
             element.Click();
         }
 
-        public static void ScrollAndJsClick(this IWebDriver driver, IWebElement element)
+        public static void ScrollAndClickJs(this IWebDriver driver, IWebElement element)
         {
             var js = (IJavaScriptExecutor)driver;
 

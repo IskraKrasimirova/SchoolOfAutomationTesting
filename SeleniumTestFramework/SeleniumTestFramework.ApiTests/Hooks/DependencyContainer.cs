@@ -40,6 +40,12 @@ namespace SeleniumTestFramework.ApiTests.Hooks
                 return new UsersApi(client);
             });
 
+            services.AddScoped(sp =>
+            {
+                var client = sp.GetRequiredService<RestClient>();
+                return new LoginApi(client);
+            });
+
             return services;
         }
     }

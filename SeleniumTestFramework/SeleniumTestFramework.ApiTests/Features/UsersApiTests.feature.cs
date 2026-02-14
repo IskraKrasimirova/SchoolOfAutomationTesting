@@ -138,7 +138,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 9
  await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Id",
                             "FirstName",
                             "SirName",
@@ -148,7 +148,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Country",
                             "City",
                             "IsAdmin"});
-                table1.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "1",
                             "Admin",
                             "Automation",
@@ -159,7 +159,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Sofia",
                             "1"});
 #line 10
- await testRunner.AndAsync("users response should contain the following data:", ((string)(null)), table1, "And ");
+ await testRunner.AndAsync("users response should contain the following data:", ((string)(null)), table4, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -295,62 +295,62 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Value"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Title",
                             "Mr."});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "FirstName",
                             "Ivan"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "SirName",
                             "Ivanov"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Country",
                             "Bulgaria"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "City",
                             "Sofia"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Email",
                             "ivan@automation.com"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Password",
                             "pass123"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "IsAdmin",
                             "0"});
 #line 39
- await testRunner.GivenAsync("I make a post request to users endpoint with the following data:", ((string)(null)), table2, "Given ");
+ await testRunner.GivenAsync("I make a post request to users endpoint with the following data:", ((string)(null)), table5, "Given ");
 #line hidden
 #line 49
  await testRunner.ThenAsync("the response status code should be 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Value"});
-                table3.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Title",
                             "Mr."});
-                table3.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "FirstName",
                             "Ivan"});
-                table3.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "SirName",
                             "Ivanov"});
-                table3.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Country",
                             "Bulgaria"});
-                table3.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "City",
                             "Sofia"});
-                table3.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "IsAdmin",
                             "0"});
 #line 50
- await testRunner.AndAsync("create users response should contain the following data:", ((string)(null)), table3, "And ");
+ await testRunner.AndAsync("create users response should contain the following data:", ((string)(null)), table6, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -441,20 +441,20 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 85
  await testRunner.ThenAsync("the response status code should be 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "ErrorMessage"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Title is required"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "First Name is required"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Sir Name is required"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Country is required"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Email is required"});
 #line 86
- await testRunner.AndAsync("response should contain error messages:", ((string)(null)), table4, "And ");
+ await testRunner.AndAsync("response should contain error messages:", ((string)(null)), table7, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
