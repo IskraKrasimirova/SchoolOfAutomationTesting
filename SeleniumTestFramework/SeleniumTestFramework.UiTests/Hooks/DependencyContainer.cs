@@ -138,7 +138,8 @@ namespace SeleniumTestFramework.UiTests.Hooks
         {
             services.AddSingleton(sp =>
             {
-                var options = new RestClientOptions(ConfigurationManager.Instance.SettingsModel.ApiBaseUrl);
+                var settings = sp.GetRequiredService<SettingsModel>();
+                var options = new RestClientOptions(settings.ApiBaseUrl);
                 var client = new RestClient(options);
                 client.AddDefaultHeader("Accept", "application/json");
                 return client;

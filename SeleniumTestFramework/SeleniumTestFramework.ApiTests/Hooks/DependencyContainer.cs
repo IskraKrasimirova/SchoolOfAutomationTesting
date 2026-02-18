@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using RestSharp;
 using SeleniumTestFramework.ApiTests.Apis;
+using SeleniumTestFramework.ApiTests.Models;
 using SeleniumTestFramework.ApiTests.Models.Factories;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+using SeleniumTestFramework.ApiTests.Utils;
 
 namespace SeleniumTestFramework.ApiTests.Hooks
 {
@@ -15,18 +15,15 @@ namespace SeleniumTestFramework.ApiTests.Hooks
         {
             var services = new ServiceCollection();
 
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build(); 
-
-            services.AddSingleton<IConfiguration>(configuration);
+            services.AddSingleton(sp =>
+            {
+                return ConfigurationManager.Instance.SettingsModel;
+            });
 
             services.AddSingleton<RestClient>(sp =>
             {
-                var config = sp.GetRequiredService<IConfiguration>();
-                var baseUrl = config["ApiBaseUrl"]!;
-                
-                var options = new RestClientOptions(baseUrl);
+                var settings = sp.GetRequiredService<SettingsModel>();
+                var options = new RestClientOptions(settings.BaseUrl);
                 var client = new RestClient(options);
                 client.AddDefaultHeader("Accept", "application/json");
                 return client;
